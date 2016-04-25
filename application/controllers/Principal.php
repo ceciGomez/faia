@@ -10,6 +10,10 @@ class Principal extends CI_Controller {
 	public function ingresar(){
 		$this->load->view('ingresarDatos');
 	}
+	 public function do_alert() 
+    {
+        echo '<script type="text/javascript">alert("' . "Ha excedido el número de caracteres permitidos" . '"); </script>';
+    }
 	public function ingresarDatos(){
 		$operando1 = $this->input->post('op1');
 		$operando2 = $this->input->post('op2');
@@ -24,9 +28,12 @@ class Principal extends CI_Controller {
 
 		$vectorInicio = array_merge($resultado,$operando2,$operando1);
 		$vectorInicio = array_unique($vectorInicio);
-		var_dump($vectorInicio);
-
+		if (count($vectorInicio)< 10){
+		    var_dump($vectorInicio) ;}else{		 
+		 $this->do_alert();
+		 return;  }
 	}
+	
 	public function crearMatrizInicial()
 	{
 	
