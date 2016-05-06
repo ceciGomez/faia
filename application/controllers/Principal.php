@@ -29,17 +29,25 @@ class Principal extends CI_Controller {
 		$vectorInicio = array_merge($resultado,$operando2,$operando1);
 		$vectorInicio = array_unique($vectorInicio);
 		if (count($vectorInicio)< 10){
-		    for ($i = 8; $i<10; $i++) {
-             array_push($vectorInicio, '-');
-		}
+
+		  //rellenar con guiones las demas posiciones del array hasta completar 10.
+			$posiciones = count($vectorInicio);
+			var_dump($posiciones);
+			$posFaltantes= 10 - $posiciones;
+			var_dump($posFaltantes);
+		  for ($i= 1; $i <= $posFaltantes; $i++) { 
+		  	array_push($vectorInicio, '-');
+		  }
+		  var_dump(count($vectorInicio));
+
 		  $this->acomodarArray($vectorInicio);
-   			 $this->crearMatrizInicial();
+   			 $this->crearMatrizInicial($operando1,$operando2,$resultado, $vectorInicio);
 		   }else{		 
 		 $this->do_alert();
 		 return;  }
 	}
 	
-	public function crearMatrizInicial()
+	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio)
 	{
 	
         $vector1 = array('0','1', '2','3','4','5','6','7','8','9');
@@ -57,8 +65,10 @@ class Principal extends CI_Controller {
 		 $this->acomodarArray($vector3);
 		 $this->acomodarArray($vector4);
 		 $this->acomodarArray($vector5);
+		 
+		 $this->extraerValoresPorArray($vector1, $op1,$op2,$resul, $vecInicio);
 	}
-	
+	//Funcion para mostrar como matriz.
 	public function acomodarArray(array $id){
 	   $output = array();
            foreach ($id as $vectorInicio =>$a) {
@@ -69,6 +79,20 @@ class Principal extends CI_Controller {
        foreach ($output as $o) {
             echo '<tr><td>' . implode('</td><td>', $o) . '</td></tr>'."<br/>";
 	        }
+	}
+	public function extraerValoresPorArray($vector, $op1, $op2, $resul,$vecInicio)	
+	{
+		$op1 = array_reverse($op1);
+		for ($i=0; $i < count($op1) ; $i++) { 
+			$pos = array_search($op1[$i], $vecInicio, true);
+			echo "vector inicio: ";
+			var_dump(count($vecInicio));
+			echo "<br>";
+			echo "pos: ";
+			var_dump($op1[$i]) ;var_dump($pos);
+			echo "<br>";
+		}
+		
 	}
 
 }
