@@ -29,7 +29,9 @@ class Principal extends CI_Controller {
 		$vectorInicio = array_merge($resultado,$operando2,$operando1);
 		$vectorInicio = array_unique($vectorInicio);
 		if (count($vectorInicio)< 10){
-		    var_dump($vectorInicio) ;}else{		 
+		  $this->acomodarArray($vectorInicio);
+   			 $this->crearMatrizInicial();
+		   }else{		 
 		 $this->do_alert();
 		 return;  }
 	}
@@ -47,6 +49,23 @@ class Principal extends CI_Controller {
         shuffle($vector3);
         shuffle($vector4);
         shuffle($vector5);
+        $this->acomodarArray($vector1);
+		 $this->acomodarArray($vector2);
+		 $this->acomodarArray($vector3);
+		 $this->acomodarArray($vector4);
+		 $this->acomodarArray($vector5);
+	}
+	
+	public function acomodarArray(array $id){
+	   $output = array();
+           foreach ($id as $vectorInicio =>$a) {
+           foreach ((array)$a as $key => $value) {
+             $output[$key][] = $value; 
+           }
+      }
+       foreach ($output as $o) {
+            echo '<tr><td>' . implode('</td><td>', $o) . '</td></tr>'."<br/>";
+	        }
 	}
 
 }
