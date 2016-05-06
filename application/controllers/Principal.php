@@ -29,6 +29,9 @@ class Principal extends CI_Controller {
 		$vectorInicio = array_merge($resultado,$operando2,$operando1);
 		$vectorInicio = array_unique($vectorInicio);
 		if (count($vectorInicio)< 10){
+		    for ($i = 8; $i<10; $i++) {
+             array_push($vectorInicio, '-');
+		}
 		  $this->acomodarArray($vectorInicio);
    			 $this->crearMatrizInicial();
 		   }else{		 
