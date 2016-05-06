@@ -29,6 +29,16 @@ class Principal extends CI_Controller {
 		$vectorInicio = array_merge($resultado,$operando2,$operando1);
 		$vectorInicio = array_unique($vectorInicio);
 		if (count($vectorInicio)< 10){
+		  //rellenar con guiones las demas posiciones del array hasta completar 10.
+			
+			$posiciones = count($vectorInicio);
+			var_dump($posiciones);
+			$posFaltantes= 10 - $posiciones; 
+			var_dump($posFaltantes);
+		  for ($i= 1; $i <= $posFaltantes; $i++) { 
+		  	array_push($vectorInicio, '-');
+		  }
+		  var_dump(count($vectorInicio));
 		  $this->acomodarArray($vectorInicio);
    			 $this->crearMatrizInicial();
 		   }else{		 
@@ -55,7 +65,7 @@ class Principal extends CI_Controller {
 		 $this->acomodarArray($vector4);
 		 $this->acomodarArray($vector5);
 	}
-	
+	//Funcion para mostrar como matriz.
 	public function acomodarArray(array $id){
 	   $output = array();
            foreach ($id as $vectorInicio =>$a) {
