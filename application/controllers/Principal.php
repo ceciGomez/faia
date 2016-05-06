@@ -28,7 +28,8 @@ class Principal extends CI_Controller {
 
 		$vectorInicio = array_merge($resultado,$operando2,$operando1);
 		$vectorInicio = array_unique($vectorInicio);
-		if (count($vectorInicio)< 10){
+		$vectorInicio = array_values( $vectorInicio );
+		if (count($vectorInicio)<= 10){
 
 		  //rellenar con guiones las demas posiciones del array hasta completar 10.
 			$posiciones = count($vectorInicio);
@@ -89,7 +90,7 @@ class Principal extends CI_Controller {
 			var_dump(count($vecInicio));
 			echo "<br>";
 			echo "pos: ";
-			var_dump($op1[$i]) ;var_dump($pos);
+			var_dump($op1[$i]) ;var_dump($pos); var_dump($vecInicio[$pos]);
 			echo "<br>";
 		}
 		
