@@ -84,6 +84,7 @@ class Principal extends CI_Controller {
 	public function extraerValoresPorArray($vector, $op1, $op2, $resul,$vecInicio)	
 	{
 		$op1 = array_reverse($op1);
+		$vectorFinal = '5';
 		for ($i=0; $i < count($op1) ; $i++) { 
 			$pos = array_search($op1[$i], $vecInicio, true);
 			echo "vector inicio: ";
@@ -92,6 +93,8 @@ class Principal extends CI_Controller {
 			echo "pos: ";
 			var_dump($op1[$i]) ;var_dump($pos); var_dump($vecInicio[$pos]);
 			echo "<br>";
+			$vectorFinal = array_push($vectorFinal,$vector[$pos]);
+			var_dump($vectorFinal);
 		}
 		
 	}
