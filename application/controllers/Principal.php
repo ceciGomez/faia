@@ -55,7 +55,7 @@ class Principal extends CI_Controller {
 	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio)
 	{
 	
-        $vector1 = array('0','1', '2','3','4','5','6','7','8','9');
+        /*$vector1 = array('0','1', '2','3','4','5','6','7','8','9');
         $vector2 = array('0','1', '2','3','4','5','6','7','8','9');
         $vector3 = array('0','1', '2','3','4','5','6','7','8','9');
         $vector4 = array('0','1', '2','3','4','5','6','7','8','9');
@@ -65,26 +65,34 @@ class Principal extends CI_Controller {
         shuffle($vector3);
         shuffle($vector4);
         shuffle($vector5);
-        $this->acomodarArray($vector1);
+         $this->acomodarArray($vector1);
 		 $this->acomodarArray($vector2);
 		 $this->acomodarArray($vector3);
 		 $this->acomodarArray($vector4);
 		 $this->acomodarArray($vector5);
-		 
-		 $valor_op1= $this->extraerValoresPorOperando($vector1, $op1,$vecInicio);
-		 $valor_op2= $this->extraerValoresPorOperando($vector1, $op2,$vecInicio);
-		 $valor_resul= $this->extraerValoresPorOperando($vector1, $resul,$vecInicio);
+		*/ $a = 'vector'; 
+		 for($i=1; $i < 6; $i++){
+		   ${$a.$i}=array('0','1', '2','3','4','5','6','7','8','9'); 
+		   shuffle(${$a.$i});
+		   
+		 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
+		 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
+		 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
 		 echo "Op 1: ";
-		 var_dump($valor_op1);
-		 echo "<br>";
+		 
+		 $this->acomodarArray($valor_op1);
+		 //echo "<br>";
 		 echo "Op 2: ";
-		 var_dump($valor_op2);
-		 echo "<br>";
-		 echo "Resul";
-		 var_dump($valor_resul);
-		 echo "<br>";
-		 $suma = (int)$valor_op1 + (int)$valor_op2;
-		 echo "suma: ";var_dump((array_slice($valor_op1,2)));
+		  $this->acomodarArray($valor_op2);
+		 //echo "<br>";
+		 echo "Resultado";
+		 $this->acomodarArray($valor_resul);
+		 //echo "<br>";
+		 $suma = implode('',$valor_op1) + implode('',$valor_op2);
+		 echo "suma: ". $suma .'</br>';
+		 //var_dump($suma);
+		 
+		 }
 	}
 	//Funcion para mostrar como matriz.
 	public function acomodarArray(array $id){
