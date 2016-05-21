@@ -37,13 +37,15 @@ class Principal extends CI_Controller {
 
 		  //rellenar con guiones las demas posiciones del array hasta completar 10.
 			$posiciones = count($vectorInicio);
-			var_dump($posiciones);
+			//var_dump($posiciones);
 			$posFaltantes= 10 - $posiciones;
-			var_dump($posFaltantes);
+			//var_dump($posFaltantes);
 		  for ($i= 1; $i <= $posFaltantes; $i++) { 
 		  	array_push($vectorInicio, '-');
 		  }
+		  echo "<br> Vector Inicio: ";
 		  var_dump(count($vectorInicio));
+
 
 		  $this->acomodarArray($vectorInicio);
    			 $this->crearMatrizInicial($operando1,$operando2,$resultado, $vectorInicio);
@@ -74,10 +76,14 @@ class Principal extends CI_Controller {
 		 for($i=1; $i < 6; $i++){
 		   ${$a.$i}=array('0','1', '2','3','4','5','6','7','8','9'); 
 		   shuffle(${$a.$i});
+		    
+		    echo "<br> -------------- <br>";
+		    echo implode('', (${$a.$i}));
 		   
 		 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
 		 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
 		 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
+		 echo "<br> -------------- <br>";
 		 echo "Op 1: ";
 		 
 		 $this->acomodarArray($valor_op1);
