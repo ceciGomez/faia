@@ -84,8 +84,7 @@ class Principal extends CI_Controller {
 		 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
 		 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
 		 echo "<br> -------------- <br>";
-		 echo "Op 1: ";
-		 
+		 echo "Op 1: ";		 
 		 $this->acomodarArray($valor_op1);
 		 //echo "<br>";
 		 echo "Op 2: ";
@@ -95,11 +94,43 @@ class Principal extends CI_Controller {
 		 $this->acomodarArray($valor_resul);
 		 //echo "<br>";
 		 $suma = implode('',$valor_op1) + implode('',$valor_op2);
-		 echo "suma: ". $suma .'</br>';
+		 echo "suma: ". $suma.'</br>';
+		 $this->obtenerBrillo($valor_resul,  $suma);
 		 //var_dump($suma);
 		 
 		 }
 	}
+	
+	public function intToArray( $x){
+			$arr=array();
+		    $arr  = array_map('intval', str_split($x));
+			return $arr;
+		}
+	
+	public function obtenerBrillo( $x,  $y){
+	  $var1=$this->intToArray($y);
+	  $sum=0;
+	  $i=(sizeof($var1)-1);
+	  $j=(sizeof($x)-1);
+	  $counter=0;
+	  if(sizeof($var1)<sizeof($x)){
+		$counter=sizeof($var1);}
+		else{
+		$counter=sizeof($x);}
+	  for ($k = ($counter-1); $k >=0; $k--) {
+	      if($var1[($i)]==$x[($j)]){
+		 
+		  $i--;
+		  $j--;
+	      
+		 $sum++;
+			}else{
+			echo "Brillo: ". $sum.'</br>';
+			break;
+			}
+		}	
+	}
+	
 	//Funcion para mostrar como matriz.
 	public function acomodarArray(array $id){
 	   $output = array();
