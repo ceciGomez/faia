@@ -158,6 +158,35 @@ class Principal extends CI_Controller {
 			return $operando_val;
 	}
 
+	public function distancia($X1, $X2){
+		$d=abs($X1-$X2);
+		return 1;
+	}
+
+	public function beta(){
+		return 1;
+	}
+
+	public function movimiento($X1, $X2){
+		//epsilon es un número aleatorio que varía de -1 a 1
+		$epsilon = random_int(-1,1);
+
+		//alfa es un número que con el tiempo debería tender a 0, si es que nos acercamos a la solución, o ser un número alto si estamos lejos de la solución
+		$alfa = 1;
+
+		//función de movimiento
+		$X1 = $X1 + beta() * distancia($X1, $X2) + $alfa*$epsilon;
+
+		//Tomamos sólo el valor de la unidad de la función de moviemiento
+		$vector=preg_split(NULL, "$X1");
+		$posicion_unidad=count($vector);
+		$unidad=$vector[$posicion_unidad];
+
+		$X1=$unidad;
+		return $X1;
+
+	}
+
 }
 
 /* End of file CI_Principal.php */
