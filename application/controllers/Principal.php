@@ -100,7 +100,7 @@ class Principal extends CI_Controller {
 				$valor_resul_A= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
 				$brilloA = $this->obtenerBrillo($valor_resul_A,  $sumaA);
-				
+				echo "Brillo de A: ";				
 				
 				for ($k=1; $k < 6; $k++) { 
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
@@ -108,12 +108,12 @@ class Principal extends CI_Controller {
 					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
-					
+					echo "Brillo de B: ";
 				
 					if ($brilloA < $brilloB) {
 						//se calcula la distancia entre A y B y el resultado
 						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
-						$pos = 1;
+						$pos = 5;
 						//se mueve el menos brillos hacia el mas brilloso
 						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos);
 
@@ -123,7 +123,7 @@ class Principal extends CI_Controller {
 						$suma = implode('',$valor_op1) + implode('',$valor_op2);
 						//se recalcula el brillo del elemento que se movio.
 						$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-						echo "A tiene menos brillo que B, ";
+						echo "Nuevo brillo de A: ".$brilloA." </br>";
 				
 			 
 					} elseif ($brilloA >= count($resul)) {
@@ -217,14 +217,17 @@ class Principal extends CI_Controller {
 		$alfa = 1;
 
 		//función de movimiento
-		$X1 = $X1 + $this->beta() * $distancia + $alfa*$epsilon;
+		$beta = $this->beta();
+		$distancia = 3;
+		$valor_a_cambiar = $X1[$pos];
+		echo "valor a cambiar: ".$valor_a_cambiar.", ";
 
-		//Tomamos sólo el valor de la unidad de la función de movimiento
-		$vector=fmod($X1[$pos], 10);
-		$posicion_unidad=count($vector);
-		$unidad=$vector[$posicion_unidad];
+		$valor_a_cambiar = $valor_a_cambiar + $beta * $distancia + $alfa*$epsilon;
+		echo "valor cambiado: ".$valor_a_cambiar;
+		echo "</br>";
 
-		$X1=$vector;
+		$valor_a_cambiar = fmod($valor_a_cambiar, 10);
+		$X1[$pos]=$valor_a_cambiar;
 		return $X1;
 
 	}
