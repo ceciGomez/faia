@@ -15,6 +15,7 @@ class Principal extends CI_Controller {
         echo '<script type="text/javascript">alert("' . "Ha excedido el número de caracteres permitidos" . '"); </script>';
     }
 	public function ingresarDatos(){
+		//Obtener los datos ingresados por pantalla
 		$operando1 = $this->input->post('op1');
 		$operando2 = $this->input->post('op2');
 		$resultado = $this->input->post('res');
@@ -35,72 +36,106 @@ class Principal extends CI_Controller {
 		$vectorInicio = array_values( $vectorInicio );
 		if (count($vectorInicio)<= 10){
 
-		  //rellenar con guiones las demas posiciones del array hasta completar 10.
-			$posiciones = count($vectorInicio);
-			//var_dump($posiciones);
-			$posFaltantes= 10 - $posiciones;
-			//var_dump($posFaltantes);
-		  for ($i= 1; $i <= $posFaltantes; $i++) { 
-		  	array_push($vectorInicio, '-');
-		  }
-		  echo "<br> Vector Inicio: ";
-		  var_dump(count($vectorInicio));
+			  //rellenar con guiones las demas posiciones del array hasta completar 10.
+				$posiciones = count($vectorInicio);
+				//var_dump($posiciones);
+				$posFaltantes= 10 - $posiciones;
+				//var_dump($posFaltantes);
+			  for ($i= 1; $i <= $posFaltantes; $i++) { 
+			  	array_push($vectorInicio, '-');
+			  }
+			  echo "<br> Vector Inicio: ";
+			  var_dump(count($vectorInicio));
 
-
-		  $this->acomodarArray($vectorInicio);
-   			 $this->crearMatrizInicial($operando1,$operando2,$resultado, $vectorInicio);
-		   }else{		 
-		 $this->do_alert();
-		 return;  }
+			  $this->acomodarArray($vectorInicio);
+	   		  $this->crearMatrizInicial($operando1,$operando2, $resultado, $vectorInicio);
+		   	 }else{		 
+		 	$this->do_alert();
+		 	return;  
+		 }
 	}
 	
 	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio)
 	{
 	
-        /*$vector1 = array('0','1', '2','3','4','5','6','7','8','9');
-        $vector2 = array('0','1', '2','3','4','5','6','7','8','9');
-        $vector3 = array('0','1', '2','3','4','5','6','7','8','9');
-        $vector4 = array('0','1', '2','3','4','5','6','7','8','9');
-        $vector5 = array('0','1', '2','3','4','5','6','7','8','9');
-        shuffle($vector1);
-        shuffle($vector2);
-        shuffle($vector3);
-        shuffle($vector4);
-        shuffle($vector5);
-         $this->acomodarArray($vector1);
-		 $this->acomodarArray($vector2);
-		 $this->acomodarArray($vector3);
-		 $this->acomodarArray($vector4);
-		 $this->acomodarArray($vector5);
-		*/ $a = 'vector'; 
+        $a = 'vector'; 
 		 for($i=1; $i < 6; $i++){
-		   ${$a.$i}=array('0','1', '2','3','4','5','6','7','8','9'); 
-		   shuffle(${$a.$i});
+		     ${$a.$i}=array('0','1', '2','3','4','5','6','7','8','9'); 
+		   	 shuffle(${$a.$i});
 		    
-		    echo "<br> -------------- <br>";
-		    echo implode('', (${$a.$i}));
-		   
-		 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
-		 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
-		 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
-		 echo "<br> -------------- <br>";
-		 echo "Op 1: ";		 
-		 $this->acomodarArray($valor_op1);
-		 //echo "<br>";
-		 echo "Op 2: ";
-		  $this->acomodarArray($valor_op2);
-		 //echo "<br>";
-		 echo "Resultado";
-		 $this->acomodarArray($valor_resul);
-		 //echo "<br>";
-		 $suma = implode('',$valor_op1) + implode('',$valor_op2);
-		 echo "suma: ". $suma.'</br>';
-		 $this->obtenerBrillo($valor_resul,  $suma);
-		 //var_dump($suma);
-		 
+			 echo implode('', (${$a.$i}));
+			   
+			 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
+			 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
+			 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
+			 echo "<br> -------------- <br>";
+			 echo "Op 1: ";		 
+			 $this->acomodarArray($valor_op1);
+			 //echo "<br>";
+			 echo "Op 2: ";
+			  $this->acomodarArray($valor_op2);
+			 //echo "<br>";
+			 echo "Resultado";
+			 $this->acomodarArray($valor_resul);
+			 //echo "<br>";
+			 $suma = implode('',$valor_op1) + implode('',$valor_op2);
+			 echo "suma: ". $suma.'</br>';
+			 $this->obtenerBrillo($valor_resul,  $suma);
+			 //var_dump($suma);
+			 
 		 }
+		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio);
 	}
 	
+	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio)
+	{
+		//empezar con 5 iteraciones
+		 $vector= 'vector'; 
+		for ($i=1; $i < 5; $i++) { 
+			//comparar vectores
+			for ($j=1; $j < 5; $j++) { 
+				//comparar elemento A con todos los demas elementos
+				$valor_op1_A= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
+				$valor_op2_A= $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
+				$valor_resul_A= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
+				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
+				$brilloA = $this->obtenerBrillo($valor_resul_A,  $sumaA);
+				
+				
+				for ($k=1; $k < 6; $k++) { 
+					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
+					$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
+					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
+					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
+					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
+					
+				
+					if ($brilloA < $brilloB) {
+						//se calcula la distancia entre A y B y el resultado
+						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
+						$pos = 1;
+						//se mueve el menos brillos hacia el mas brilloso
+						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos);
+
+						$valor_op1= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
+						$valor_op2= $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
+						$valor_resul= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
+						$suma = implode('',$valor_op1) + implode('',$valor_op2);
+						//se recalcula el brillo del elemento que se movio.
+						$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
+						echo "A tiene menos brillo que B, ";
+				
+			 
+					} elseif ($brilloA >= count($resul)) {
+						return "Se ha encontrado una solucion";
+					}
+				}
+			} //fin comparacion vectores
+
+		}//fin iteraciones
+	}
+
+
 	public function intToArray( $x){
 			$arr=array();
 		    $arr  = array_map('intval', str_split($x));
@@ -126,7 +161,8 @@ class Principal extends CI_Controller {
 		 $sum++;
 			}else{
 			echo "Brillo: ". $sum.'</br>';
-			break;
+			 echo "-------------- <br>";
+			return $sum;
 			}
 		}	
 	}
@@ -157,34 +193,47 @@ class Principal extends CI_Controller {
 		}
 			return $operando_val;
 	}
-
-	public function distancia($X1, $X2){
-		$d=abs($X1-$X2);
-		return 1;
+	//Funcion tentativa
+	public function distancia($X1, $X2, $resultado){
+		$d1 = abs(implode('', $resultado) - implode('', $X1));
+		$d2 = abs(implode('', $resultado) - implode('', $X2));
+		$d=abs($d1-$d2);
+		return $d;
 	}
 
 	public function beta(){
-		return 1;
+		$valor_beta = 1;
+		return $valor_beta;
 	}
 
-	public function movimiento($X1, $X2){
+ 
+	// esta función se utiliza por elemento del vector luciernaga
+	public function movimiento($X1, $X2, $distancia, $pos){
 		//epsilon es un número aleatorio que varía de -1 a 1
-		$epsilon = random_int(-1,1);
+		$epsilon = -1;
 
-		//alfa es un número que con el tiempo debería tender a 0, si es que nos acercamos a la solución, o ser un número alto si estamos lejos de la solución
+		/* alfa es un número que con el tiempo debería tender a 0, si es que nos acercamos a la solución, 
+		o ser un número alto si estamos lejos de la solución */
 		$alfa = 1;
 
 		//función de movimiento
-		$X1 = $X1 + beta() * distancia($X1, $X2) + $alfa*$epsilon;
+		$X1 = $X1 + $this->beta() * $distancia + $alfa*$epsilon;
 
-		//Tomamos sólo el valor de la unidad de la función de moviemiento
-		$vector=preg_split(NULL, "$X1");
+		//Tomamos sólo el valor de la unidad de la función de movimiento
+		$vector=fmod($X1[$pos], 10);
 		$posicion_unidad=count($vector);
 		$unidad=$vector[$posicion_unidad];
 
-		$X1=$unidad;
+		$X1=$vector;
 		return $X1;
 
+	}
+
+	// Se busca los repetidos y se modifican
+	public function controlarRepetidos($vectorEntrada)
+	{
+		# code...
+		return TRUE;
 	}
 
 }
