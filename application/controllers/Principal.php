@@ -80,8 +80,8 @@ class Principal extends CI_Controller {
 			 //echo "<br>";
 			 $suma = implode('',$valor_op1) + implode('',$valor_op2);
 			 echo "suma: ". $suma.'</br>';
-			 $this->obtenerBrillo($valor_resul,  $suma);
-			 //var_dump($suma);
+			 $brilloInicial = $this->obtenerBrillo($valor_resul,  $suma);
+			 echo "Brillo inicial: ".$brilloInicial."</br>";
 			 
 		 }
 		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio);
@@ -91,7 +91,13 @@ class Principal extends CI_Controller {
 	{
 		//empezar con 5 iteraciones
 		 $vector= 'vector'; 
-		for ($i=1; $i < 5; $i++) { 
+		 $vecPos = 'vecPos';
+		 for ($t=1; $t < 6; $t++) { 
+		 		${$vecPos.$t} = array('0','0', '0','0','0','0','0','0','0','0');  
+		 	}
+		 
+		
+		for ($i=1; $i < 10; $i++) { 
 			//comparar vectores
 			for ($j=1; $j < 5; $j++) { 
 				//comparar elemento A con todos los demas elementos
@@ -100,7 +106,7 @@ class Principal extends CI_Controller {
 				$valor_resul_A= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
 				$brilloA = $this->obtenerBrillo($valor_resul_A,  $sumaA);
-				echo "Brillo de A: ";				
+				echo "Brillo de A: ".$brilloA;				
 				
 				for ($k=1; $k < 6; $k++) { 
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
@@ -108,24 +114,28 @@ class Principal extends CI_Controller {
 					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
-					echo "Brillo de B: ";
+					echo "Brillo de B: ".$brilloB;
 				
-					if ($brilloA < $brilloB) {
+					if ($brilloA <= $brilloB) {
 						//se calcula la distancia entre A y B y el resultado
 						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
-						$pos = 5;
-						//se mueve el menos brillos hacia el mas brilloso
+						$pos = $this->buscarPosicion(${$vector.$j}, $brilloA, $valor_op1_A, $valor_op2_A, $valor_resul_A);
+						//se mueve el menos brilloso hacia el mas brilloso
 						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos);
 
-						$valor_op1= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
-						$valor_op2= $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
-						$valor_resul= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
+						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
+						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
+						$valor_resul = $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 						$suma = implode('',$valor_op1) + implode('',$valor_op2);
 						//se recalcula el brillo del elemento que se movio.
 						$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-						echo "Nuevo brillo de A: ".$brilloA." </br>";
+						echo "Vector".$j.": ";
+						$this->acomodarArray(${$vector.$j});
+						echo "suma: ". $suma.'</br>';
+						echo "Resultado: ";
+			 			$this->acomodarArray($valor_resul);
+			 			echo "Nuevo brillo de A: ".$brilloA." </br>--------------</br>";
 				
-			 
 					} elseif ($brilloA >= count($resul)) {
 						return "Se ha encontrado una solucion";
 					}
@@ -134,11 +144,54 @@ class Principal extends CI_Controller {
 
 		}//fin iteraciones
 	}
+	public function buscarPosicion($vectorOrigen, $brillo, $op1, $op2, $resul)
+	{
+		switch ($brillo) {
+			case  0:
+			$pos = 6;
+			return $pos;
+			break;
 
+		case 1:
+			$ul_pos_op1 = count($op1) - 1;
+			$ul_pos_op2 = count($op2) - 1;
+			$ul_pos_res = count($resul) - 1;
+
+			$pos = 2;
+			return $pos;
+			# code...
+			break;
+
+		case 2:
+
+			$pos = 3;
+			return $pos;
+			# code...
+			break;
+
+		case 3:
+			$pos = 4;
+			return $pos;
+			# code...
+			break;
+
+		case 4:
+			# code...
+			break;
+
+		case 5:
+			# code...
+			break;
+
+		case  6:
+			# code...
+			break;
+		}
+	}
 
 	public function intToArray( $x){
-			$arr=array();
-		    $arr  = array_map('intval', str_split($x));
+			$arr = array();
+		    $arr = array_map('intval', str_split($x));
 			return $arr;
 		}
 	
@@ -160,8 +213,8 @@ class Principal extends CI_Controller {
 	      
 		 $sum++;
 			}else{
-			echo "Brillo: ". $sum.'</br>';
-			 echo "-------------- <br>";
+			//echo "Brillo: ". $sum.'</br>';
+			 //echo "-------------- <br>";
 			return $sum;
 			}
 		}	
@@ -220,14 +273,17 @@ class Principal extends CI_Controller {
 		$beta = $this->beta();
 		$distancia = 3;
 		$valor_a_cambiar = $X1[$pos];
+		//var_dump($X1);
 		echo "valor a cambiar: ".$valor_a_cambiar.", ";
 
 		$valor_a_cambiar = $valor_a_cambiar + $beta * $distancia + $alfa*$epsilon;
 		echo "valor cambiado: ".$valor_a_cambiar;
 		echo "</br>";
 
+
 		$valor_a_cambiar = fmod($valor_a_cambiar, 10);
 		$X1[$pos]=$valor_a_cambiar;
+		//var_dump($X1);
 		return $X1;
 
 	}
