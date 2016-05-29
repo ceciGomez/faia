@@ -126,7 +126,8 @@ class Principal extends CI_Controller {
 						//se mueve el menos brilloso hacia el mas brilloso
 						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos);
 
-						$repetidos = $this->controlarRepetidos(${$vector.$j}, $pos, $valor_Anterior);
+						//Es el mismo vector sin valores repedios
+						${$vector.$j} = $this->controlarRepetidos(${$vector.$j}, $pos, $valor_Anterior);
 
 						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
 						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
@@ -296,7 +297,10 @@ class Principal extends CI_Controller {
 	// Se busca los repetidos y se modifican
 	public function controlarRepetidos($vectorEntrada, $pos, $valor_Anterior)
 	{
+		echo "VECTOR DE ENTRADAAAA: ";
+		$this->acomodarArray($vectorEntrada);
 		$valor_a_buscar = $vectorEntrada[$pos];
+		echo "valor a buscar: ".$valor_a_buscar;
 		$posicionRepetida = array_search($valor_a_buscar, $vectorEntrada);
 		echo "posicion repetida: ".$posicionRepetida;
 		echo ", valor anterior: ".$valor_Anterior."</br>";
