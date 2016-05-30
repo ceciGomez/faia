@@ -127,7 +127,7 @@ class Principal extends CI_Controller {
 						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos);
 
 						//Es el mismo vector sin valores repedios
-						${$vector.$j} = $this->controlarRepetidos(${$vector.$j}, $pos, $valor_Anterior);
+						//${$vector.$j} = $this->controlarRepetidos(${$vector.$j}, $pos, $valor_Anterior);
 
 						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
 						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
@@ -265,8 +265,7 @@ class Principal extends CI_Controller {
 		return $valor_beta;
 	}
 
- 
-	// esta función se utiliza por elemento del vector luciernaga
+ // esta función se utiliza por elemento del vector luciernaga
 	public function movimiento($X1, $X2, $distancia, $pos){
 		//epsilon es un número aleatorio que varía de -1 a 1
 		$epsilon = -1;
@@ -288,6 +287,9 @@ class Principal extends CI_Controller {
 
 
 		$valor_a_cambiar = fmod($valor_a_cambiar, 10);
+
+		$X1=$this->controlarRepetidos($X1, $valor_a_cambiar,$X1[$pos]);
+
 		$X1[$pos]=$valor_a_cambiar;
 		//var_dump($X1);
 		return $X1;
@@ -295,16 +297,16 @@ class Principal extends CI_Controller {
 	}
 
 	// Se busca los repetidos y se modifican
-	public function controlarRepetidos($vectorEntrada, $pos, $valor_Anterior)
+	public function controlarRepetidos($vectorEntrada, $valor_a_buscar, $valor_nuevo)
 	{
 		echo "VECTOR DE ENTRADAAAA: ";
 		$this->acomodarArray($vectorEntrada);
-		$valor_a_buscar = $vectorEntrada[$pos];
+		
 		echo "valor a buscar: ".$valor_a_buscar;
-		$posicionRepetida = array_search($valor_a_buscar, $vectorEntrada);
-		echo "posicion repetida: ".$posicionRepetida;
-		echo ", valor anterior: ".$valor_Anterior."</br>";
-		$vectorEntrada[$posicionRepetida] = $valor_Anterior;
+		$posicion = array_search($valor_a_buscar, $vectorEntrada);
+		echo "posicion: ".$posicion;
+		echo ", valor nuevo: ".$valor_nuevo."</br>";
+		$vectorEntrada[$posicion] = $valor_nuevo;
 		echo " Array arreglado: ";
 		$this->acomodarArray($vectorEntrada);
 		return $vectorEntrada;
