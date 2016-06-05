@@ -1,19 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal extends CI_Controller {
+class Principal_ML extends CI_Controller {
 
-	public function index()
-	{
+	public function index(){
 		
 	}
 	public function ingresar(){
 		$this->load->view('ingresarDatos');
 	}
-	 public function do_alert() 
-    {
+	 public function do_alert(){
         echo '<script type="text/javascript">alert("' . "Ha excedido el número de caracteres permitidos" . '"); </script>';
     }
+
 	public function ingresarDatos(){
 		//Obtener los datos ingresados por pantalla
 		$operando1 = $this->input->post('op1');
@@ -62,14 +61,14 @@ class Principal extends CI_Controller {
 		 for($i=1; $i < 6; $i++){
 		     ${$a.$i}=array('0','1', '2','3','4','5','6','7','8','9'); 
 		   	 shuffle(${$a.$i});
-		    
+		     echo "<br> -------------- <br>";
 		     echo "vector".$i.": ";
 			 echo implode('', (${$a.$i}));
 			   
 			 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
 			 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
 			 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
-			 echo "<br> -------------- <br>";
+			 
 			 echo "Op 1: ";		 
 			 $this->acomodarArray($valor_op1);
 			 //echo "<br>";
@@ -93,12 +92,12 @@ class Principal extends CI_Controller {
 		//empezar con 5 iteraciones
 		 $vector= 'vector'; 
 		 $vecPos = 'vecPos';
-		 for ($t=1; $t < 6; $t++) { 
+		 for ($t=1; $t < 100; $t++) { 
 		 		${$vecPos.$t} = array('0','0', '0','0','0','0','0','0','0','0');  
 		 	}
 		 
 		
-		for ($i=1; $i < 10; $i++) { 
+		for ($i=1; $i < 100; $i++) { 
 			//comparar vectores
 			for ($j=1; $j < 6; $j++) { 
 				//comparar elemento A con todos los demas elementos
@@ -117,14 +116,21 @@ class Principal extends CI_Controller {
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					echo "Brillo de B: ".$brilloB;
 				
-					if ($brilloA <= $brilloB) {
+					if ($brilloA < count($resul)) {
 						//se calcula la distancia entre A y B y el resultado
 						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
-						$pos = $this->buscarPosicion(${$vector.$j}, $brilloA, $valor_op1_A, $valor_op2_A, $valor_resul_A);
+						$pos = $this->buscarPosicion($brilloA);
 
 						$valor_Anterior = ${$vector.$j}[$pos];
+						$vector_letras = 0;
+						$operando1 = 0;
+						$operando2 = 0;
+						$resultado = 0;
+
+						$atractividad= $this->atractividad ($vector_letras, $operando1, $operando2, $resultado);
+
 						//se mueve el menos brilloso hacia el mas brilloso
-						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos);
+						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos, $atractividad,$brilloA);
 
 						//Es el mismo vector sin valores repedios
 						//${$vector.$j} = $this->controlarRepetidos(${$vector.$j}, $pos, $valor_Anterior);
@@ -141,6 +147,8 @@ class Principal extends CI_Controller {
 						echo "Resultado: ";
 			 			$this->acomodarArray($valor_resul);
 			 			echo "Nuevo brillo de A: ".$brilloA." </br>--------------</br>";
+
+			 			echo "cantidad de caractedes del resultados es: ".count($resul);
 				
 					} elseif ($brilloA >= count($resul)) {
 						return "Se ha encontrado una solucion";
@@ -150,20 +158,21 @@ class Principal extends CI_Controller {
 
 		}//fin iteraciones
 	}
-	public function buscarPosicion($vectorOrigen, $brillo, $op1, $op2, $resul)
+	public function buscarPosicion($brillo)
 	{
 		switch ($brillo) {
-			case  0:
-			$pos = 6;
+		case  0:
+			$ar_pos = array(0,1,6);
+			$al_pos = rand(0,2);
+			$pos = $ar_pos[$al_pos];
 			return $pos;
 			break;
 
 		case 1:
-			$ul_pos_op1 = count($op1) - 1;
-			$ul_pos_op2 = count($op2) - 1;
-			$ul_pos_res = count($resul) - 1;
 
-			$pos = 2;
+			$ar_pos = array(2,5);
+			$al_pos = rand(0,1);
+			$pos = $ar_pos[$al_pos];
 			return $pos;
 			# code...
 			break;
@@ -176,21 +185,21 @@ class Principal extends CI_Controller {
 			break;
 
 		case 3:
+			$ar_pos = array(4,7);
+			$al_pos = rand(0,1);
+			$pos = $ar_pos[$al_pos];
+			return $pos;
+			# code...
+			break;
+		case 4:
 			$pos = 4;
 			return $pos;
 			# code...
 			break;
 
-		case 4:
-			# code...
-			break;
-
-		case 5:
-			# code...
-			break;
-
-		case  6:
-			# code...
+		default:
+			$pos = 8;
+			return $pos;
 			break;
 		}
 	}
@@ -266,31 +275,43 @@ class Principal extends CI_Controller {
 	}
 
  // esta función se utiliza por elemento del vector luciernaga
-	public function movimiento($X1, $X2, $distancia, $pos){
+	public function movimiento($X1, $X2, $distancia, $pos, $atractividad,$brillo){
 		//epsilon es un número aleatorio que varía de -1 a 1
-		$epsilon = -1;
+		//$epsilon = -1;
 
 		/* alfa es un número que con el tiempo debería tender a 0, si es que nos acercamos a la solución, 
 		o ser un número alto si estamos lejos de la solución */
-		$alfa = 1;
+		$alfa = rand(0,9);
 
 		//función de movimiento
 		$beta = $this->beta();
 		$distancia = 3;
-		$valor_a_cambiar = $X1[$pos];
+		$valor = $X1[$pos];
 		//var_dump($X1);
-		echo "valor a cambiar: ".$valor_a_cambiar.", ";
+		echo "valor a cambiar: ".$valor.", ";
+		
+		//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
+		$valor_nuevo = $valor + $alfa;
+		$valor_nuevo = fmod($valor_nuevo, 10);
+		$posicion = array_search($valor_nuevo, $X1);
+		while($atractividad[$posicion]<=$brillo){
+			//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
+			$alfa = rand(0,9);
+			$valor_nuevo=$valor + $alfa;
+			$valor_nuevo = fmod($valor_nuevo, 10);
+			$posicion = array_search($valor_nuevo, $X1);
+		}
 
-		$valor_a_cambiar = $valor_a_cambiar + $beta * $distancia + $alfa*$epsilon;
-		echo "valor cambiado: ".$valor_a_cambiar;
+		
+		
+		
+		echo "valor cambiado: ".$valor_nuevo;
 		echo "</br>";
 
 
-		$valor_a_cambiar = fmod($valor_a_cambiar, 10);
+		$X1=$this->controlarRepetidos($X1, $valor_nuevo,$X1[$pos]);
 
-		$X1=$this->controlarRepetidos($X1, $valor_a_cambiar,$X1[$pos]);
-
-		$X1[$pos]=$valor_a_cambiar;
+		$X1[$pos]=$valor_nuevo;
 		//var_dump($X1);
 		return $X1;
 
@@ -310,6 +331,11 @@ class Principal extends CI_Controller {
 		echo " Array arreglado: ";
 		$this->acomodarArray($vectorEntrada);
 		return $vectorEntrada;
+	}
+
+	public function atractividad ($vector_letras, $operando1, $operando2, $resultado){
+		$atractividad= array(1,1,2,3,4,2,1,4,100,100);
+		return $atractividad;
 	}
 
 }
