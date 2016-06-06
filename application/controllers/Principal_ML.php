@@ -90,36 +90,41 @@ class Principal_ML extends CI_Controller {
 	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio)
 	{
 		//empezar con 5 iteraciones
-		 $vector= 'vector'; 
-		 $vecPos = 'vecPos';
-		 for ($t=1; $t < 100; $t++) { 
-		 		${$vecPos.$t} = array('0','0', '0','0','0','0','0','0','0','0');  
-		 	}
+		$vector= 'vector'; 
+
+		$vector6 = array(2,5,6,0,1,8,7,9,3,4);
 		 
-		
-		for ($i=1; $i < 100; $i++) { 
+		$i=0;
+		$brillo=0;
+		while ($brillo < count($resul) and $i<=200) { 
+			$i = $i +1;
+			$j = 0;
 			//comparar vectores
-			for ($j=1; $j < 6; $j++) { 
+			while (($brillo < count($resul)) and ($j < 6)) { 
+				$j = $j +1;
 				//comparar elemento A con todos los demas elementos
 				$valor_op1_A= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
 				$valor_op2_A= $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
 				$valor_resul_A= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
-				$brilloA = $this->obtenerBrillo($valor_resul_A,  $sumaA);
-				echo "Brillo de A: ".$brilloA;				
-				
-				for ($k=1; $k < 6; $k++) { 
+				$brillo = $this->obtenerBrillo($valor_resul_A,  $sumaA);
+
+				echo "Brillo de A: ".$brillo;	
+
+				$k = 0;
+				while (($brillo < count($resul)) and ($k < 6)) { 
+					$k = $k +1;
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
 					$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
 					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					echo "Brillo de B: ".$brilloB;
-				
-					if ($brilloA < count($resul)) {
+
+					if ($brillo <= $brilloB) {					
 						//se calcula la distancia entre A y B y el resultado
 						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
-						$pos = $this->buscarPosicion($brilloA);
+						$pos = $this->buscarPosicion($brillo);
 
 						$valor_Anterior = ${$vector.$j}[$pos];
 						$vector_letras = 0;
@@ -130,33 +135,35 @@ class Principal_ML extends CI_Controller {
 						$atractividad= $this->atractividad ($vector_letras, $operando1, $operando2, $resultado);
 
 						//se mueve el menos brilloso hacia el mas brilloso
-						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos, $atractividad,$brilloA);
-
-						//Es el mismo vector sin valores repedios
-						//${$vector.$j} = $this->controlarRepetidos(${$vector.$j}, $pos, $valor_Anterior);
+						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos, $atractividad,$brillo);				
 
 						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
 						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
 						$valor_resul = $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 						$suma = implode('',$valor_op1) + implode('',$valor_op2);
 						//se recalcula el brillo del elemento que se movio.
-						$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
+						$brillo = $this->obtenerBrillo($valor_resul,  $suma);
 						echo "Vector".$j.": ";
 						$this->acomodarArray(${$vector.$j});
 						echo "suma: ". $suma.'</br>';
 						echo "Resultado: ";
 			 			$this->acomodarArray($valor_resul);
-			 			echo "Nuevo brillo de A: ".$brilloA." </br>--------------</br>";
+			 			echo "Nuevo brillo de A: ".$brillo." </br>--------------</br>";
 
 			 			echo "cantidad de caractedes del resultados es: ".count($resul);
 				
-					} elseif ($brilloA >= count($resul)) {
-						return "Se ha encontrado una solucion";
 					}
+					
 				}
-			} //fin comparacion vectores
+			}
+		} //fin comparacion vectores
 
-		}//fin iteraciones
+		if ($brillo >= count($resul)) {
+			echo "SOLUCION";
+			return "Se ha encontrado una solucion";
+		}
+
+	
 	}
 	public function buscarPosicion($brillo)
 	{
@@ -294,13 +301,20 @@ class Principal_ML extends CI_Controller {
 		$valor_nuevo = $valor + $alfa;
 		$valor_nuevo = fmod($valor_nuevo, 10);
 		$posicion = array_search($valor_nuevo, $X1);
-		while($atractividad[$posicion]<=$brillo){
-			//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
-			$alfa = rand(0,9);
-			$valor_nuevo=$valor + $alfa;
-			$valor_nuevo = fmod($valor_nuevo, 10);
-			$posicion = array_search($valor_nuevo, $X1);
-		}
+		if ($brillo<4) {
+			while($atractividad[$posicion]<=$brillo){
+				//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
+				
+					$alfa = rand(0,9);
+					$valor_nuevo=$valor + $alfa;
+					$valor_nuevo = fmod($valor_nuevo, 10);
+					$posicion = array_search($valor_nuevo, $X1);			
+			}
+		}else{
+				$alfa = rand(0,1);
+				$valor_nuevo=$alfa;
+				$posicion = array_search($valor_nuevo, $X1);
+			}
 
 		
 		
@@ -333,9 +347,14 @@ class Principal_ML extends CI_Controller {
 		return $vectorEntrada;
 	}
 
+	
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado){
 		$atractividad= array(1,1,2,3,4,2,1,4,100,100);
 		return $atractividad;
+	}
+
+	public function explorar ($luciernaga, $brillo, $atractividad){
+
 	}
 
 }
