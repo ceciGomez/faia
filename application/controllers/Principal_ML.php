@@ -85,11 +85,35 @@ class Principal_ML extends CI_Controller {
 			 echo "Brillo inicial: ".$brilloInicial."</br>";
 			 
 		 }
+
+		 //TODO ESTO HAY QUE SACAR Y ES A SOLO EFECTO DE MOSTRAR EL VECTOR6 QUE CECI QUIERE
+		 echo "<br> -------------- <br>";
+		     echo "vector".$i.": ";
+			 echo implode('', (${$a.$i}));
+			   
+			 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
+			 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
+			 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
+			 
+			 echo "Op 1: ";		 
+			 $this->acomodarArray($valor_op1);
+			 //echo "<br>";
+			 echo "Op 2: ";
+			  $this->acomodarArray($valor_op2);
+			 //echo "<br>";
+			 echo "Resultado";
+			 $this->acomodarArray($valor_resul);
+			 //echo "<br>";
+			 $suma = implode('',$valor_op1) + implode('',$valor_op2);
+			 echo "suma: ". $suma.'</br>';
+			 $brilloInicial = $this->obtenerBrillo($valor_resul,  $suma);
+			 echo "Brillo inicial: ".$brilloInicial."</br>";
+			 //HASTA ACÁ HAY QUE SACAR
 		 
-		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio);
+		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $vector6, $op1, $op2, $resul, $vecInicio);
 	}
 	
-	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio)
+	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5,$vector6, $op1, $op2, $resul, $vecInicio)
 	{
 		//empezar con 5 iteraciones
 		$vector= 'vector'; 
@@ -111,7 +135,7 @@ class Principal_ML extends CI_Controller {
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
 				$brillo = $this->obtenerBrillo($valor_resul_A,  $sumaA);
 
-				echo "Brillo de A: ".$brillo;	
+				echo "Brillo de ".$vector.$j.": ".$brillo;	
 
 				$k = 0;
 				while (($brillo < count($resul)) and ($k < 6)) { 
@@ -152,7 +176,7 @@ class Principal_ML extends CI_Controller {
 			 			$this->acomodarArray($valor_resul);
 			 			echo "Nuevo brillo de A: ".$brillo." </br>--------------</br>";
 
-			 			echo "cantidad de caractedes del resultados es: ".count($resul);
+			 			
 				
 					}
 					
@@ -222,7 +246,7 @@ class Principal_ML extends CI_Controller {
 	public function obtenerBrillo( $suma,  $resultado){
 		
 		$res=$this->intToArray($resultado);
-		var_dump($res);
+		
 		$sum=0;
 		$i=(sizeof($res)-1);
 		$j=(sizeof($suma)-1);
@@ -239,10 +263,6 @@ class Principal_ML extends CI_Controller {
 			    $j--;
 		      
 			    $sum++;
-			}else{
-				echo "BrilloOOOOOOOOO: ". $sum.'</br>';
-				 //echo "-------------- <br>";
-				
 			}
 		}
 		return $sum;	
