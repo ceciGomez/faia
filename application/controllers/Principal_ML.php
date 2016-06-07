@@ -58,6 +58,7 @@ class Principal_ML extends CI_Controller {
 	{
 	
         $a = 'vector'; 
+        $vector6 = array(2,5,6,0,1,8,7,9,3,4);
 		 for($i=1; $i < 6; $i++){
 		     ${$a.$i}=array('0','1', '2','3','4','5','6','7','8','9'); 
 		   	 shuffle(${$a.$i});
@@ -84,6 +85,7 @@ class Principal_ML extends CI_Controller {
 			 echo "Brillo inicial: ".$brilloInicial."</br>";
 			 
 		 }
+		 
 		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio);
 	}
 	
@@ -217,29 +219,33 @@ class Principal_ML extends CI_Controller {
 			return $arr;
 		}
 	
-	public function obtenerBrillo( $x,  $y){
-	  $var1=$this->intToArray($y);
-	  $sum=0;
-	  $i=(sizeof($var1)-1);
-	  $j=(sizeof($x)-1);
-	  $counter=0;
-	  if(sizeof($var1)<sizeof($x)){
-		$counter=sizeof($var1);}
-		else{
-		$counter=sizeof($x);}
-	  for ($k = ($counter-1); $k >=0; $k--) {
-	      if($var1[($i)]==$x[($j)]){
-		 
-		  $i--;
-		  $j--;
-	      
-		 $sum++;
+	public function obtenerBrillo( $suma,  $resultado){
+		
+		$res=$this->intToArray($resultado);
+		var_dump($res);
+		$sum=0;
+		$i=(sizeof($res)-1);
+		$j=(sizeof($suma)-1);
+		$counter=0;
+		if(sizeof($res)<sizeof($suma)){
+			$counter=sizeof($res);
+		}else{
+			$counter=sizeof($suma);
+		}
+
+		for ($k = ($counter-1); $k >=0; $k--) {
+		    if($res[($i)]==$suma[($j)]){			 
+			    $i--;
+			    $j--;
+		      
+			    $sum++;
 			}else{
-			//echo "Brillo: ". $sum.'</br>';
-			 //echo "-------------- <br>";
-			return $sum;
+				echo "BrilloOOOOOOOOO: ". $sum.'</br>';
+				 //echo "-------------- <br>";
+				
 			}
-		}	
+		}
+		return $sum;	
 	}
 	
 	//Funcion para mostrar como matriz.
