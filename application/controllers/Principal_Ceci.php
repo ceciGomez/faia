@@ -85,11 +85,35 @@ class Principal_Ceci extends CI_Controller {
 			 echo "Brillo inicial: ".$brilloInicial."</br>";
 			 
 		 }
+
+		 //TODO ESTO HAY QUE SACAR Y ES A SOLO EFECTO DE MOSTRAR EL VECTOR6 QUE CECI QUIERE
+		 echo "<br> -------------- <br>";
+		     echo "vector".$i.": ";
+			 echo implode('', (${$a.$i}));
+			   
+			 $valor_op1= $this->extraerValoresPorOperando(${$a.$i}, $op1,$vecInicio);
+			 $valor_op2= $this->extraerValoresPorOperando(${$a.$i}, $op2,$vecInicio);
+			 $valor_resul= $this->extraerValoresPorOperando(${$a.$i}, $resul,$vecInicio);
+			 
+			 echo "Op 1: ";		 
+			 $this->acomodarArray($valor_op1);
+			 //echo "<br>";
+			 echo "Op 2: ";
+			  $this->acomodarArray($valor_op2);
+			 //echo "<br>";
+			 echo "Resultado";
+			 $this->acomodarArray($valor_resul);
+			 //echo "<br>";
+			 $suma = implode('',$valor_op1) + implode('',$valor_op2);
+			 echo "suma: ". $suma.'</br>';
+			 $brilloInicial = $this->obtenerBrillo($valor_resul,  $suma);
+			 echo "Brillo inicial: ".$brilloInicial."</br>";
+			 //HASTA ACÁ HAY QUE SACAR
 		 
-		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio);
+		 $this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $vector6, $op1, $op2, $resul, $vecInicio);
 	}
 	
-	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio)
+	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5,$vector6, $op1, $op2, $resul, $vecInicio)
 	{
 		//empezar con 5 iteraciones
 		$vector= 'vector'; 
@@ -111,17 +135,18 @@ class Principal_Ceci extends CI_Controller {
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
 				$brillo = $this->obtenerBrillo($valor_resul_A,  $sumaA);
 
-				echo "Brillo de A: ".$brillo.". ";	
+				echo "Brillo de ".$vector.$j.": ".$brillo;	
 
 				$k = 0;
 				while (($brillo < count($resul)) and ($k < 6)) { 
+
 					$k = $k +1;
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
 					$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
 					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
-					echo "Brillo de B: ".$brilloB.". ";
+					echo "Brillo de B: ".$brilloB;
 
 					if ($brillo <= $brilloB) {					
 						//se calcula la distancia entre A y B y el resultado
@@ -152,21 +177,18 @@ class Principal_Ceci extends CI_Controller {
 			 			$this->acomodarArray($valor_resul);
 			 			echo "Nuevo brillo de A: ".$brillo." </br>--------------</br>";
 
-			 			echo "cantidad de caractedes del resultados es: ".count($resul).", ";
-				
-					}
-						if ($brillo >= count($resul)) {
-							echo " SOLUCION <br>";
-							echo "Vector solucion: ";
-							$this->acomodarArray($vector6);
-							echo "<br>";
+						if ($brillo > count($resul)) {
+							echo "SOLUCION";
 							return "Se ha encontrado una solucion";
 						}
+
+			 			
+				
+					}
 					
 				}
 			}
 		} //fin comparacion vectores
-
 
 	
 	}
@@ -225,7 +247,7 @@ class Principal_Ceci extends CI_Controller {
 	public function obtenerBrillo( $suma,  $resultado){
 		
 		$res=$this->intToArray($resultado);
-		var_dump($res);
+		
 		$sum=0;
 		$i=(sizeof($res)-1);
 		$j=(sizeof($suma)-1);
@@ -242,10 +264,6 @@ class Principal_Ceci extends CI_Controller {
 			    $j--;
 		      
 			    $sum++;
-			}else{
-				echo "BrilloOOOOOOOOO: ". $sum.'</br>';
-				 //echo "-------------- <br>";
-				
 			}
 		}
 		return $sum;	
@@ -279,9 +297,15 @@ class Principal_Ceci extends CI_Controller {
 	}
 	//Funcion tentativa
 	public function distancia($X1, $X2, $resultado){
-		$d1 = abs(implode('', $resultado) - implode('', $X1));
-		$d2 = abs(implode('', $resultado) - implode('', $X2));
-		$d=abs($d1-$d2);
+		$i = count($X1);
+		$d = 0;
+		for ($j=0; $j < $i; $j++) { 
+			if ($X1[$j] = $X2[$j]) {
+				$d = $d + 10*$j;
+			}
+		}
+		//echo "la distancia es".$d;
+		$d = fmod($d, 10);
 		return $d;
 	}
 
@@ -301,7 +325,6 @@ class Principal_Ceci extends CI_Controller {
 
 		//función de movimiento
 		$beta = $this->beta();
-		$distancia = 3;
 		$valor = $X1[$pos];
 		//var_dump($X1);
 		echo "valor a cambiar: ".$valor.", ";
@@ -346,7 +369,7 @@ class Principal_Ceci extends CI_Controller {
 		echo "VECTOR DE ENTRADAAAA: ";
 		$this->acomodarArray($vectorEntrada);
 		
-		echo "valor a buscar: ".$valor_a_buscar.". ";
+		echo "valor a buscar: ".$valor_a_buscar;
 		$posicion = array_search($valor_a_buscar, $vectorEntrada);
 		echo "posicion: ".$posicion;
 		echo ", valor nuevo: ".$valor_nuevo."</br>";
