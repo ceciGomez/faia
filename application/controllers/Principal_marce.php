@@ -281,15 +281,17 @@ class Principal_marce extends CI_Controller {
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
            	  for ($j=0; $j <= $maxPos; $j++) {
+           	  	echo "este es maxpos ".$maxPos;
            	  	if (isset($vecCompleto[$maxPos])) {
            	  	    if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
            	      	$pos=$pos-1;
-           	      	$maxPos = $maxPos - 1;
+           	      	break;
            	      } 
            	  	 }
            	  }
            	 $maxPos = $maxPos - 1;
            }
+           echo "esto devuelve calcularPosicion ".$pos." ";
            return $pos;
 	}
 
