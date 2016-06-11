@@ -200,35 +200,71 @@ class Principal_marce extends CI_Controller {
 	//falta ver como manejamos esos valores para movernos sobre el vector
 	public function buscarPosicion($brillo, $vecCompleto)
 	{
-		echo "vector completo ".count($vecCompleto);
+		$unidad = $this -> calcularPosicion(2, $vecCompleto);
+		$decena = $this -> calcularPosicion(5, $vecCompleto);
+		$centena = $this -> calcularPosicion(8, $vecCompleto);
+		$udemil = $this -> calcularPosicion(11, $vecCompleto);
+		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
 		switch ($brillo) {
 		case  0:
 			$max = $this -> calcularPosicion(2, $vecCompleto);
-			$pos = $ar_pos[$al_pos];
+			if (($unidad-1)<>0) {
+				$pos = rand(0,$unidad-1);
+			} else {
+				$pos = 0;
+			}
+			
 			return $pos;
 			break;
 
 		case 1:
 			
 			$pos = $this -> calcularPosicion(5, $vecCompleto);
+			if (($decena-1)<>0) {
+				$pos = rand($unidad, $decena-1);
+			} else {
+				$pos = $unidad;
+			}
+			
+			
 			return $pos;
 			break;
 
 		case 2:
 			
 			$pos = $this -> calcularPosicion(8, $vecCompleto);
+			if (($centena-1)<>0) {
+				$pos = rand($decena, $centena-1);
+			} else {
+				$pos = $decena;
+			}
+						
 			return $pos;
 			break;
 
 		case 3:
 		 
 			$pos = $this -> calcularPosicion(11, $vecCompleto);
+			if (($udemil-1)<>0) {
+				$pos = rand($centena, $udemil-1);
+			} else {
+				$pos = $centena;
+			}
+			
+			
 			return $pos;
 			break;
 
 		case 4:
 			
 			$pos = $this -> calcularPosicion(14, $vecCompleto);
+			if (($ddemil-1)<>0) {
+				$pos = rand($udemil,$ddemil-1);
+			} else {
+				$pos = $udemil;
+			}
+			
+			
 			return $pos;
 			break;
 
@@ -245,10 +281,12 @@ class Principal_marce extends CI_Controller {
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
            	  for ($j=0; $j <= $maxPos; $j++) {
-           	     if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
+           	  	if (isset($vecCompleto[$maxPos])) {
+           	  	    if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
            	      	$pos=$pos-1;
            	      	$maxPos = $maxPos - 1;
            	      } 
+           	  	 }
            	  }
            	 $maxPos = $maxPos - 1;
            }
