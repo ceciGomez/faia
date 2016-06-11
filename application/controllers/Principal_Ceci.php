@@ -170,6 +170,7 @@ class Principal_Ceci extends CI_Controller {
 						$suma = implode('',$valor_op1) + implode('',$valor_op2);
 						//se recalcula el brillo del elemento que se movio.
 						$brillo = $this->obtenerBrillo($valor_resul,  $suma);
+						echo "---------------- <BR> LOS OPERADORES DESPUES DE APLICADO LA FUNCION ACERCAMIENTO: ";
 						echo "Vector".$j.": ";
 						$this->acomodarArray(${$vector.$j});
 						echo "suma: ". $suma.'</br>';
@@ -177,7 +178,7 @@ class Principal_Ceci extends CI_Controller {
 			 			$this->acomodarArray($valor_resul);
 			 			echo "Nuevo brillo de A: ".$brillo." </br>--------------</br>";
 
-						if ($brillo > count($resul)) {
+						if ($brillo >= count($resul)) {
 							echo "SOLUCION";
 							return "Se ha encontrado una solucion";
 						}
@@ -244,29 +245,29 @@ class Principal_Ceci extends CI_Controller {
 			return $arr;
 		}
 	
-	public function obtenerBrillo( $suma,  $resultado){
+	public function obtenerBrillo( $resultado, $suma){
 		
-		$res=$this->intToArray($resultado);
+		$sum=$this->intToArray($suma);
 		
-		$sum=0;
-		$i=(sizeof($res)-1);
-		$j=(sizeof($suma)-1);
+		$suma=0;
+		$i=(sizeof($sum)-1);
+		$j=(sizeof($resultado)-1);
 		$counter=0;
-		if(sizeof($res)<sizeof($suma)){
-			$counter=sizeof($res);
+		if(sizeof($resultado)<sizeof($sum)){
+			$counter=sizeof($resultado);
 		}else{
-			$counter=sizeof($suma);
+			$counter=sizeof($sum);
 		}
 
 		for ($k = ($counter-1); $k >=0; $k--) {
-		    if($res[($i)]==$suma[($j)]){			 
+		    if($resultado[($i)]==$suma[($j)]){			 
 			    $i--;
 			    $j--;
 		      
-			    $sum++;
+			    $suma++;
 			}
 		}
-		return $sum;	
+		return $suma;	
 	}
 	
 	//Funcion para mostrar como matriz.

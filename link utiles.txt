@@ -1,0 +1,4 @@
+direcciones de donde sacar como hacer script
+https://github.com/cubiclesoft/portable-apache-mysql-php-for-windows
+http://stackoverflow.com/questions/1582861/apache-php-and-mysql-portable
+https://linuxconfig.org/bash-scripting-tutorial
