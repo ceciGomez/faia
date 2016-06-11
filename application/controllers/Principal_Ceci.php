@@ -244,7 +244,10 @@ class Principal_Ceci extends CI_Controller {
 		    $arr = array_map('intval', str_split($x));
 			return $arr;
 		}
-	
+	/*El brillo se obtiene de acuerdo a la posicion y la igualdad 
+	entre el resultado obtenido y el que se forma con las letras 
+	de la solucion correcta, esto no quiere decir que ese resultado
+	sea el correcto. */
 	public function obtenerBrillo( $resultado, $suma){
 		
 		$sum=$this->intToArray($suma);
