@@ -32,13 +32,14 @@ class Principal_marce extends CI_Controller {
 		$operando2 = array_reverse($operando2);
 		$resultado = str_split($resultado);
 		$resultado = array_reverse($resultado);
-		$vectorInicio=$this->acomodarVectorInicio($operando1,$operando2,$resultado);
-          $this->acomodarArray($vectorInicio);
+		$vecCompleto=$this->acomodarVectorInicio($operando1,$operando2,$resultado);
+          $this->acomodarArray($vecCompleto);
+         
 
 		
 
 		//Elimna los elementos repetidos
-		$vectorInicio = array_unique($vectorInicio);
+		$vectorInicio = array_unique($vecCompleto);
 		//Elimina las posiciones vacias
 		$vectorInicio = array_values( $vectorInicio );
 		if (count($vectorInicio)<= 10){
@@ -55,7 +56,7 @@ class Principal_marce extends CI_Controller {
 			  var_dump(count($vectorInicio));
 
 			  $this->acomodarArray($vectorInicio);
-	   		  $this->crearMatrizInicial($operando1,$operando2, $resultado, $vectorInicio);
+	   		  $this->crearMatrizInicial($operando1,$operando2, $resultado, $vectorInicio, $vecCompleto);
 		   	 }else{		 
 		 	$this->do_alert();
 		 	return;  
@@ -80,7 +81,7 @@ class Principal_marce extends CI_Controller {
           return $vectorInicio;
 		}
 
-	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio)
+	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio, $vecCompleto)
 	{
 	
         $a = 'vector'; 
@@ -112,10 +113,10 @@ class Principal_marce extends CI_Controller {
 			 
 		 }
 
-		$this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $vector6, $op1, $op2, $resul, $vecInicio);
+		$this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $vector6, $op1, $op2, $resul, $vecInicio, $vecCompleto);
 	}
 	
-	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5,$vector6, $op1, $op2, $resul, $vecInicio)
+	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5,$vector6, $op1, $op2, $resul, $vecInicio, $vecCompleto)
 	{
 		//empezar con 5 iteraciones
 		$vector= 'vector'; 
@@ -153,7 +154,7 @@ class Principal_marce extends CI_Controller {
 					if ($brillo <= $brilloB) {					
 						//se calcula la distancia entre A y B y el resultado
 						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
-						$pos = $this->buscarPosicion($brillo);
+						$pos = $this->buscarPosicion($brillo, $vecCompleto);
 
 
 						$valor_Anterior = ${$vector.$j}[$pos];
@@ -190,33 +191,44 @@ class Principal_marce extends CI_Controller {
 			return "Se ha encontrado una solucion";
 		}	
 	}
-	public function buscarPosicion($brillo)
+	//DEYNROSM es el nuevo vector
+	//DEY corresponde a la unidad entonces devuelve 3 (puedo cambiar desde la posicion 0 a 2)
+	//NR corresponde a la decena, ya no toma en cuenta la E, entonces devuelve 2 (puedo cambiar desde la posicion 3 a 4)
+	//O corresponde a la decena,  E y N ya se repiten, entonces deuelve 1 (Puedo cambiar la posicion 5)
+	//SM corresponde a la centena, la O ya no toma encuenta, entonces devuelve 2 (puedo cambiar la posicion 6 a 7)
+	//Y asi recorre todo el vector DEYNROSM; esto es lo que devuelve calcularPosicion.
+	//falta ver como manejamos esos valores para movernos sobre el vector
+	public function buscarPosicion($brillo, $vecCompleto)
 	{
+		echo "vector completo ".count($vecCompleto);
 		switch ($brillo) {
 		case  0:
-			$pos = $this -> calcularPosicion(2);
+			$max = $this -> calcularPosicion(2, $vecCompleto);
+			$pos = $ar_pos[$al_pos];
 			return $pos;
 			break;
 
 		case 1:
-
-			$pos = $this -> calcularPosicion(5);
+			
+			$pos = $this -> calcularPosicion(5, $vecCompleto);
 			return $pos;
 			break;
 
 		case 2:
-
-			$pos = $this -> calcularPosicion(8);
+			
+			$pos = $this -> calcularPosicion(8, $vecCompleto);
 			return $pos;
 			break;
 
 		case 3:
-			$pos = $this -> calcularPosicion(11);
+		 
+			$pos = $this -> calcularPosicion(11, $vecCompleto);
 			return $pos;
 			break;
 
 		case 4:
-			$pos = $this -> calcularPosicion(14);
+			
+			$pos = $this -> calcularPosicion(14, $vecCompleto);
 			return $pos;
 			break;
 
@@ -227,12 +239,12 @@ class Principal_marce extends CI_Controller {
 		}
 	}
 
-	public function calcularPosicion ($brillo) {
-           $maxPos=$brillo;
-           $vecCompleto;
-           $pos;
-           for ($i=0 ; $i < 1 ; $i++ ) { 
-           	  for ($j=0; $j < $maxPos; $j++) {
+	public function calcularPosicion ($cotaSuperior, $vecComp) {
+           $maxPos=$cotaSuperior;
+           $vecCompleto=$vecComp;
+           $pos=3;
+           for ($i=0 ; $i < 3 ; $i++ ) { 
+           	  for ($j=0; $j <= $maxPos; $j++) {
            	     if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
            	      	$pos=$pos-1;
            	      	$maxPos = $maxPos - 1;
@@ -286,6 +298,7 @@ class Principal_marce extends CI_Controller {
             echo '<tr><td>' . implode('</td><td>', $o) . '</td></tr>'."<br/>";
 	        }
 	}
+
 	public function extraerValoresPorOperando($vector, $operando, $vecInicio)	
 	{
 
