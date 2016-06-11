@@ -1,0 +1,22 @@
+
+#main {
+     display: table;
+   width: 100%;
+
+}
+
+#main input { 
+	  margin-left: 20px;
+   margin-bottom: 30px;
+    padding-right: 50px;}
+
+ #frm label{
+
+    width:100px;
+}
+
+ #frm {
+   
+   text-align: center;
+   vertical-align: middle;
+}
