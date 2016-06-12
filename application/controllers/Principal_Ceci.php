@@ -123,8 +123,7 @@ class Principal_Ceci extends CI_Controller {
 		//empezar con 5 iteraciones
 		$vector= 'vector'; 
 
-		$vector6 = array(2,5,6,0,1,8,7,9,3,4);
-		 
+				 
 		$i=0;
 		$brillo=0;
 		while ($brillo < count($resul) and $i<=200) { //controla las iteraciones
@@ -146,7 +145,7 @@ class Principal_Ceci extends CI_Controller {
 				//echo "Brillo de ".$vector.$j.": ".$brillo;	
 
 				$k = 1;
-				while (($brillo < count($resul)) and ($k < 6) and ($j <> $k)) { 
+				while (($brillo < count($resul)) and ($k < 5) and ($j <> $k)) { 
 					echo "<br> <b> entra al tercer while </b> </br>";
 					
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
@@ -155,8 +154,8 @@ class Principal_Ceci extends CI_Controller {
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					echo "</br>";
-					echo "<i>Brillo de ".$vector.$j.": ".$brillo ." j ";		
-					echo " - Brillo de ".$vector.$k.": ".$brilloB." k </i></br>";
+					echo "<i>Brillo de ".$vector.$j.": ".$brillo ."  ";		
+					echo " - Brillo de ".$vector.$k.": ".$brilloB."  </i></br>";
 					// $valor_op1_6= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
 					// $valor_op2_6= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
 					// $valor_resul_6= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
@@ -322,10 +321,11 @@ class Principal_Ceci extends CI_Controller {
 
 	public function calcularPosicion ($cotaSuperior, $vecComp) {
            $maxPos=$cotaSuperior;
+           $cotaFor=$maxPos-2;
            $vecCompleto=$vecComp;
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
-           	  for ($j=0; $j <= $maxPos; $j++) {
+           	  for ($j=0; $j <= $cotaFor; $j++) {
            	  	echo "este es maxpos ".$maxPos;
            	  	if (isset($vecCompleto[$maxPos])) {
            	  	    if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
@@ -367,8 +367,7 @@ class Principal_Ceci extends CI_Controller {
 		for ($k = ($counter-1); $k >=0; $k--) {
 		    if($res[($i)]==$suma[($j)]){			 
 			    $i--;
-			    $j--;
-		      
+			    $j--;		      
 			    $sum++;
 			}
 		}
