@@ -1,4 +1,11 @@
 
+@font-face {
+  font-family:'Lucida';
+  font-style: normal;
+  font-weight: 100;
+  src: url(../fonts/CODE.otf) format('otf');
+}
+
 #main {
      display: table;
    width: 100%;
@@ -11,8 +18,10 @@
     padding-right: 50px;}
 
  #frm label{
-
-    width:100px;
+ 	font-family: 'Lucida';
+     color: #FFFFFF;
+    font-size: 30px;
+    width:150px;
 }
 
  #frm {
@@ -20,3 +29,9 @@
    text-align: center;
    vertical-align: middle;
 }
+
+body {
+  background:url(../images/fondo.jpg) 0 0 no-repeat;
+  
+} 
+

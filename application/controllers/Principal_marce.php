@@ -125,11 +125,11 @@ class Principal_marce extends CI_Controller {
 		 
 		$i=0;
 		$brillo=0;
-		while ($brillo < count($resul) and $i<=200) { 
+		while ($brillo < count($resul) and $i<=50) { 
 			$i = $i +1;
 			$j = 0;
 			//comparar vectores
-			while (($brillo < count($resul)) and ($j < 6)) { 
+			while (($brillo < count($resul)) and ($j < 5)) { 
 				$j = $j +1;
 				//comparar elemento A con todos los demas elementos
 				$valor_op1_A= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
@@ -141,7 +141,7 @@ class Principal_marce extends CI_Controller {
 				echo "Brillo de ".$vector.$j.": ".$brillo;	
 
 				$k = 0;
-				while (($brillo < count($resul)) and ($k < 6)) { 
+				while (($brillo < count($resul)) and ($k < 5)) { 
 					$k = $k +1;
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
 					$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
@@ -149,7 +149,7 @@ class Principal_marce extends CI_Controller {
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					
-					echo "Brillo de B: ".$brilloB;
+					echo "Brillo de: ".$vector.$k.": ".$brilloB;
 
 					if ($brillo <= $brilloB) {					
 						//se calcula la distancia entre A y B y el resultado
@@ -179,7 +179,7 @@ class Principal_marce extends CI_Controller {
 						echo "suma: ". $suma.'</br>';
 						echo "Resultado: ";
 			 			$this->acomodarArray($valor_resul);
-			 			echo "Nuevo brillo de A: ".$brillo." </br>--------------</br>";	 			
+			 			echo "Nuevo brillo de: ".$vector.$i.": ".$brillo." </br>--------------</br>";	 			
 									}
 					
 				}
@@ -419,7 +419,7 @@ class Principal_marce extends CI_Controller {
 	// Se busca los repetidos y se modifican
 	public function controlarRepetidos($vectorEntrada, $valor_a_buscar, $valor_nuevo)
 	{
-		echo "VECTOR DE ENTRADAAAA: ";
+		echo "VECTOR DE ENTRADA: ";
 		$this->acomodarArray($vectorEntrada);
 		
 		echo "valor a buscar: ".$valor_a_buscar;

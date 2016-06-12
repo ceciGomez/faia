@@ -6,7 +6,7 @@
    <link rel="stylesheet" href="http://localhost/faia/stylesheets/style.css">
    </head>
    <body>
-   
+   <p align="center" style="padding: 80px 0px 20px 0px"><font size=10 >Criptograma</font></p>
 	
 	<div id="main">
     <form id="frm" action="ingresarDatos" method="POST" accept-charset="utf-8">
