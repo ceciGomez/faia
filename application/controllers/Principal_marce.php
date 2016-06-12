@@ -61,7 +61,7 @@ class Principal_marce extends CI_Controller {
 		 	$this->do_alert();
 		 	return;  
 		 }
-	}
+	} // FIN INGRESAR DATOS
 	
 	public function acomodarVectorInicio($operando1,$operando2,$resultado){
 		     $vectorInicio=array();
@@ -113,50 +113,63 @@ class Principal_marce extends CI_Controller {
 			 
 		 }
 
-		$this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $vector6, $op1, $op2, $resul, $vecInicio, $vecCompleto);
-	}
+		$vector_resultado_final = array(
+			$this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $vector6, $op1, $op2, $resul, $vecInicio, $vecCompleto));
+		$this->load->view('mostrarResultados');
+	} //FIN CREAR MATRIZ INICIAL
 	
 	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5,$vector6, $op1, $op2, $resul, $vecInicio, $vecCompleto)
 	{
 		//empezar con 5 iteraciones
 		$vector= 'vector'; 
 
-		$vector6 = array(2,5,6,0,1,8,7,9,3,4);
-		 
+				 
 		$i=0;
 		$brillo=0;
-		while ($brillo < count($resul) and $i<=50) { 
+		while ($brillo < count($resul) and $i<=300) { //controla las iteraciones
+			echo "-------->>>>> COMIENZA EL WHILE de iteraciones <<<<<------ <b> iteracion nro: ".$i." </b><BR>";
 			$i = $i +1;
 			$j = 0;
 			//comparar vectores
 			while (($brillo < count($resul)) and ($j < 5)) { 
+			echo "entra en el segundo while donde empieza a comparar<br>";
 				$j = $j +1;
+				echo "j: ".$j;
 				//comparar elemento A con todos los demas elementos
 				$valor_op1_A= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
 				$valor_op2_A= $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
 				$valor_resul_A= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
 				$brillo = $this->obtenerBrillo($valor_resul_A,  $sumaA);
-				echo "</br";
-				echo "Brillo de ".$vector.$j.": ".$brillo;	
+				
+				//echo "Brillo de ".$vector.$j.": ".$brillo;	
 
-				$k = 0;
-				while (($brillo < count($resul)) and ($k < 5)) { 
-					$k = $k +1;
+				$k = 1;
+				while (($brillo < count($resul)) and ($k < 5) and ($j <> $k)) { 
+					echo "<br> <b> entra al tercer while </b> </br>";
+					
 					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
 					$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
 					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
 					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
-					
-					echo "Brillo de: ".$vector.$k.": ".$brilloB;
+					echo "</br>";
+					echo "<i>Brillo de ".$vector.$j.": ".$brillo ."  ";		
+					echo " - Brillo de ".$vector.$k.": ".$brilloB."  </i></br>";
+					// $valor_op1_6= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
+					// $valor_op2_6= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
+					// $valor_resul_6= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
+					// $suma6 = implode('', $valor_op1_B) + implode('', $valor_op2_B);
+					// $brillo6 = $this->obtenerBrillo($valor_resul_6, $suma6);
+					// echo "Brillo vector 6: ".$brillo6."</i></br>";
 
-					if ($brillo <= $brilloB) {					
+
+					if ($brillo < $brilloB) {					
 						//se calcula la distancia entre A y B y el resultado
 						$distancia = $this->distancia($valor_resul_A, $valor_resul_B, $resul);
 						$pos = $this->buscarPosicion($brillo, $vecCompleto);
-
-
+						echo "posicion encontrada: ".$pos."<br>";
+						
 						$valor_Anterior = ${$vector.$j}[$pos];
 						$vector_letras = 0;
 						$operando1 = 0;
@@ -179,10 +192,38 @@ class Principal_marce extends CI_Controller {
 						echo "suma: ". $suma.'</br>';
 						echo "Resultado: ";
 			 			$this->acomodarArray($valor_resul);
-			 			echo "Nuevo brillo de: ".$vector.$i.": ".$brillo." </br>--------------</br>";	 			
-									}
-					
-				}
+			 			echo "Nuevo brillo: ".$brillo." </br>--------------</br>";	 			
+					}else{
+						$distancia = $this->distancia($valor_resul_B, $valor_resul_A, $resul);
+						$pos = $this->buscarPosicion($brilloB, $vecCompleto);
+						echo "posicion encontrada: ".$pos."<br>";
+						
+						$valor_Anterior = ${$vector.$k}[$pos];
+						$vector_letras = 0;
+						$operando1 = 0;
+						$operando2 = 0;
+						$resultado = 0;
+
+						$atractividad= $this->atractividad ($vector_letras, $operando1, $operando2, $resultado);
+
+						//se mueve el menos brilloso hacia el mas brilloso
+						${$vector.$j} = $this->movimiento(${$vector.$k}, ${$vector.$j}, $distancia, $pos, $atractividad,$brilloB);				
+
+						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$k}, $op1, $vecInicio);
+						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$k}, $op2, $vecInicio);
+						$valor_resul = $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
+						$suma = implode('',$valor_op1) + implode('',$valor_op2);
+						//se recalcula el brillo del elemento que se movio.
+						$brillo = $this->obtenerBrillo($valor_resul,  $suma);
+						echo "Vector".$k.": ";
+						$this->acomodarArray(${$vector.$k});
+						echo "suma: ". $suma.'</br>';
+						echo "Resultado: ";
+			 			$this->acomodarArray($valor_resul);
+			 			echo "Nuevo brillo: ".$brillo." </br>--------------</br>";	 		
+					}
+				$k = $k +1;	
+				}//fin while
 			}
 		} //fin comparacion vectores
 
@@ -190,7 +231,10 @@ class Principal_marce extends CI_Controller {
 			echo "SOLUCION";
 			return "Se ha encontrado una solucion";
 		}	
-	}
+	
+	} //FIN APLICAR ALGORITMO
+
+
 	//DEYNROSM es el nuevo vector
 	//DEY corresponde a la unidad entonces devuelve 3 (puedo cambiar desde la posicion 0 a 2)
 	//NR corresponde a la decena, ya no toma en cuenta la E, entonces devuelve 2 (puedo cambiar desde la posicion 3 a 4)
@@ -207,7 +251,7 @@ class Principal_marce extends CI_Controller {
 		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
 		switch ($brillo) {
 		case  0:
-			$max = $this -> calcularPosicion(2, $vecCompleto);
+			
 			if (($unidad-1)<>0) {
 				$pos = rand(0,$unidad-1);
 			} else {
@@ -219,20 +263,19 @@ class Principal_marce extends CI_Controller {
 
 		case 1:
 			
-			$pos = $this -> calcularPosicion(5, $vecCompleto);
+		
 			if (($decena-1)<>0) {
 				$pos = rand($unidad, $decena-1);
 			} else {
 				$pos = $unidad;
 			}
 			
-			
 			return $pos;
 			break;
 
 		case 2:
 			
-			$pos = $this -> calcularPosicion(8, $vecCompleto);
+		
 			if (($centena-1)<>0) {
 				$pos = rand($decena, $centena-1);
 			} else {
@@ -244,32 +287,30 @@ class Principal_marce extends CI_Controller {
 
 		case 3:
 		 
-			$pos = $this -> calcularPosicion(11, $vecCompleto);
+			
 			if (($udemil-1)<>0) {
 				$pos = rand($centena, $udemil-1);
 			} else {
 				$pos = $centena;
 			}
 			
-			
 			return $pos;
 			break;
 
 		case 4:
 			
-			$pos = $this -> calcularPosicion(14, $vecCompleto);
+	
 			if (($ddemil-1)<>0) {
 				$pos = rand($udemil,$ddemil-1);
 			} else {
 				$pos = $udemil;
 			}
 			
-			
 			return $pos;
 			break;
 
 		default:
-			$pos = 8;
+			$pos = 7;
 			return $pos;
 			break;
 		}
@@ -277,22 +318,25 @@ class Principal_marce extends CI_Controller {
 
 	public function calcularPosicion ($cotaSuperior, $vecComp) {
            $maxPos=$cotaSuperior;
+           $cotaFor=$maxPos-1;
            $vecCompleto=$vecComp;
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
-           	  for ($j=0; $j <= $maxPos; $j++) {
-           	  	echo "este es maxpos ".$maxPos;
-           	  	if (isset($vecCompleto[$maxPos])) {
-           	  	    if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
-           	      	$pos=$pos-1;
-           	      	break;
-           	      } 
-           	  	 }
+           	  for ($j=0; $j <= $cotaFor; $j++) {
+                	  	if (isset($vecCompleto[$maxPos])) {
+           	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
+           	   	   	   	 $pos=$pos-1;
+           	    	  	 break;
+           	              } 
+           	  	    }else{
+           	  	 	    $pos=$pos-1;
+           	  	    	break;
+           	  	    }
            	  }
            	 $maxPos = $maxPos - 1;
+           	 $cotaFor=$cotaFor-1;
            }
-           echo "esto devuelve calcularPosicion ".$pos." ";
-           return $pos;
+            return $pos;
 	}
 
 	public function intToArray( $x){
@@ -301,6 +345,10 @@ class Principal_marce extends CI_Controller {
 			return $arr;
 		}
 	
+	/*El brillo se obtiene de acuerdo a la posicion y la igualdad 
+	entre el resultado obtenido y el que se forma con las letras 
+	de la solucion correcta, esto no quiere decir que ese resultado
+	sea el correcto. */
 	public function obtenerBrillo( $suma,  $resultado){
 		
 		$res=$this->intToArray($resultado);
@@ -318,8 +366,7 @@ class Principal_marce extends CI_Controller {
 		for ($k = ($counter-1); $k >=0; $k--) {
 		    if($res[($i)]==$suma[($j)]){			 
 			    $i--;
-			    $j--;
-		      
+			    $j--;		      
 			    $sum++;
 			}
 		}
@@ -355,9 +402,15 @@ class Principal_marce extends CI_Controller {
 	}
 	//Funcion tentativa
 	public function distancia($X1, $X2, $resultado){
-		$d1 = abs(implode('', $resultado) - implode('', $X1));
-		$d2 = abs(implode('', $resultado) - implode('', $X2));
-		$d=abs($d1-$d2);
+		$i = count($X1);
+		$d = 0;
+		for ($j=0; $j < $i; $j++) { 
+			if ($X1[$j] = $X2[$j]) {
+				$d = $d + 10*$j;
+			}
+		}
+		//echo "la distancia es".$d;
+		$d = fmod($d, 10);
 		return $d;
 	}
 
@@ -414,12 +467,12 @@ class Principal_marce extends CI_Controller {
 		//var_dump($X1);
 		return $X1;
 
-	}
+	}//fin movimiento
 
 	// Se busca los repetidos y se modifican
 	public function controlarRepetidos($vectorEntrada, $valor_a_buscar, $valor_nuevo)
 	{
-		echo "VECTOR DE ENTRADA: ";
+		echo "VECTOR DE ENTRADA para controlar repetidos: ";
 		$this->acomodarArray($vectorEntrada);
 		
 		echo "valor a buscar: ".$valor_a_buscar;
@@ -434,7 +487,7 @@ class Principal_marce extends CI_Controller {
 
 	
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado){
-		$atractividad= array(1,1,2,3,4,2,1,4,100,100);
+		$atractividad= array(1,1,1,2,2,3,4,4,100,100);
 		return $atractividad;
 	}
 
