@@ -10,7 +10,7 @@
 	
 	<div id="main">
     <form id="frm" action="ingresarDatos" method="POST" accept-charset="utf-8">
-        <?php echo "Holasss amigos"; ?>
+        <?php echo "resultado final"; ?>
     </form>
     </div>
 	</body>

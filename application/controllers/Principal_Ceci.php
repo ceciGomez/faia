@@ -242,7 +242,7 @@ class Principal_Ceci extends CI_Controller {
 	//SM corresponde a la centena, la O ya no toma encuenta, entonces devuelve 2 (puedo cambiar la posicion 6 a 7)
 	//Y asi recorre todo el vector DEYNROSM; esto es lo que devuelve calcularPosicion.
 	//falta ver como manejamos esos valores para movernos sobre el vector
-	public function buscarPosicion($brillo, $vecCompleto)
+		public function buscarPosicion($brillo, $vecCompleto)
 	{
 		$unidad = $this -> calcularPosicion(2, $vecCompleto);
 		$decena = $this -> calcularPosicion(5, $vecCompleto);
@@ -251,7 +251,7 @@ class Principal_Ceci extends CI_Controller {
 		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
 		switch ($brillo) {
 		case  0:
-			$max = $this -> calcularPosicion(2, $vecCompleto);
+			
 			if (($unidad-1)<>0) {
 				$pos = rand(0,$unidad-1);
 			} else {
@@ -263,20 +263,19 @@ class Principal_Ceci extends CI_Controller {
 
 		case 1:
 			
-			$pos = $this -> calcularPosicion(5, $vecCompleto);
+		
 			if (($decena-1)<>0) {
 				$pos = rand($unidad, $decena-1);
 			} else {
 				$pos = $unidad;
 			}
 			
-			
 			return $pos;
 			break;
 
 		case 2:
 			
-			$pos = $this -> calcularPosicion(8, $vecCompleto);
+		
 			if (($centena-1)<>0) {
 				$pos = rand($decena, $centena-1);
 			} else {
@@ -288,32 +287,30 @@ class Principal_Ceci extends CI_Controller {
 
 		case 3:
 		 
-			$pos = $this -> calcularPosicion(11, $vecCompleto);
+			
 			if (($udemil-1)<>0) {
 				$pos = rand($centena, $udemil-1);
 			} else {
 				$pos = $centena;
 			}
 			
-			
 			return $pos;
 			break;
 
 		case 4:
 			
-			$pos = $this -> calcularPosicion(14, $vecCompleto);
+	
 			if (($ddemil-1)<>0) {
 				$pos = rand($udemil,$ddemil-1);
 			} else {
 				$pos = $udemil;
 			}
 			
-			
 			return $pos;
 			break;
 
 		default:
-			$pos = 8;
+			$pos = 7;
 			return $pos;
 			break;
 		}
@@ -321,25 +318,26 @@ class Principal_Ceci extends CI_Controller {
 
 	public function calcularPosicion ($cotaSuperior, $vecComp) {
            $maxPos=$cotaSuperior;
-           $cotaFor=$maxPos-3;
+           $cotaFor=$maxPos-1;
            $vecCompleto=$vecComp;
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
            	  for ($j=0; $j <= $cotaFor; $j++) {
-           	  	echo "este es maxpos ".$maxPos;
-           	  	if (isset($vecCompleto[$maxPos])) {
-           	  	    if ($vecCompleto[$j]=$vecCompleto[$maxPos]) {
-           	      	$pos=$pos-1;
-           	      	break;
-           	      } 
-           	  	 }
+                	  	if (isset($vecCompleto[$maxPos])) {
+           	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
+           	   	   	   	 $pos=$pos-1;
+           	    	  	 break;
+           	              } 
+           	  	    }else{
+           	  	 	    $pos=$pos-1;
+           	  	    	break;
+           	  	    }
            	  }
            	 $maxPos = $maxPos - 1;
+           	 $cotaFor=$cotaFor-1;
            }
-           echo "esto devuelve calcularPosicion ".$pos." ";
-           return $pos;
+            return $pos;
 	}
-
 	public function intToArray( $x){
 			$arr = array();
 		    $arr = array_map('intval', str_split($x));
