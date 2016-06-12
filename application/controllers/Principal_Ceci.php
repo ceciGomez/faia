@@ -322,29 +322,29 @@ class Principal_Ceci extends CI_Controller {
 	entre el resultado obtenido y el que se forma con las letras 
 	de la solucion correcta, esto no quiere decir que ese resultado
 	sea el correcto. */
-	public function obtenerBrillo( $resultado, $suma){
+	public function obtenerBrillo( $suma,  $resultado){
 		
-		$sum=$this->intToArray($suma);
+		$res=$this->intToArray($resultado);
 		
-		$suma=0;
-		$i=(sizeof($sum)-1);
-		$j=(sizeof($resultado)-1);
+		$sum=0;
+		$i=(sizeof($res)-1);
+		$j=(sizeof($suma)-1);
 		$counter=0;
-		if(sizeof($resultado)<sizeof($sum)){
-			$counter=sizeof($resultado);
+		if(sizeof($res)<sizeof($suma)){
+			$counter=sizeof($res);
 		}else{
-			$counter=sizeof($sum);
+			$counter=sizeof($suma);
 		}
 
 		for ($k = ($counter-1); $k >=0; $k--) {
-		    if($resultado[($i)]==$suma[($j)]){			 
+		    if($res[($i)]==$suma[($j)]){			 
 			    $i--;
 			    $j--;
 		      
-			    $suma++;
+			    $sum++;
 			}
 		}
-		return $suma;	
+		return $sum;	
 	}
 	
 	//Funcion para mostrar como matriz.
