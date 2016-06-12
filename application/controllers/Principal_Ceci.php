@@ -193,8 +193,36 @@ class Principal_Ceci extends CI_Controller {
 						echo "suma: ". $suma.'</br>';
 						echo "Resultado: ";
 			 			$this->acomodarArray($valor_resul);
-			 			echo "Nuevo brillo de A: ".$brillo." </br>--------------</br>";	 			
-									}//fin if
+			 			echo "Nuevo brillo: ".$brillo." </br>--------------</br>";	 			
+					}else{
+						$distancia = $this->distancia($valor_resul_B, $valor_resul_A, $resul);
+						$pos = $this->buscarPosicion($brilloB, $vecCompleto);
+						echo "posicion encontrada: ".$pos."<br>";
+						
+						$valor_Anterior = ${$vector.$k}[$pos];
+						$vector_letras = 0;
+						$operando1 = 0;
+						$operando2 = 0;
+						$resultado = 0;
+
+						$atractividad= $this->atractividad ($vector_letras, $operando1, $operando2, $resultado);
+
+						//se mueve el menos brilloso hacia el mas brilloso
+						${$vector.$j} = $this->movimiento(${$vector.$k}, ${$vector.$j}, $distancia, $pos, $atractividad,$brilloB);				
+
+						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$k}, $op1, $vecInicio);
+						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$k}, $op2, $vecInicio);
+						$valor_resul = $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
+						$suma = implode('',$valor_op1) + implode('',$valor_op2);
+						//se recalcula el brillo del elemento que se movio.
+						$brillo = $this->obtenerBrillo($valor_resul,  $suma);
+						echo "Vector".$k.": ";
+						$this->acomodarArray(${$vector.$k});
+						echo "suma: ". $suma.'</br>';
+						echo "Resultado: ";
+			 			$this->acomodarArray($valor_resul);
+			 			echo "Nuevo brillo: ".$brillo." </br>--------------</br>";	 		
+					}
 				$k = $k +1;	
 				}//fin while
 			}
@@ -461,7 +489,7 @@ class Principal_Ceci extends CI_Controller {
 
 	
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado){
-		$atractividad= array(1,1,2,3,4,2,1,4,100,100);
+		$atractividad= array(1,1,1,2,2,3,4,4,100,100);
 		return $atractividad;
 	}
 
