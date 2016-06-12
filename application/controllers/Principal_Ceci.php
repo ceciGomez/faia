@@ -321,7 +321,7 @@ class Principal_Ceci extends CI_Controller {
 
 	public function calcularPosicion ($cotaSuperior, $vecComp) {
            $maxPos=$cotaSuperior;
-           $cotaFor=$maxPos-2;
+           $cotaFor=$maxPos-3;
            $vecCompleto=$vecComp;
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
