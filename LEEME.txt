@@ -1,0 +1,5 @@
+1. Copiar la carpeta llamada XAMPP en c:/
+2. Ejecutar aplicacion xampp-control
+3. Iniciar servicio "Apache"
+4. Ingresar desde navegador firefox o crhome a la direccion:
+	http://localhost/faia/index.php/principal/ingresar

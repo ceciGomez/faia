@@ -37,9 +37,64 @@ class Principal extends CI_Controller
 	}
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado)
 	{
-		$atractividad= array(1,1,1,2,2,3,4,4,100,100);
+		// Aví debería quedar el vector para SEND+MORE=MONEY $atractividad= array(1,1,1,2,2,3,4,4,100,100);
+
+		//Inicializo el vector atractividad
+		for ($i=0; $i < 10 ; $i++) { 
+			$atractividad[$i]=0;
+		}
+
+		//Para que comience el while, el final de los vectores $operando1, $operando2, $resultado debe ser FALSE
+		$fin_op1 = false;
+		$fin_op2 = false;
+		$fin_res = false;
+		$i=0;
+		while ((!$fin_op1)or(!$fin_op2)or(!$fin_res)) {
+			//Operando1
+			if (sizeof($operando1)>$i) {
+				$pos = array_search($operando1[$i], $vector_letras);
+				if ($atractividad[$pos]==0) {
+					$atractividad[$pos]= $i+1;
+				}
+			}else{
+				$fin_op1 = true;
+			}
+
+			//Operando2
+			if (sizeof($operando2)>$i) {
+				$pos = array_search($operando2[$i], $vector_letras);
+				if ($atractividad[$pos]==0) {
+					$atractividad[$pos]= $i+1;
+				}
+			}else{
+				$fin_op2 = true;
+			}
+
+			//Operando1
+			if (sizeof($resultado)>$i) {
+				$pos = array_search($resultado[$i], $vector_letras);
+				if ($atractividad[$pos]==0) {
+					$atractividad[$pos]= $i+1;
+				}
+			}else{
+				$fin_res = true;
+			}
+
+			$i=$i+1;
+			
+		}
+
+		//Donde el Vector Letras tiene un guión, completo atractividad con valor 100
+		for ($i=0; $i < 10 ; $i++) { 
+			if ($vector_letras[$i]=='-') {
+				$atractividad[$i] = 100;
+			}
+		}
+		echo "</BR>atractividad: ";
+		var_dump($atractividad);
 		return $atractividad;
 	}
+
 
  	// esta función se utiliza por elemento del vector luciernaga
 	public function movimiento($X1, $X2, $distancia, $pos, $atractividad, $brillo){
@@ -62,23 +117,23 @@ class Principal extends CI_Controller
 		$valor_nuevo = fmod($valor_nuevo, 10);
 		$posicion = array_search($valor_nuevo, $X1);
 
-		// if ($brillo<4) 
-		// {
-		// 	while($atractividad[$posicion]<=$brillo)
-		// 	{
+		if ($brillo<4) 
+		{
+			while($atractividad[$posicion]<=$brillo)
+			{
 				//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
 				
 				$alfa = rand(0,9);
 				$valor_nuevo=$valor + $alfa;
 				$valor_nuevo = fmod($valor_nuevo, 10);
 				$posicion = array_search($valor_nuevo, $X1);			
-		// 	}
-		// }else
-		// {
-		// 	$alfa = rand(0,1);
-		// 	$valor_nuevo=$alfa;
-		// 	$posicion = array_search($valor_nuevo, $X1);
-		// }
+			}
+		}else
+		{
+			$alfa = rand(0,1);
+			$valor_nuevo=$alfa;
+			$posicion = array_search($valor_nuevo, $X1);
+		}
 		echo "valor cambiado: ".$valor_nuevo;
 		echo "</br>";
 
@@ -145,6 +200,9 @@ class Principal extends CI_Controller
 		$operando1 = $this->input->post('op1');
 		$operando2 = $this->input->post('op2');
 		$resultado = $this->input->post('res');
+		$operador = $_POST["prop"];
+		
+		echo '<br> <b>'.$operando1.' '.$operador.' '.$operando2.' = '.$resultado.'</b><br>';
 
 		//la funcion str_split divide en elementos y lo pone en un arreglo
 		//la funcion array_reverse da vuelta el array
@@ -171,8 +229,9 @@ class Principal extends CI_Controller
 			  }
 			  echo "<br> Vector Inicio: ";
 			  var_dump(count($vectorInicio));
+	   		  $atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
 			  $this->acomodarArray($vectorInicio);
-	   		  $this->crearMatrizInicial($operando1,$operando2, $resultado, $vectorInicio, $vecCompleto);
+	   		  $this->crearMatrizInicial($operando1,$operando2, $resultado, $vectorInicio, $vecCompleto, $atractividad);
 		   	 }else{
 		   	 //se va a mostrar una alerta cuando se ingresen mas de 10 letras diferentes
 		   	 $this->do_alert();
@@ -203,7 +262,7 @@ class Principal extends CI_Controller
 	
 	/*Se cran la poblacion inicial con la que se va a trabajar en el resto del 
 	algoritmo */
-	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio, $vecCompleto)
+	public function crearMatrizInicial($op1, $op2, $resul,$vecInicio, $vecCompleto, $atractividad)
 	{
         $a = 'vector'; 
         for($i=1; $i < 6; $i++)
@@ -231,7 +290,7 @@ class Principal extends CI_Controller
 			echo "Brillo inicial: ".$brilloInicial."</br>";	 
 		 }
 		$vector_resultado_final = array(
-			$this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio, $vecCompleto));
+			$this->aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio, $vecCompleto, $atractividad));
 		
 		$this->load->view('mostrarResultados');
 	} //FIN CREAR MATRIZ INICIAL
@@ -377,7 +436,7 @@ class Principal extends CI_Controller
 
 	/*AplicarAlgoritmo recibe los vectores iniciales, los operadores iniciales (letras), el resultado inicial
 	(letras) y el vector de inicio arreglado con los elementos sin repetir */
-	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio, $vecCompleto)
+	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio, $vecCompleto, $atractividad)
 	{
 		$brilloMayor = -100;
 		$vector = "vector";
@@ -419,8 +478,7 @@ class Principal extends CI_Controller
 							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
 							//busca la posicion a modificar
 							$pos = $this->buscarPosicion($brilloA, $vecCompleto);
-							//calculo la actravtidad
-							$atractividad = 1;
+							
 							//mueve el de menor brillo
 							${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos, $atractividad, $brilloA);				
 
