@@ -379,119 +379,89 @@ class Principal extends CI_Controller
 	(letras) y el vector de inicio arreglado con los elementos sin repetir */
 	public function aplicarAlgoritmo($vector1, $vector2, $vector3, $vector4, $vector5, $op1, $op2, $resul, $vecInicio, $vecCompleto)
 	{
-		//empezar con 5 iteraciones
-		$vector= 'vector'; 				 
-		$i=0;
-		$brillo=0;
-		//count result es la cantidad de elementos del vector resultado (money)
-		while ($brillo < count($resul) and $i<=200) { //controla las iteraciones
-			echo "-------->>>>> COMIENZA EL WHILE de iteraciones <<<<<------ <b> iteracion nro: ".$i." </b><BR>";
-			$i = $i +1;
-			$j = 0;
-			//comparar vectores
-			while (($brillo < count($resul)) and ($j < 5)) { 
-			echo "entra en el segundo while donde empieza a comparar<br>";
-				$j = $j +1;
-				//comparar elemento A con todos los demas elementos
+		$brilloMayor = -100;
+		$vector = "vector";
+		$i = 1;
+		while ( $i <= 200) { //while iteraciones
+			echo "</br><b> iteracion nro: ".$i."</b></br>";
+			# code...
+		
+			for ($j=1; $j <6 ; $j++) 
+			{ 
+				/*toma un vector y lo compara con todos los demas 
+				Saca primero los valores de ese vector*/
 				$valor_op1_A= $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
 				$valor_op2_A= $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
 				$valor_resul_A= $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
 				$sumaA = implode('', $valor_op1_A) + implode('', $valor_op2_A);
 				$brilloA = $this->obtenerBrillo($valor_resul_A,  $sumaA);
-				
-				//echo "Brillo de ".$vector.$j.": ".$brillo;	
-
-				$k = 1;
-				while (($brillo < count($resul)) and ($k < 5) and ($j <> $k)) { 
-					echo "<br> <b> entra al tercer while </b> </br>";
 					
-					$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
-					$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
-					$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
-					$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
-					$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
-					echo "</br>";
-					echo "<i>Brillo de ".$vector.$j.": ".$brilloA ."  - ".implode('', ${$vector.$j});		
-					echo " - Brillo de ".$vector.$k.": ".$brilloB." -".implode('', ${$vector.$k})."  </i></br>";
-					
-					if ($brilloA <= $brilloB) {					
-						//se calcula la distancia entre A y B y el resultado
-						$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
-						$pos = $this->buscarPosicion($brilloA, $vecCompleto);
-						echo "posicion encontrada: ".$pos."<br>";
-						
-						$valor_Anterior = ${$vector.$j}[$pos];
-						$vector_letras = 0;
-						$operando1 = 0;
-						$operando2 = 0;
-						$resultado = 0;
-
-						$atractividad= $this->atractividad ($vector_letras, $operando1, $operando2, $resultado);
-
-						//se mueve el menos brilloso hacia el mas brilloso
-						${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos, $atractividad,$brilloA);		
-
-						//se vuelven a sacar los valores del vector recientemente modificado
-						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
-						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
-						$valor_resul = $this->extraerValoresPorOperando(${$vector.$j}, $resul, $vecInicio);
-						$suma = implode('',$valor_op1) + implode('',$valor_op2);
-						
-						//se recalcula el brillo del elemento que se movio.
-						$brilloNuevo = $this->obtenerBrillo($valor_resul,  $suma);
-						echo "Vector".$j.": ";
-						$this->acomodarArray(${$vector.$j});
-						echo "suma: ". $suma.'</br>';
-						echo "Resultado: ";
-			 			$this->acomodarArray($valor_resul);
-			 			echo "Nuevo brillo: ".$brilloNuevo." </br>--------------</br>";	
-			 			$vectorResultadoParcial = ${$vector.$j};
-
-					}else{
-						$distancia = $this->distancia($valor_resul_B, $valor_resul_A);
-						$pos = $this->buscarPosicion($brilloB, $vecCompleto);
-						echo "posicion encontrada: ".$pos."<br>";
-						
-						$valor_Anterior = ${$vector.$k}[$pos];
-						$vector_letras = 0;
-						$operando1 = 0;
-						$operando2 = 0;
-						$resultado = 0;
-
-						$atractividad= $this->atractividad ($vector_letras, $operando1, $operando2, $resultado);
-
-						//se mueve el menos brilloso hacia el mas brilloso
-						${$vector.$k} = $this->movimiento(${$vector.$k}, ${$vector.$j}, $distancia, $pos, $atractividad,$brilloB);				
-
-						$valor_op1 = $this->extraerValoresPorOperando(${$vector.$k}, $op1, $vecInicio);
-						$valor_op2 = $this->extraerValoresPorOperando(${$vector.$k}, $op2, $vecInicio);
-						$valor_resul = $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
-						$suma = implode('',$valor_op1) + implode('',$valor_op2);
-						//se recalcula el brillo del elemento que se movio.
-						$brilloNuevo = $this->obtenerBrillo($valor_resul,  $suma);
-						echo "Vector".$k.": ";
-						$this->acomodarArray(${$vector.$k});
-						echo "suma: ". $suma.'</br>';
-						echo "Resultado: ";
-			 			$this->acomodarArray($valor_resul);
-			 			echo "Nuevo brillo: ".$brilloNuevo." </br>--------------</br>";	 
-			 			$vectorResultadoParcial = ${$vector.$k};		
-					}
-					if ($brillo < $brilloNuevo) 
+				/*Tomo los demas vectores distintos al primero que tomo */
+				for ($k=1; $k <6 ; $k++) 
+				{
+					if ($j <> $k)
 					{
-						$brillo = $brilloNuevo;
-						$vector_resultado_final = $vectorResultadoParcial;
-					}
-				$k = $k +1;	
-				}//fin while
-			}
-		} //fin comparacion vectores
+						$valor_op1_B= $this->extraerValoresPorOperando(${$vector.$k}, $op1,$vecInicio);
+						$valor_op2_B= $this->extraerValoresPorOperando(${$vector.$k}, $op2,$vecInicio);
+						$valor_resul_B= $this->extraerValoresPorOperando(${$vector.$k}, $resul,$vecInicio);
+						$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
+						$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 
-		if ($brillo >= count($resul)) {
-			echo "SOLUCION";
-			return "Se ha encontrado una solucion";
-		}	
-		return $vector_resultado_final ;
+						echo "<br>-------------------------------</br>";
+						echo "<i>Brillo de ".$vector.$j.": ".$brilloA ."  ";		
+						echo " - Brillo de ".$vector.$k.": ".$brilloB."  </i></br>";
+						echo $vector.$j.": ".implode(' ', ${$vector.$j});
+						echo " ".$vector.$k.": ".implode(' ', ${$vector.$k})."<br>";
+					
+						if ($brilloA <= $brilloB)
+						 {
+							//calcula la distancia entre ambos vectores
+							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
+							//busca la posicion a modificar
+							$pos = $this->buscarPosicion($brilloA, $vecCompleto);
+							//calculo la actravtidad
+							$atractividad = 1;
+							//mueve el de menor brillo
+							${$vector.$j} = $this->movimiento(${$vector.$j}, ${$vector.$k}, $distancia, $pos, $atractividad, $brilloA);				
+
+							$valor_op1 = $this->extraerValoresPorOperando(${$vector.$j}, $op1, $vecInicio);
+							$valor_op2 = $this->extraerValoresPorOperando(${$vector.$j}, $op2, $vecInicio);
+							$valor_resul = $this->extraerValoresPorOperando(${$vector.$j}, $resul,$vecInicio);
+							$suma = implode('',$valor_op1) + implode('',$valor_op2);
+							//se recalcula el brillo del elemento que se movio.
+							$brillo = $this->obtenerBrillo($valor_resul,  $suma);
+							echo "nuevo brillo de ".$vector.$j.": ".$brillo."<br>";
+							if ($brillo >= $brilloMayor and $brillo >$brilloB) 
+							{
+								echo "brillo mayor: ".$brilloMayor."<br>";
+								echo "brillo del nuevo vector: ".$brillo."<br>";
+								$brilloMayor = $brillo;
+								echo "brillo del nuevo vector: ".$brillo."<br>";
+								$vectorSolucion = ${$vector.$j};
+								echo "vector de mayor brillo ".$vector.$j.": ".implode('', $vectorSolucion);
+								echo "<br> op1: ".implode('',$valor_op1);
+								echo " op2: ".implode('',$valor_op2)."-";
+								$suma = implode('', $valor_op1) + implode('', $valor_op2);
+								echo "la suma es: ".$suma;
+								echo " el resultado: ".implode(' ', $valor_resul);
+								echo "<br> - brillo nuevo: ".$brillo;
+							}
+							
+						}
+					}
+				}
+			}
+			$i = $i + 1;
+		}//end while iteraciones
+		//controlar si llego a la solucion;
+		if ($brilloMayor == count($resul)) 
+		{
+			echo "<br><b>mayor brillo:  ".$brilloMayor."</b>";
+			echo "<bR> el mayor brillo deberia ser: " .count($resul);
+			//return $brilloMayor;
+		}elseif ($brilloMayor < count($resul)) {
+			echo "recalcular con otros valores de beta o alfa o algo";
+		}
 	} //FIN APLICAR ALGORITMO
 
 
