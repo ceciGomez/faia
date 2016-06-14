@@ -518,6 +518,7 @@ class Principal extends CI_Controller
 			echo "<bR> el mayor brillo deberia ser: " .count($resul);
 			//return $brilloMayor;
 		}elseif ($brilloMayor < count($resul)) {
+			echo "el vector mas cercano es: ". implode('', $vectorSolucion)."<br> con brillo: ".$brilloMayor;
 			echo "recalcular con otros valores de beta o alfa o algo";
 		}
 	} //FIN APLICAR ALGORITMO
