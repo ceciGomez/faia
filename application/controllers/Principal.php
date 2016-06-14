@@ -117,23 +117,23 @@ class Principal extends CI_Controller
 		$valor_nuevo = fmod($valor_nuevo, 10);
 		$posicion = array_search($valor_nuevo, $X1);
 
-		if ($brillo<4) 
-		{
-			while($atractividad[$posicion]<=$brillo)
-			{
-				//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
+		// if ($brillo<4) 
+		// {
+		// 	while($atractividad[$posicion]<=$brillo)
+		// 	{
+		// 		//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
 				
 				$alfa = rand(0,9);
 				$valor_nuevo=$valor + $alfa;
 				$valor_nuevo = fmod($valor_nuevo, 10);
 				$posicion = array_search($valor_nuevo, $X1);			
-			}
-		}else
-		{
-			$alfa = rand(0,1);
-			$valor_nuevo=$alfa;
-			$posicion = array_search($valor_nuevo, $X1);
-		}
+		// 	}
+		// }else
+		// {
+		// 	$alfa = rand(0,1);
+		// 	$valor_nuevo=$alfa;
+		// 	$posicion = array_search($valor_nuevo, $X1);
+		// }
 		echo "valor cambiado: ".$valor_nuevo;
 		echo "</br>";
 
@@ -418,16 +418,20 @@ class Principal extends CI_Controller
            $pos=3;
            for ($i=0 ; $i < 3 ; $i++ ) { 
            	  for ($j=0; $j <= $cotaFor; $j++) {
-                	  	if (isset($vecCompleto[$maxPos])) {
-           	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
-           	   	   	   	 $pos=$pos-1;
-           	    	  	 break;
+                	  	if (isset($vecCompleto[$maxPos])) 
+                	  	{
+           	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) 
+           	  	   		 {
+	           	   	   	   	 $pos=$pos-1;
+	           	   	   	   	 echo " la posicion es: ".$pos." en: ".$j."<br>";
+	           	    	  	 break;
            	              } 
-           	  	    }else{
-           	  	 	    $pos=$pos-1;
-           	  	    	break;
-           	  	    }
-           	  }
+           	  	    	}else
+           	  	    	{
+           	  	 	    	$pos=$pos-1;
+           	  	    		break;
+           	  	    	}
+           	 }
            	 $maxPos = $maxPos - 1;
            	 $cotaFor=$cotaFor-1;
            }
