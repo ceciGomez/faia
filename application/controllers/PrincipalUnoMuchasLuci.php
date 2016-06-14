@@ -369,6 +369,7 @@ class PrincipalUnoMuchasLuci extends CI_Controller
 		$centena = $this -> calcularPosicion(8, $vecCompleto);
 		$udemil = $this -> calcularPosicion(11, $vecCompleto);
 		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
+		$cdemil = $this -> calcularPosicion(17, $vecCompleto);
 		switch ($brillo) {
 		case  0:
 			
@@ -429,10 +430,18 @@ class PrincipalUnoMuchasLuci extends CI_Controller
 			return $pos;
 			break;
 
-		default:
-			$pos = 7;
+		case 5:
+			
+	
+			if (($cdemil-1)<>0) {
+				$pos = rand($ddemil,$cdemil-1);
+			} else {
+				$pos = $ddemil;
+			}
+			
 			return $pos;
 			break;
+
 		}
 	}//fin buscar posicion
 
@@ -510,14 +519,14 @@ class PrincipalUnoMuchasLuci extends CI_Controller
 							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
-							$brillo = $this->obtenerBrillo($valor_resul,  $suma);
-							echo "nuevo brillo de ".$vector.$j.": ".$brillo."<br>";
-							if ($brillo >= $brilloMayor and $brillo >$brilloB) 
+							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
+							echo "nuevo brillo de ".$vector.$j.": ".$brilloA."<br>";
+							if ($brilloA >= $brilloMayor and $brilloA >$brilloB) 
 							{
 								echo "brillo mayor: ".$brilloMayor."<br>";
-								echo "brillo del nuevo vector: ".$brillo."<br>";
-								$brilloMayor = $brillo;
-								echo "brillo del nuevo vector: ".$brillo."<br>";
+								echo "brillo del nuevo vector: ".$brilloA."<br>";
+								$brilloMayor = $brilloA;
+								echo "brillo del nuevo vector: ".$brilloA."<br>";
 								$vectorSolucion = $luciernagas[$j];
 								echo "vector de mayor brillo ".$vector.$j.": ".implode('', $vectorSolucion);
 								echo "<br> op1: ".implode('',$valor_op1);
@@ -525,7 +534,7 @@ class PrincipalUnoMuchasLuci extends CI_Controller
 								$suma = implode('', $valor_op1) + implode('', $valor_op2);
 								echo "la suma es: ".$suma;
 								echo " el resultado: ".implode(' ', $valor_resul);
-								echo "<br> - brillo nuevo: ".$brillo;
+								echo "<br> - brillo nuevo: ".$brilloA;
 							}
 							
 						}
