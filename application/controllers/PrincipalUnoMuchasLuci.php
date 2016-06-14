@@ -530,10 +530,10 @@ class PrincipalUnoMuchasLuci extends CI_Controller
 							
 						}
 					}
-					$k = $k + 1;
-				}//Fin foreach luciernago
-				$j = $j + 1;
-			}//Fin foreach luciernaga
+					
+				}//Fin for
+				
+			}//Fin for
 			$i = $i + 1;
 		}//end while iteraciones
 		//controlar si llego a la solucion;
