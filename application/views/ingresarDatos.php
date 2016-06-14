@@ -22,10 +22,10 @@
         <label><span>Operador 1:</span><input name="op1"></label><br/>
        <table id="check">
          <tr>
-           <td><input id="suma" type="checkbox" name="prop" class="chb" /><label >+</label></td>
+           <td><input id="suma" type="checkbox" name="prop" value="+" class="chb" /><label >+</label></td>
          </tr>
          <tr>
-            <td><input id="resta" type="checkbox" name="prop" /><label >-</label></td>
+            <td><input id="suma" type="checkbox" name="prop" value="-" /><label >-</label></td>
          </tr>
        </table>
         <label><span>Operador 2:</span><input name="op2"></label><br>
