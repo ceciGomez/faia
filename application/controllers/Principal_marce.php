@@ -249,6 +249,7 @@ class Principal_marce extends CI_Controller {
 		$centena = $this -> calcularPosicion(8, $vecCompleto);
 		$udemil = $this -> calcularPosicion(11, $vecCompleto);
 		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
+		echo "posiciones".$unidad.$decena.$centena.$udemil.$ddemil." ";
 		switch ($brillo) {
 		case  0:
 			
