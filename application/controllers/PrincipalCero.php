@@ -13,7 +13,11 @@ class PrincipalCero extends CI_Controller
 	{
 		$this->load->view('ingresarDatos');
 	}
-
+     public function mostrarResul (){
+		$data["brilloMayor"] = "";
+		$this->load->view('mostrarResultado', $data);
+		$this-> ingresarDatos();
+	}
 	/*Funcion distancia 
 	Calcula la distancia entre dos luciernagas, comparando elemento a elemento
 	y cuanta mas alta la posicion del vector mayor sera la distancia*/
@@ -90,8 +94,8 @@ class PrincipalCero extends CI_Controller
 				$atractividad[$i] = 100;
 			}
 		}
-		echo "</BR>atractividad: ";
-		var_dump($atractividad);
+		//echo "</BR>atractividad: ";
+		
 		return $atractividad;
 	}
 
@@ -110,7 +114,7 @@ class PrincipalCero extends CI_Controller
 		$distancia = 3;
 		$valor = $X1[$pos];
 		//var_dump($X1);
-		echo "valor a cambiar: ".$valor.", ";
+		//echo "valor a cambiar: ".$valor.", ";
 
 		if ($valor <> 1) {
 			//Si el valor es distinto de 1, entonces aplico movimiento
@@ -147,13 +151,10 @@ class PrincipalCero extends CI_Controller
 		}
 		
 		
-		echo "valor cambiado: ".$valor_nuevo;
-		echo "</br>";
 
 		$X1=$this->controlarRepetidos($X1, $valor_nuevo,$valor);
 
 		$X1[$pos]=$valor_nuevo;
-		echo "Array sin repetidos: ";
 		$this->acomodarArray($X1);
 		//var_dump($X1);
 		return $X1;
@@ -170,7 +171,7 @@ class PrincipalCero extends CI_Controller
            }
       }
        foreach ($output as $o) {
-            echo '<tr><td>' . implode('</td><td>', $o) . '</td></tr>'."<br/>";
+            //echo '<tr><td>' . implode('</td><td>', $o) . '</td></tr>'."<br/>";
 	        }
 	}//fin de acomodar array
 
@@ -192,15 +193,13 @@ class PrincipalCero extends CI_Controller
 	// Se busca los repetidos dentro del vector y se modifican
 	public function controlarRepetidos($vectorEntrada, $valor_a_buscar, $valor)
 	{
-		echo "VECTOR DE ENTRADA para controlar repetidos: ";
-		$this->acomodarArray($vectorEntrada);
 		
-		echo "valor a buscar: ".$valor_a_buscar;
+		$this->acomodarArray($vectorEntrada);
+			
 		$posicion = array_search($valor_a_buscar, $vectorEntrada);
-		echo "posicion: ".$posicion;
-		echo ", valor nuevo: ".$valor."</br>";
+				
 		$vectorEntrada[$posicion] = $valor;
-		echo " Array con repetidos: ";
+		
 		$this->acomodarArray($vectorEntrada);
 		return $vectorEntrada;
 	}//fin de controlar repetidos
@@ -217,8 +216,6 @@ class PrincipalCero extends CI_Controller
 		$resultado = $this->input->post('res');
 		$operador = $_POST["prop"];
 		
-		echo '<br> <b>'.$operando1.' '.$operador.' '.$operando2.' = '.$resultado.'</b><br>';
-
 		//la funcion str_split divide en elementos y lo pone en un arreglo
 		//la funcion array_reverse da vuelta el array
 		$operando1 = str_split($operando1);
@@ -242,9 +239,7 @@ class PrincipalCero extends CI_Controller
 			  for ($i= 1; $i <= $posFaltantes; $i++) { 
 			  	array_push($vectorInicio, '-');
 			  }
-			  echo "<br> Vector Inicio: ";
-			  var_dump(count($vectorInicio));
-	   		  $atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
+			  $atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
 			  $this->acomodarArray($vectorInicio);
 	   		  $this->crearMatrizInicial($operando1,$operando2, $resultado, $vectorInicio, $vecCompleto, $atractividad);
 		   	 }else{
@@ -300,9 +295,7 @@ class PrincipalCero extends CI_Controller
 		    $luciernagas[$i]=array('0','1', '2','3','4','5','6','7','8','9'); 
 		    //se lo mezcla al array creado
 		   	shuffle($luciernagas[$i]);
-		    echo "<br> -------------- <br> vector".$i.": ";
-			echo implode('', ($luciernagas[$i]));
-
+		   
 			//El valor de más a la izquierda del resultado, debe ser 1
 			$vec = $luciernagas[$i];
 			if ($vec[$pos_uno]<>1) {
@@ -338,22 +331,21 @@ class PrincipalCero extends CI_Controller
 			$valor_op1= $this->extraerValoresPorOperando($luciernagas[$i], $op1,$vecInicio);
 			$valor_op2= $this->extraerValoresPorOperando($luciernagas[$i], $op2,$vecInicio);
 			$valor_resul= $this->extraerValoresPorOperando($luciernagas[$i], $resul,$vecInicio);
-			 
-			echo "Op 1: ".implode('',$op1);		 
+				 
 			$this->acomodarArray($valor_op1);
-			echo " Op 2: ".implode('', $op2);
+			
 			$this->acomodarArray($valor_op2);
-			echo "Resultado";
+		
 			$this->acomodarArray($valor_resul);
 			$suma = implode('',$valor_op1) + implode('',$valor_op2);
-			echo "suma: ". $suma.'</br>';
+			
 			$brilloInicial = $this->obtenerBrillo($valor_resul,  $suma);
-			echo "Brillo inicial: ".$brilloInicial."</br>";	 
+			 
 		}
 		$vector_resultado_final = array(
 			$this->aplicarAlgoritmo($luciernagas, $op1, $op2, $resul, $vecInicio, $vecCompleto, $atractividad,$pos_uno, $pos_izq_op1, $pos_izq_op2));
 		
-		$this->load->view('mostrarResultados');
+	
 	} //FIN CREAR MATRIZ INICIAL
 	
 	public function intToArray($x)
@@ -513,8 +505,7 @@ class PrincipalCero extends CI_Controller
 		$n = sizeof($luciernagas);
 		$i = 1;
 		while (($i <= 200)and($brilloMayor<count($resul))) { //while iteraciones
-			echo "</br><b> iteracion nro: ".$i."</b></br>";
-
+		
 			for ($j=1; $j <= $n; $j++) { 
 				/*toma un vector y lo compara con todos los demas 
 				Saca primero los valores de ese vector*/
@@ -533,12 +524,6 @@ class PrincipalCero extends CI_Controller
 						$valor_resul_B= $this->extraerValoresPorOperando($luciernagas[$k], $resul,$vecInicio);
 						$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 						$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
-
-						echo "<br>-------------------------------</br>";
-						echo "<i>Brillo de ".$vector.$j.": ".$brilloA ."  ";		
-						echo " - Brillo de ".$vector.$k.": ".$brilloB."  </i></br>";
-						echo $vector.$j.": ".implode(' ', $luciernagas[$j]);
-						echo " ".$vector.$k.": ".implode(' ', $luciernagas[$k])."<br>";
 					
 						if ($brilloA <= $brilloB)
 						 {
@@ -556,8 +541,7 @@ class PrincipalCero extends CI_Controller
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
 							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-							echo "nuevo brillo de ".$vector.$j.": ".$brilloA."<br>";
-							
+													
 							
 						}else{
 							//calcula la distancia entre ambos vectores
@@ -574,25 +558,18 @@ class PrincipalCero extends CI_Controller
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
 							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-							echo "nuevo brillo de ".$vector.$j.": ".$brilloA."<br>";
+							
 						}
 						if ($brilloA >= $brilloMayor and $brilloA >$brilloB) 
 							{
-								echo "brillo mayor: ".$brilloMayor."<br>";
-								echo "brillo del nuevo vector: ".$brilloA."<br>";
+								
 								$brilloMayor = $brilloA;
-								echo "brillo del nuevo vector: ".$brilloA."<br>";
+								
 								$vectorSolucion = $luciernagas[$j];
-								echo "vector de mayor brillo ".$vector.$j.": ".implode('', $vectorSolucion);
-								echo "<br> op1: ".implode('',$valor_op1);
-								echo " op2: ".implode('',$valor_op2)."-";
 								$suma = implode('', $valor_op1) + implode('', $valor_op2);
 								$op1_solucion = $valor_op1;
 								$op2_solucion = $valor_op2;
 								$suma_solucion = $suma;
-								echo "la suma es: ".$suma;
-								echo " el resultado: ".implode(' ', $valor_resul);
-								echo "<br> - brillo nuevo: ".$brilloA;
 							}
 					}
 					
@@ -602,20 +579,23 @@ class PrincipalCero extends CI_Controller
 			$i = $i + 1;
 		}//end while iteraciones
 		//controlar si llego a la solucion;
+		$data["brilloMayor"] = $brilloMayor;
+		$data["vector"] = json_encode($vectorSolucion);
+		$data["iteraciones"] = $i;
 		if ($brilloMayor == count($resul)) 
 		{
-			echo "<br><b>mayor brillo:  ".$brilloMayor."</b>";
-			echo "<bR> el mayor brillo deberia ser: " .count($resul);
-			echo "<br>SOLUCIÓN: ";
-			$this->acomodarArray($vectorSolucion);
-			echo "<br>";
-			$this->acomodarArray($op1_solucion);			
-			echo "+";
-			$this->acomodarArray($op2_solucion);
-			echo "=".$suma_solucion;
+	        $data["vecinicio"] = json_encode($vecInicio);
+			$data["operando1"] = json_encode(array_reverse($op1));
+			$data["operando2"] = json_encode(array_reverse($op2));
+			$data["resultado"] = json_encode(array_reverse($resul));
+			$data["bandera"] = true;
+			$data["mensaje"] = "Se encontro una solucion";
+			$this->load->view('mostrarResultado', $data);
 			//return $brilloMayor;
 		}elseif ($brilloMayor < count($resul)) {
-			echo "recalcular con otros valores de beta o alfa o algo";
+			$data["bandera"] = false;
+			$data["mensaje"] = "No se encontro una solucion";
+			$this->load->view('mostrarResultado', $data);
 		}
 	} //FIN APLICAR ALGORITMO
 

@@ -41,6 +41,7 @@
      <div class="variable"><?php echo $resultado; ?></div>
      <div class="titulo"><h1 style="font-family:Code-Bold, sans-serif; font-size:20px;color: #848484">Vector solucion</h1></div>
      <div class="variable"><?php echo $vector; ?></div>
+     <div class="variable"><?php echo $vecinicio; ?></div>
      <div class="titulo"><h1 style="font-family:Code-Bold, sans-serif; font-size:20px;color: #848484">Numero de iteraciones</h1></div>
      <div class="variable"><?php echo $iteraciones; ?></div>
      </div>

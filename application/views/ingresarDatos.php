@@ -21,8 +21,8 @@
 
 <form style="padding: 40px 0px 0px 0px" action="mostrarResul" method="POST" accept-charset="utf-8">
     <label>Operacion</label>
-    <input  name="prop" type="radio" id="suma"/> Suma<br/>
-    <span  class="form-field-no-caption"><input type="radio" name="prop" id="resta"/> Resta</span><br/>
+    <input  name="prop" type="radio" id="suma" value="" checked="checked" /> Suma<br/>
+    
     
     <label>Primer operador</label>
     <input type="text" name="op1"/><br/>
