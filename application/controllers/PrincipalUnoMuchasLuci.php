@@ -537,6 +537,22 @@ class PrincipalUnoMuchasLuci extends CI_Controller
 								echo "<br> - brillo nuevo: ".$brilloA;
 							}
 							
+						}else{
+							//calcula la distancia entre ambos vectores
+							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
+							//busca la posicion a modificar
+							$pos = rand(0,7);
+							
+							//mueve el de menor brillo
+							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $luciernagas[$k], $distancia, $pos, $atractividad, $brilloA,$pos_uno);				
+
+							$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
+							$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
+							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
+							$suma = implode('',$valor_op1) + implode('',$valor_op2);
+							//se recalcula el brillo del elemento que se movio.
+							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
+							echo "nuevo brillo de ".$vector.$j.": ".$brilloA."<br>";
 						}
 					}
 					
