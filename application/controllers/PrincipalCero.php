@@ -587,6 +587,9 @@ class PrincipalCero extends CI_Controller
 								echo "<br> op1: ".implode('',$valor_op1);
 								echo " op2: ".implode('',$valor_op2)."-";
 								$suma = implode('', $valor_op1) + implode('', $valor_op2);
+								$op1_solucion = $valor_op1;
+								$op2_solucion = $valor_op2;
+								$suma_solucion = $suma;
 								echo "la suma es: ".$suma;
 								echo " el resultado: ".implode(' ', $valor_resul);
 								echo "<br> - brillo nuevo: ".$brilloA;
@@ -603,8 +606,13 @@ class PrincipalCero extends CI_Controller
 		{
 			echo "<br><b>mayor brillo:  ".$brilloMayor."</b>";
 			echo "<bR> el mayor brillo deberia ser: " .count($resul);
-			echo "SOLUCIÓN: ";
+			echo "<br>SOLUCIÓN: ";
 			$this->acomodarArray($vectorSolucion);
+			echo "<br>";
+			$this->acomodarArray($op1_solucion);			
+			echo "+";
+			$this->acomodarArray($op2_solucion);
+			echo "=".$suma_solucion;
 			//return $brilloMayor;
 		}elseif ($brilloMayor < count($resul)) {
 			echo "recalcular con otros valores de beta o alfa o algo";
