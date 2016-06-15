@@ -1,42 +1,62 @@
 
-@font-face {
-  font-family:'Lucida';
+body { 
+        background: url('http://localhost/faia/images/fondo.jpg') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+}
+
+     @font-face {
+  font-family: 'Elevationnormal';
+  src: url('Elevationnormal.eot?#iefix') format('embedded-opentype'),  url('Elevationnormal.woff') format('woff'), url('Elevationnormal.ttf')  format('truetype'), url('Elevationnormal.svg#Elevationnormal') format('svg');
+  font-weight: normal;
   font-style: normal;
-  font-weight: 100;
-  src: url(../fonts/CODE.otf) format('otf');
 }
 
-#main {
-     display: table;
-   width: 100%;
-
+@font-face {
+  font-family: 'Antipasto-ExtraBold';
+  src: url('Antipasto-ExtraBold.eot?#iefix') format('embedded-opentype'),  url('Antipasto-ExtraBold.woff') format('woff'), url('Antipasto-ExtraBold.ttf')  format('truetype'), url('Antipasto-ExtraBold.svg#Antipasto-ExtraBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
-#main input { 
-	  margin-left: 20px;
-   margin-bottom: 30px;
-    padding-right: 50px;}
-
- #frm label{
-     font-family: Lucida, sans-serif;
-    font-size: 30px;
-    width:150px;
+@font-face {
+  font-family: 'Code-Bold';
+  src: url('Code-Bold.eot?#iefix') format('embedded-opentype'),  url('Code-Bold.otf')  format('opentype'),
+       url('Code-Bold.woff') format('woff'), url('Code-Bold.ttf')  format('truetype'), url('Code-Bold.svg#Code-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
- #frm {
-   
-   text-align: center;
-   vertical-align: middle;
-}
-#check tr{
-	display: inline-block;
+body p {
+  font-family:'Elevationnormal', Arial, sans-serif;
+  font-size: 25;
 }
 
-#check {
-	margin: auto;
+form {
+     margin-left: 25%;
+    margin-right:25%;
+    width: 100%;
+    }
+
+label {
+  font-family: 'Antipasto-ExtraBold';
+    float: left;
+    width: 20%;
+    text-align: right;
+    margin-right: 0.5em;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+.form-field-no-caption {
+    margin-left: 20%;
+    padding-left: 0.5em;
 }
 
-input.resolver {
-    width: 20px;  height: 2px;
+.input {
+  font-family: 'Antipasto-ExtraBold';
 }
-

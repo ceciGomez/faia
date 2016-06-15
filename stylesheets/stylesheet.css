@@ -873,12 +873,7 @@ footer a:hover {
   }
 }
 
-@font-face {
-  font-family:'Lucida';
-  font-style: normal;
-  font-weight: 100;
-  src: url(../fonts/CODE.otf) format('otf');
-}
+
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 @media only screen and (min-width: 480px) and (max-width: 767px) { }
