@@ -142,7 +142,7 @@ class Principal_Ceci extends CI_Controller
 					$posicion = array_search($valor_nuevo, $X1);			
 				}
 		}else{
-			//Si es 1, entonces el valor del resultado más a la izquierda y debe serguir siendo = 1
+			//Si es 1, entonces el valor del resultado más a la izquierda y debe seguir siendo = 1
 			$valor_nuevo = 1;
 		}
 		
