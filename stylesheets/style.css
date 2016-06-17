@@ -35,30 +35,37 @@ body p {
 }
 
 form {
-     margin-left: 25%;
+     margin-left: 30%;
     margin-right:25%;
     width: 100%;
     }
 
 label {
      font-family: 'Antipasto-ExtraBold';
-    display: inline-flex;
+    display: inline-block;
     width: 20%;
     text-align: right;
     margin-right: 0.2em;
-    font-size: 2.5em;
-    white-space: nowrap;
-    overflow: hidden;
+    font-size: 1.8em;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
 }
+
+input {
+  font-family: 'Antipasto-ExtraBold';
+  height: 1.8em;
+  margin-bottom: 22px;
+  font-size: 22px
+}
+
+
 .form-field-no-caption {
     margin-left: 20%;
     margin-top: 5%;
     padding-left: 0.5em;
 }
 
-input {
-  font-family: 'Antipasto-ExtraBold';
-  height: 1.8em;
+
+input[type="radio"] {
+
 }

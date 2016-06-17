@@ -20,9 +20,16 @@
 	
 
 <form  action="mostrarResul" method="POST" accept-charset="utf-8">
-    <label>Operacion</label>
-    <input  name="prop" type="radio" id="suma" value="" checked="checked" /> Suma<br/>
+
+      <label>Numero de luciernagas</label>
+    <input type="text" name="op1" style="width: 50px"/><br/>
+
+    <label >Suma</label>
+      <input type="radio" name="sex" id="male" value="" checked/><br/>
     
+    <label >Resta</label>
+      <input type="radio" name="sex" id="female" /><br/>
+
     
     <label>Primer operador</label>
     <input type="text" name="op1"/><br/>
@@ -33,8 +40,7 @@
     <label>Resultado</label>
     <input type="text" name="res"/><br/>
 
-
-    <span  class="form-field-no-caption"><input type="submit" value="Resolver" /></span>
+    <span  class="form-field-no-caption"><input type="submit" value="Resolver"/></span>
 </form>
 
 	</body>
