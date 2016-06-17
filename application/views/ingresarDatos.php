@@ -22,13 +22,13 @@
 <form  action="mostrarResul" method="POST" accept-charset="utf-8">
 
       <label>Numero de luciernagas</label>
-    <input type="number" name="op1" style="width: 50px"/><br/>
+    <input type="number" name="poblacion" style="width: 50px"/><br/>
 
     <label >Suma</label>
-      <input type="radio" name="sex" id="male" value="" checked/><br/>
+      <input type="radio" name="prop" id="suma" value="+" checked/><br/>
     
     <label >Resta</label>
-      <input type="radio" name="sex" id="female" /><br/>
+      <input type="radio" name="prop" id="resta" value="-" /><br/>
 
     
     <label>Primer operador</label>
