@@ -13,6 +13,11 @@ class Principal_Ceci extends CI_Controller
 	{
 		$this->load->view('ingresarDatos');
 	}
+	public function mostrarResul (){
+		$data["brilloMayor"] = "";
+		$this->load->view('mostrarResultado', $data);
+		$this-> ingresarDatos();
+	}
 
 	/*Funcion distancia 
 	Calcula la distancia entre dos luciernagas, comparando elemento a elemento
@@ -143,7 +148,8 @@ class Principal_Ceci extends CI_Controller
 				}
 		}else{
 			//Si es 1, entonces el valor del resultado más a la izquierda y debe seguir siendo = 1
-			$valor_nuevo = 1;
+			//$valor_nuevo = 1;
+			$valor_nuevo = rand(0,9);
 		}
 		
 		
