@@ -148,8 +148,8 @@ class Principal_Ceci extends CI_Controller
 				}
 		}else{
 			//Si es 1, entonces el valor del resultado más a la izquierda y debe seguir siendo = 1
-			//$valor_nuevo = 1;
-			$valor_nuevo = rand(0,9);
+			$valor_nuevo = 1;
+			//$valor_nuevo = rand(0,9);
 		}
 		
 		
