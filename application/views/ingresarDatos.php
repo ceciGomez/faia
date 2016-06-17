@@ -16,10 +16,10 @@
    
    </head>
    <body >
-   <p align="center"  style="padding: 120px 0px 20px 0px"><font size="45" color="WHITE"  >Criptograma</font></p>
+   <p align="center"  style="padding: 30px 0px 20px 0px"><font color="WHITE"  >Criptograma</font></p>
 	
 
-<form style="padding: 40px 0px 0px 0px" action="mostrarResul" method="POST" accept-charset="utf-8">
+<form  action="mostrarResul" method="POST" accept-charset="utf-8">
     <label>Operacion</label>
     <input  name="prop" type="radio" id="suma" value="" checked="checked" /> Suma<br/>
     
