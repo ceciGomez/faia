@@ -16,13 +16,13 @@
    
    </head>
    <body >
-   <p align="center"  style="padding: 30px 0px 20px 0px"><font color="WHITE"  >Criptograma</font></p>
+   <p align="center"  style="padding: 10px 0px 20px 0px"><font color="WHITE"  >Criptograma</font></p>
 	
 
 <form  action="mostrarResul" method="POST" accept-charset="utf-8">
 
       <label>Numero de luciernagas</label>
-    <input type="text" name="op1" style="width: 50px"/><br/>
+    <input type="number" name="op1" style="width: 50px"/><br/>
 
     <label >Suma</label>
       <input type="radio" name="sex" id="male" value="" checked/><br/>
@@ -40,7 +40,8 @@
     <label>Resultado</label>
     <input type="text" name="res"/><br/>
 
-    <span  class="form-field-no-caption"><input type="submit" value="Resolver"/></span>
+    <span  class="form-field-no-caption"><input type="submit" value="Resolver" style="color:white;
+background-color:#555555; "/></span>
 </form>
 
 	</body>
