@@ -28,7 +28,7 @@ class Principal_marce extends CI_Controller
 	    //Luciernagas es un vector de la poblacion inicial.
 	    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
 
-	    $this->aplicarAlgoritmo($luciernagas, $op1, $op2, $resul, $vecInicio, $vecCompleto, $atractividad);
+	    $this->aplicarAlgoritmo($luciernagas, $op1, $op2, $resul, $vectorInicio, $vecCompleto, $atractividad);
 	 	
 	}//FIN FUNCION MAIN
 	
@@ -178,7 +178,8 @@ class Principal_marce extends CI_Controller
 		$i = 1;
 		while (($i <= 200)and($brilloMayor<count($resul))) { //while iteraciones
 		
-			for ($j=1; $j <= $n; $j++) { 
+			for ($j=1; $j <= $n; $j++) 
+			{ 
 				/*toma un vector y lo compara con todos los demas 
 				Saca primero los valores de ese vector*/
 				$valor_op1_A= $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
@@ -188,7 +189,8 @@ class Principal_marce extends CI_Controller
 				$brilloA = $this->obtenerBrillo($valor_resul_A,  $sumaA);
 					
 				/*Tomo los demas vectores distintos al primero que tomo */				
-				for ($k=1; $k <= $n ; $k++) { 
+				for ($k=1; $k <= $n ; $k++) 
+				{ 
 					if ($j <> $k)
 					{
 						$valor_op1_B= $this->extraerValoresPorOperando($luciernagas[$k], $op1,$vecInicio);
@@ -197,7 +199,7 @@ class Principal_marce extends CI_Controller
 						$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 						$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					
-						if ($brilloA <= $brilloB)
+						if ($brilloA < $brilloB)
 						 {
 							//calcula la distancia entre ambos vectores
 							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
@@ -211,14 +213,15 @@ class Principal_marce extends CI_Controller
 							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
-							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-													
+							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);											
 							
-						}else{
+						}elseif ($brilloA = $brilloB) 
+						{	
+
 							//calcula la distancia entre ambos vectores
 							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
 							//busca la posicion a modificar
-							$pos = rand(0,7);
+							$pos = rand(0,9);
 							
 							//mueve el de menor brillo
 							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $luciernagas[$k], $distancia, $pos, $atractividad, $brilloA,$pos_uno,$pos_izq_op1,$pos_izq_op2);				
@@ -227,14 +230,11 @@ class Principal_marce extends CI_Controller
 							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
-							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-							
+							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);							
 						}
 						if ($brilloA >= $brilloMayor and $brilloA >$brilloB) 
 							{
-								
 								$brilloMayor = $brilloA;
-								
 								$vectorSolucion = $luciernagas[$j];
 								$suma = implode('', $valor_op1) + implode('', $valor_op2);
 								$op1_solucion = $valor_op1;
