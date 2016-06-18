@@ -15,7 +15,7 @@
    </script>
    
    </head>
-   <body >
+   <body id="principal" >
    <p align="center"  style="padding: 10px 0px 20px 0px"><font color="WHITE"  >Criptograma</font></p>
 	
 

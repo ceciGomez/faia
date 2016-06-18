@@ -42,7 +42,7 @@ class Principal_marce extends CI_Controller
 
 	public function ingresarDatos()
 	{
-		//Este vector contiene todos los elementos ingresado, sin eliminar los repetidos
+		//Este vector contiene todos los elementos ingresados, sin eliminar los repetidos
 		$vecCompleto;
         //Este vector contiene todos los elementos pero sin repetir
 		$vectorInicio;
@@ -67,6 +67,7 @@ class Principal_marce extends CI_Controller
 		$vectorInicio = array_unique($vecCompleto);
 		//Elimina las posiciones vacias
 		$vectorInicio = array_values( $vectorInicio );
+		//controlo si la cantidad sin repetir no superan las 10, sino muestro un mensaje de alerta
 		if (count($vectorInicio)<= 10)
 		{
 			  //rellenar con guiones las demas posiciones del array hasta completar 10.
@@ -94,7 +95,7 @@ class Principal_marce extends CI_Controller
 
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado)
 	{
-		// Aví debería quedar el vector para SEND+MORE=MONEY $atractividad= array(1,1,1,2,2,3,4,4,100,100);
+		// Así debería quedar el vector para SEND+MORE=MONEY $atractividad= array(1,1,1,2,2,3,4,4,100,100);
 
 		//Inicializo el vector atractividad
 		for ($i=0; $i < 10 ; $i++) { 

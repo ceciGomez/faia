@@ -1,11 +1,21 @@
 
-body { 
+#principal { 
         background: url('http://localhost/faia/images/fondo.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
 }
+
+body { 
+     background: url('http://localhost/faia/images/resultado.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/*Fuentes*/
 
   @font-face {
   font-family: 'Elevationnormal';
@@ -28,6 +38,18 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('BebasNeue.eot?#iefix') format('embedded-opentype'),  url('BebasNeue.otf')  format('opentype'),
+	     url('BebasNeue.woff') format('woff'), url('BebasNeue.ttf')  format('truetype'), url('BebasNeue.svg#BebasNeue') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+/*css vista ingresar datos*/
 
 body p {
   font-family:'Elevationnormal', Arial, sans-serif;
@@ -64,7 +86,37 @@ input {
     padding-left: 0.4em;
 }
 
+/*css vista de resultados*/
 
-input[type="radio"] {
+div.resultados
+{ 
+  padding-top: 70px;	
+  width: 700px;  
+  margin-left: auto;
+  margin-right: auto;
+}
 
+div.falso
+{
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div .titulo {
+   font-family: 'Antipasto-ExtraBold';
+  text-align: center;
+}
+
+div .tituloPrincipal {
+   font-family: 'Code-Bold';
+  text-align: center;
+  font-size: 20px;
+  color:#004D40;
+}
+
+
+div .variable {
+   text-align: center;
 }
