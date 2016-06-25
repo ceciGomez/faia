@@ -22,10 +22,10 @@
 <form  action="mostrarResul" method="POST" accept-charset="utf-8">
 
     <label>Número de iteraciones</label>
-    <input type="number" name="cant_iteraciones" style="width: 50px"/><br/>
+    <input type="number" name="cant_iteraciones" style="width: 60px" value="200" /><br/>
 
       <label>Número de luciernagas</label>
-    <input type="number" name="poblacion" style="width: 50px"/><br/>
+    <input type="number" name="poblacion" style="width: 60px" value="10" /><br/>
 
     <label >Suma</label>
       <input type="radio" name="prop" id="suma" value="+" checked/><br/>
@@ -35,10 +35,10 @@
 
     
     <label>Primer operador</label>
-    <input type="text" name="op1"/><br/>
+    <input type="text" name="op1" id="field" pattern=".{5,10}" title="Minimo 5 caracteres"/><br/>
 
     <label>Segundo operador</label>
-    <input type="text" name="op2"/><br/>
+    <input type="text" name="op2" id="field" pattern=".{5,10}" title="Minimo 5 caracteres" /><br/>
 
     <label>Resultado</label>
     <input type="text" name="res"/><br/>
