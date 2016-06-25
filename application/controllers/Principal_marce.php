@@ -23,13 +23,15 @@ class Principal_marce extends CI_Controller
 		$operando2 = $datosIniciales['operando2'];
 		$resultado = $datosIniciales['resultado'];
 		$operador = $datosIniciales['operador'];
+		$cant_iteraciones = $datosIniciales['cant_iteraciones'];
 
-		$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
+		//$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
 		//	$this->acomodarArray($vectorInicio);
 	    //Luciernagas es un vector de la poblacion inicial.
+	    echo "crar bichitos";
 	    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
-
-	    $this->aplicarAlgoritmo($luciernagas,$operador, $op1, $op2, $resul, $vectorInicio, $vecCompleto, $atractividad);
+	    echo "entrar a ";
+	    $this->aplicarAlgoritmo($luciernagas,$operador, $op1, $op2, $resul, $vectorInicio, $vecCompleto, $cant_iteraciones);
 	 	
 	}//FIN FUNCION MAIN
 	
@@ -58,6 +60,7 @@ class Principal_marce extends CI_Controller
 		$resultado = $this->input->post('res');
 		$operador = $_POST["prop"];
 		$poblacionInicial = $this->input->post('poblacion');
+		$cant_iteraciones = $this->input->post('cant_iteraciones');
 		
 		//la funcion str_split divide en elementos y lo pone en un arreglo
 		//la funcion array_reverse da vuelta el array
@@ -94,10 +97,12 @@ class Principal_marce extends CI_Controller
 								'operando1' => $operando1,
 								'operando2' => $operando2,
 								'resultado' => $resultado,
-								 'operador' => $operador);
+								 'operador' => $operador,
+								 'cant_iteraciones'=>$cant_iteraciones);
 		return $datosIniciales;
 	} // FIN INGRESAR DATOS
-
+		/*La funcion acomodar vector inicio lo ordena de acuerdo a las
+	unidades, decenas centas */
 
     /*La funcion acomodar vector inicio lo ordena de acuerdo a las
 	unidades, decenas centas */
@@ -196,9 +201,7 @@ class Principal_marce extends CI_Controller
 	/*Se cran la poblacion inicial con la que se va a trabajar en el resto del 
 	algoritmo */
 	public function crearMatrizInicial($poblacionInicial)
-	{
-
-         //Posicion del resultado que no debe valer 0
+	{  //Posicion del resultado que no debe valer 0
         $pos_izq_resul = sizeof($resul)-1;
         $pos_izq_resul = array_search($resul[$pos_izq_resul], $vecInicio);
 
@@ -222,6 +225,13 @@ class Principal_marce extends CI_Controller
 		return $luciernagas;	
 	} //FIN CREAR MATRIZ INICIAL
     
+    public function intToArray($x)
+	{
+			$arr = array();
+		    $arr = array_map('intval', str_split($x));
+			return $arr;
+	}//fin de int to array
+
     //Obtengo el brillo de cada luciernaga
 	public function obtenerBrillo( $suma,  $resultado)
 	{	
@@ -259,73 +269,160 @@ class Principal_marce extends CI_Controller
 				$d = $d + 10*$j;
 			}
 		}
-		$d = fmod($d, 10);
+		//$d = fmod($d, 10); 
+		echo "DISTANCIA: ".$d;
 		return $d;
 	}//FIN DISTANCIA
 
-	public function movimiento($X1, $X2, $distancia, $pos, $atractividad, $brillo, $pos_uno, $pos_izq_op1, $pos_izq_op2){
-	//epsilon es un número aleatorio que varía de -1 a 1
-	//$epsilon = -1;
+	public function movimiento($X1, $distancia, $pos)
+	{//Funcion movimiento
+		$beta_cero = 1;
+		$e = 2.718281828; 
+		//Beta cero es la atractividad
+		$beta = $beta_cero* $e^($distancia);
+		$epsilon = 1;
+		$alfa = rand(0,1);
+		$r2 = $distancia;
+		$er2 = $r2* e;
+		echo "el movimiento viejo: ";
+		var_dump($X1[$pos]);
+		//utilizando la funcion del paper otorgado.
+		$X1[$pos]=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
+		echo "</br> el movimiento nuevo: ";
+		var_dump($X1[$pos]);
 
-	/* alfa es un número que con el tiempo debería tender a 0, si es que nos acercamos a la solución, 
-	o ser un número alto si estamos lejos de la solución */
-	$alfa = rand(0,9);
-
-	//función de movimiento
-	$beta = 1;
-	$valor = $X1[$pos];
-	//var_dump($X1);
-	//echo "valor a cambiar: ".$valor.", ";
-
-	if ($valor <> 1) {
-		//Si el valor es distinto de 1, entonces aplico movimiento
-		//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;
-		$valor_nuevo = $valor + $alfa;
-		$valor_nuevo = fmod($valor_nuevo, 10);
-		while ($valor_nuevo==1)
-		    {
-			$alfa = rand(0,9);
-			$valor_nuevo=$valor + $alfa;
-			$valor_nuevo = fmod($valor_nuevo, 10);
-			}
-
-		while (($pos==$pos_izq_op1 or $pos==$pos_izq_op2) and ($valor_nuevo==0))
-		    {
-			$alfa = rand(2,9);
-			$valor_nuevo=$valor + $alfa;
-			$valor_nuevo = fmod($valor_nuevo, 10);
-			}
-			
-			$posicion = array_search($valor_nuevo, $X1);
-			
-		while(($atractividad[$posicion]<=$brillo)or($valor_nuevo==1)or($valor==$valor_nuevo))
-			{
-			//$valor_nuevo = $valor + $beta * $distancia + $alfa*$epsilon;							
-			$alfa = rand(0,9);
-			$valor_nuevo=$valor + $alfa;
-			$valor_nuevo = fmod($valor_nuevo, 10);
-			$posicion = array_search($valor_nuevo, $X1);			
-			}
-	}else{
-			//Si es 1, entonces el valor del resultado más a la izquierda y debe serguir siendo = 1
-			$valor_nuevo = 1;
-		}		
-		
-		$X1=$this->controlarRepetidos($X1, $valor_nuevo,$valor);
-		$X1[$pos]=$valor_nuevo;
-		$this->acomodarArray($X1);
-		return $X1;
 	}//FIN MOVIMIENTO
 	
+	public function extraerValoresPorOperando($vector, $operando, $vecInicio)	
+	{
+		$operando = array_reverse($operando);
+		$op1_val = array();
+		for ($i=0; $i < count($operando) ; $i++) { 
+			$pos = array_search($operando[$i], $vecInicio, true);			
+			//extrae los valores del vector pasado como "vector" y que coincidan 
+			//con el operador 1.
+			$operando_val[] = $vector[$pos];
+		}
+			return $operando_val;
+	}// fin de extraer valores por operando
+
+	public function calcularPosicion ($cotaSuperior, $vecComp) 
+	{
+           $maxPos=$cotaSuperior;
+           $cotaFor=$maxPos-1;
+           $vecCompleto=$vecComp;
+           $pos=3;
+           for ($i=0 ; $i < 3 ; $i++ ) { 
+           	  for ($j=0; $j <= $cotaFor; $j++) {
+                	  	if (isset($vecCompleto[$maxPos])) {
+           	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
+           	   	   	   	 $pos=$pos-1;
+           	    	  	 break;
+           	              } 
+           	  	    }else{
+           	  	 	    $pos=$pos-1;
+           	  	    	break;
+           	  	    }
+           	  }
+           	 $maxPos = $maxPos - 1;
+           	 $cotaFor=$cotaFor-1;
+           }
+            return $pos;
+	}//fin calcular posicion
+
+	public function buscarPosicion($brillo, $vecCompleto)
+	{
+		$unidad = $this -> calcularPosicion(2, $vecCompleto);
+		$decena = $this -> calcularPosicion(5, $vecCompleto);
+		$centena = $this -> calcularPosicion(8, $vecCompleto);
+		$udemil = $this -> calcularPosicion(11, $vecCompleto);
+		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
+		$cdemil = $this -> calcularPosicion(17, $vecCompleto);
+		switch ($brillo) {
+		case  0:
+			
+			if (($unidad-1)<>0) {
+				$pos = rand(0,$unidad-1);
+			} else {
+				$pos = 0;
+			}
+			
+			return $pos;
+			break;
+
+		case 1:
+			
+		
+			if (($decena-1)<>0) {
+				$pos = rand($unidad, $decena-1);
+			} else {
+				$pos = $unidad;
+			}
+			
+			return $pos;
+			break;
+
+		case 2:
+			
+		
+			if (($centena-1)<>0) {
+				$pos = rand($decena, $centena-1);
+			} else {
+				$pos = $decena;
+			}
+						
+			return $pos;
+			break;
+
+		case 3:
+		 
+			
+			if (($udemil-1)<>0) {
+				$pos = rand($centena, $udemil-1);
+			} else {
+				$pos = $centena;
+			}
+			
+			return $pos;
+			break;
+
+		case 4:
+			
+	
+			if (($ddemil-1)<>0) {
+				$pos = rand($udemil,$ddemil-1);
+			} else {
+				$pos = $udemil;
+			}
+			
+			return $pos;
+			break;
+
+		case 5:
+			
+	
+			if (($cdemil-1)<>0) {
+				$pos = rand($ddemil,$cdemil-1);
+			} else {
+				$pos = $ddemil;
+			}
+			
+			return $pos;
+			break;
+
+		}
+	}//fin buscar posicion
+
+
 	/*AplicarAlgoritmo recibe los vectores iniciales, los operadores iniciales (letras), el resultado inicial
 	(letras) y el vector de inicio arreglado con los elementos sin repetir */
-	public function aplicarAlgoritmo($luciernagas,$operador ,$op1, $op2, $resul, $vecInicio, $vecCompleto, $atractividad)
-	{
+	public function aplicarAlgoritmo($luciernagas, $operador ,$op1, $op2, $resul, $vecInicio, $vecCompleto, $cant_iteraciones){
+		
 		$brilloMayor = -100;
 		$vector = "vector";
 		$n = sizeof($luciernagas);
 		$i = 1;
-		while (($i <= 200)and($brilloMayor<count($resul))) { //while iteraciones
+		while (($i <= $cant_iteraciones)and($brilloMayor<count($resul))) { //while iteraciones
 		
 			for ($j=1; $j <= $n; $j++) 
 			{ 
@@ -355,24 +452,24 @@ class Principal_marce extends CI_Controller
 							//busca la posicion a modificar
 							$pos = $this->buscarPosicion($brilloA, $vecCompleto);							
 							//mueve el de menor brillo
-							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $luciernagas[$k], $distancia, $pos, $atractividad, $brilloA,$pos_uno,$pos_izq_op1,$pos_izq_op2);				
+							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $distancia, $pos);			
+							//actualizar intensidad	
 							$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
 							$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
 							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
-							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);											
-							
+							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
 						}elseif ($brilloA = $brilloB) 
 						{	
-
 							//calcula la distancia entre ambos vectores
 							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
 							//busca la posicion a modificar
 							$pos = rand(0,9);
 							
 							//mueve el de menor brillo
-							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $luciernagas[$k], $distancia, $pos, $atractividad, $brilloA,$pos_uno,$pos_izq_op1,$pos_izq_op2);				
+							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $distancia, $pos);
+							//actualizar intensidad			
 							$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
 							$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
 							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
@@ -389,10 +486,8 @@ class Principal_marce extends CI_Controller
 								$op2_solucion = $valor_op2;
 								$suma_solucion = $suma;
 							}
-					}
-					
-				}//Fin for
-				
+					}	
+				}//Fin for	
 			}//Fin for
 			$i = $i + 1;
 		}//end while iteraciones
