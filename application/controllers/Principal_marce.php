@@ -13,9 +13,21 @@ class Principal_marce extends CI_Controller
 	{
 		$this->load->view('ingresarDatos');
 	}
+		public function mostrarResul ()
+	{
+		$data['brilloMayor'] = null;
+		$data['bandera'] = "";
+		$data["vecinicio"] = "";
+		$data["operando1"] = "";
+		$data["operando2"] = "";
+		$data["resultado"] = "";
+		$this->load->view('mostrarResultado', $data);
+		$this-> main();
+	}//FIN MOSTRAR RESULTADOS
 
 	public function main()
 	{
+		echo "algo algo algo";
 		$datosIniciales = $this->ingresarDatos();
 		$vectorInicio = $datosIniciales['vectorInicio'];
 		$vecCompleto = $datosIniciales['vecCompleto'];
@@ -36,17 +48,6 @@ class Principal_marce extends CI_Controller
 	}//FIN FUNCION MAIN
 	
 
-	public function mostrarResul ()
-	{
-		$data['brilloMayor'] = null;
-		$data['bandera'] = "";
-		$data["vecinicio"] = "";
-		$data["operando1"] = "";
-		$data["operando2"] = "";
-		$data["resultado"] = "";
-		$this->load->view('mostrarResultado', $data);
-		$this-> ingresarDatos();
-	}//FIN MOSTRAR RESULTADOS
 
 	public function ingresarDatos()
 	{
