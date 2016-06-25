@@ -36,6 +36,7 @@ class Principal_marce extends CI_Controller
 		$resultado = $datosIniciales['resultado'];
 		$operador = $datosIniciales['operador'];
 		$cant_iteraciones = $datosIniciales['cant_iteraciones'];
+		$poblacionInicial = $datosIniciales['poblacionInicial'];
 
 		//$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
 		//	$this->acomodarArray($vectorInicio);
@@ -43,7 +44,7 @@ class Principal_marce extends CI_Controller
 	    echo "crar bichitos";
 	    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
 	    echo "entrar a ";
-	    $this->aplicarAlgoritmo($luciernagas,$operador, $op1, $op2, $resul, $vectorInicio, $vecCompleto, $cant_iteraciones);
+	    $this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones);
 	 	
 	}//FIN FUNCION MAIN
 	
@@ -98,8 +99,9 @@ class Principal_marce extends CI_Controller
 								'operando1' => $operando1,
 								'operando2' => $operando2,
 								'resultado' => $resultado,
-								 'operador' => $operador,
-								 'cant_iteraciones'=>$cant_iteraciones);
+								'operador' => $operador,
+								'poblacionInicial' =>$poblacionInicial,
+								'cant_iteraciones'=>$cant_iteraciones);
 		return $datosIniciales;
 	} // FIN INGRESAR DATOS
 		/*La funcion acomodar vector inicio lo ordena de acuerdo a las
@@ -202,19 +204,8 @@ class Principal_marce extends CI_Controller
 	/*Se cran la poblacion inicial con la que se va a trabajar en el resto del 
 	algoritmo */
 	public function crearMatrizInicial($poblacionInicial)
-	{  //Posicion del resultado que no debe valer 0
-        $pos_izq_resul = sizeof($resul)-1;
-        $pos_izq_resul = array_search($resul[$pos_izq_resul], $vecInicio);
-
-        //Posicion del operador1 que no debe valer 0
-        $pos_izq_op1 = sizeof($op1)-1;
-        $pos_izq_op1 = array_search($op1[$pos_izq_op1], $vecInicio);
-
-        //Posicion del operador2 que no debe valer 0
-		$pos_izq_op2 = sizeof($op2)-1;
-        $pos_izq_op2 = array_search($op2[$pos_izq_op2], $vecInicio);  
-
-        //Cantidad total de luciérnagas
+	{ 
+	 //Cantidad total de luciérnagas
         $n = $poblacionInicial;
         for($i=1; $i <=$n; $i++)
         {
@@ -284,13 +275,14 @@ class Principal_marce extends CI_Controller
 		$epsilon = 1;
 		$alfa = rand(0,1);
 		$r2 = $distancia;
-		$er2 = $r2* e;
-		echo "el movimiento viejo: ";
+		$er2 = $r2* $e;
+		echo "<br>el movimiento viejo: ";
 		var_dump($X1[$pos]);
 		//utilizando la funcion del paper otorgado.
 		$X1[$pos]=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
-		echo "</br> el movimiento nuevo: ";
+		echo " el movimiento nuevo: ";
 		var_dump($X1[$pos]);
+		echo "<br>";
 
 	}//FIN MOVIMIENTO
 	
