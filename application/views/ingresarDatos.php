@@ -22,7 +22,7 @@
 <form  action="mostrarResul" method="POST" accept-charset="utf-8">
 
     <label>Número de iteraciones</label>
-    <input type="number" name="poblacion" style="width: 50px"/><br/>
+    <input type="number" name="cant_iteraciones" style="width: 50px"/><br/>
 
       <label>Número de luciernagas</label>
     <input type="number" name="poblacion" style="width: 50px"/><br/>
