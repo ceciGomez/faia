@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Principal_marce extends CI_Controller 
 {
+	function __construct() {
+		parent::__construct();
+
+		// Load url helper
+		$this->load->helper('url');
+	}
 
 	public function index()
 	{
@@ -21,7 +27,7 @@ class Principal_marce extends CI_Controller
 		$data["operando1"] = "";
 		$data["operando2"] = "";
 		$data["resultado"] = "";
-		$this->load->view('mostrarResultado', $data);
+		//$this->load->view('mostrarResultado', $data);
 		$this-> main();
 	}//FIN MOSTRAR RESULTADOS
 
@@ -527,22 +533,22 @@ class Principal_marce extends CI_Controller
 		$data['brilloMayor'] = $brilloMayor;
 		$data['iteraciones'] = $i;
 		$data['operador'] = $operador;
-		echo "brillo mayor despues de la iteracion: ".$brilloMayor.' resul: '.count($resul);
+		echo "<b>brillo mayor despues de la iteracion: ".$brilloMayor.' resul: '.count($resul).'</b>';
 		if ($brilloMayor == count($resul)) 	{
-			echo "entra por brillo igual";
+			echo "</br> entra por brillo igual";
 	        $data["vecinicio"] = json_encode($vecInicio);
 			$data["operando1"] = json_encode(array_reverse($op1));
 			$data["operando2"] = json_encode(array_reverse($op2));
 			$data["resultado"] = json_encode(array_reverse($resul));
 			$data['vector'] = json_encode($vectorSolucion);
 			$data['bandera'] = true;
-			$this->load->view('mostrarResultado', $data);
+			//$this->load->view('mostrarResultado', $data);
 			//return $brilloMayor;
 		}elseif ($brilloMayor < count($resul)) {
-			echo "entra por brillo menor  y no encuentra nada porque marcelito no quiere que sea recursivo";
-	//			$this->main();
+			echo "</br> entra por brillo menor  y no encuentra nada porque marcelito no quiere que sea recursivo";
+				$this->main();
 			$data['bandera'] = false;
-			$this->load->view('mostrarResultado', $data);
+			//$this->load->view('mostrarResultado', $data);
 		}
        
 	} //FIN APLICAR ALGORITMO
