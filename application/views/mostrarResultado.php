@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="se-pre-con"></div>
         
 
-<?php if ($brilloMayor==null){ ?>
+<?php if ($brilloMayor!=null){ ?>
 <?php if ($bandera){ ?>
    <div class="resultados">
      <div class="tituloPrincipal"><h1>SE HA ENCONTRADO UNA SOLUCION</h1></div>
