@@ -257,11 +257,12 @@ class Principal_marce extends CI_Controller
 		$i = count($X1);
 		$d = 0;
 		for ($j=0; $j < $i; $j++) { 
-			if ($X1[$j] = $X2[$j]) {
-				$d = $d + 10*$j;
+			if ($X1[$j] != $X2[$j]) {
+				$d = $d + 10*$j+1;
 			}
 		}
-		//$d = fmod($d, 10); 
+		var_dump('<br> vector1:' ,$X1,'<br> Vector 2: ', $X2);
+		//$d = fmod($d, 10);
 		echo "DISTANCIA: ".$d;
 		return $d;
 	}//FIN DISTANCIA
@@ -277,9 +278,13 @@ class Principal_marce extends CI_Controller
 		$r2 = $distancia;
 		$er2 = $r2* $e;
 		echo "<br>el movimiento viejo: ";
-		var_dump($X1[$pos]);
+		var_dump($X1[$pos], $pos);
 		//utilizando la funcion del paper otorgado.
-		$X1[$pos]=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
+		$elementoActual = $X1[$pos];
+		$elementoNuevo=$X1[$pos] +(1- $beta);// + $alfa*$epsilon;
+		if ($elementoNuevo >= 0 and $elementoNuevo <10) {
+			$X1[$pos] = $elementoNuevo;
+		}
 		echo " el movimiento nuevo: ";
 		var_dump($X1[$pos]);
 		echo "<br>";
@@ -487,7 +492,6 @@ class Principal_marce extends CI_Controller
 		//controlar si llego a la solucion;
 		
 		$data['brilloMayor'] = $brilloMayor;
-		$data['vector'] = json_encode($vectorSolucion);
 		$data['iteraciones'] = $i;
 		$data['operador'] = $operador;
 		if ($brilloMayor == count($resul)) 	{
@@ -495,6 +499,7 @@ class Principal_marce extends CI_Controller
 			$data["operando1"] = json_encode(array_reverse($op1));
 			$data["operando2"] = json_encode(array_reverse($op2));
 			$data["resultado"] = json_encode(array_reverse($resul));
+			$data['vector'] = json_encode($vectorSolucion);
 			$data['bandera'] = true;
 			$this->load->view('mostrarResultado', $data);
 			//return $brilloMayor;
