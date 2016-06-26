@@ -1,6 +1,7 @@
 
 #principal { 
-        background: url('http://localhost/faia/images/fondo.jpg') no-repeat center center fixed;
+        
+        background: url('../images/fondo.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -8,7 +9,7 @@
 }
 
 body { 
-     background: url('http://localhost/faia/images/resultado.jpg') no-repeat center center fixed;
+     background: url('../images/resultado.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			width: 100%;
 			height: 100%;
 			z-index: 9999;
-			background: url(http://localhost/faia/images/loading.gif) center no-repeat #fff;
+			background: url(../images/loading.gif) center no-repeat #fff;
 			}
 		</style>
 		<script type="text/javascript">

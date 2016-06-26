@@ -3,8 +3,8 @@
    <head>
       <meta charset="utf-8" />
       <title> IA</title>
-   <link rel="stylesheet" href="http://localhost/faia/stylesheets/style.css" type="text/css">
-    <script src="<?php echo base_url('javascripts/jquery-1.8.0.min.js');?>" type="text/javascript"></script>
+   <link rel="stylesheet" href="<?php echo site_url('faia/stylesheets/style.css');?>" type="text/css">
+    <script src='<?php echo base_url('/faia/javascripts/jquery-1.8.0.min.js');?>' type="text/javascript"></script>
    <script type="text/javascript">
      $(document).ready(function (){
       $("input:checkbox").click(function(){
