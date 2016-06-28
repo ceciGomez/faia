@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Principal_marce extends CI_Controller 
 {
+
 	function __construct() {
 		parent::__construct();
 
@@ -28,30 +29,39 @@ class Principal_marce extends CI_Controller
 		$data["operando2"] = "";
 		$data["resultado"] = "";
 		//$this->load->view('mostrarResultado', $data);
-		$this-> main();
+		
+		$probarDeNuevo = 0;
+		
+		$this-> main($probarDeNuevo);
 	}//FIN MOSTRAR RESULTADOS
 
-	public function main()
+	public function main($probarDeNuevo)
 	{
-		//echo "algo algo algo";
-		$datosIniciales = $this->ingresarDatos();
-		$vectorInicio = $datosIniciales['vectorInicio'];
-		$vecCompleto = $datosIniciales['vecCompleto'];
-		$operando1 = $datosIniciales['operando1'];
-		$operando2 = $datosIniciales['operando2'];
-		$resultado = $datosIniciales['resultado'];
-		$operador = $datosIniciales['operador'];
-		$cant_iteraciones = $datosIniciales['cant_iteraciones'];
-		$poblacionInicial = $datosIniciales['poblacionInicial'];
+		
+		if ($probarDeNuevo <20) {
+			echo "prueba n°: ".$probarDeNuevo.'. ';
+	
+			//echo "algo algo algo";
+			$datosIniciales = $this->ingresarDatos();
+			$vectorInicio = $datosIniciales['vectorInicio'];
+			$vecCompleto = $datosIniciales['vecCompleto'];
+			$operando1 = $datosIniciales['operando1'];
+			$operando2 = $datosIniciales['operando2'];
+			$resultado = $datosIniciales['resultado'];
+			$operador = $datosIniciales['operador'];
+			$cant_iteraciones = $datosIniciales['cant_iteraciones'];
+			$poblacionInicial = $datosIniciales['poblacionInicial'];
 
-		//$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
-		//	$this->acomodarArray($vectorInicio);
-	    //Luciernagas es un vector de la poblacion inicial.
-	    //echo "crar bichitos";
-	    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
-	    //echo "entrar a ";
-	    $this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones);
+			//$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
+			//	$this->acomodarArray($vectorInicio);
+		    //Luciernagas es un vector de la poblacion inicial.
+		    //echo "crar bichitos";
+		    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
+		    //echo "entrar a ";
+		   
+		    $this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
 	 	
+		}
 	}//FIN FUNCION MAIN
 
 	public function ingresarDatos()
@@ -303,7 +313,7 @@ class Principal_marce extends CI_Controller
 			# code...
 		//utilizando la funcion del paper otorgado.
 		$elementoActual = $X1[$pos];
-		$elementoNuevo=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
+		$elementoNuevo=$X1[$pos] +(1- $beta);// + $alfa*$epsilon;
 		$elementoNuevo = fmod($elementoNuevo, 10);
 		//echo "<b>elemento actual".$elementoActual." elemento nuevo: ". $elementoNuevo .'</b>'	;
 		if ($elementoNuevo >= 0 and $elementoNuevo <10) {
@@ -443,7 +453,7 @@ class Principal_marce extends CI_Controller
 
 	/*AplicarAlgoritmo recibe los vectores iniciales, los operadores iniciales (letras), el resultado inicial
 	(letras) y el vector de inicio arreglado con los elementos sin repetir */
-	public function aplicarAlgoritmo($luciernagas, $operador ,$op1, $op2, $resul, $vecInicio, $vecCompleto, $cant_iteraciones){
+	public function aplicarAlgoritmo($luciernagas, $operador ,$op1, $op2, $resul, $vecInicio, $vecCompleto, $cant_iteraciones,  $probarDeNuevo){
 		
 		$brilloMayor = -100;
 		$vector = "vector";
@@ -472,7 +482,7 @@ class Principal_marce extends CI_Controller
 						$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 						$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					
-						if ($brilloA < $brilloB)
+						if ($brilloA <= $brilloB)
 						 {
 							//calcula la distancia entre ambos vectores
 							//echo "<br> LLamar a distancia: iteracion".$i;
@@ -491,7 +501,8 @@ class Principal_marce extends CI_Controller
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
 							//se recalcula el brillo del elemento que se movio.
 							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
-						}elseif ($brilloA = $brilloB) 
+						}
+						elseif ($brilloA > $brilloB) 
 						{	
 							//calcula la distancia entre ambos vectores
 							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
@@ -510,10 +521,11 @@ class Principal_marce extends CI_Controller
 							//se recalcula el brillo del elemento que se movio.
 							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);							
 						}
+
 						if ($brilloA >= $brilloMayor and $brilloA >$brilloB) 
 							{
 								$brilloMayor = $brilloA;
-								echo "brillo mayor: ".$brilloMayor;
+								//echo "brillo mayor: ".$brilloMayor.' - ';
 								$vectorSolucion = $luciernagas[$j];
 								$suma = implode('', $valor_op1) + implode('', $valor_op2);
 								$op1_solucion = $valor_op1;
@@ -524,6 +536,11 @@ class Principal_marce extends CI_Controller
 				}//Fin for	
 			}//Fin for
 			$i = $i + 1;
+			if ($brilloMayor == count($resul)) {
+				echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
+				$this->acomodarArray($vectorSolucion);
+				break;
+			}
 		}//end while iteraciones
 
 		//controlar si llego a la solucion;
@@ -533,7 +550,8 @@ class Principal_marce extends CI_Controller
 		$data['brilloMayor'] = $brilloMayor;
 		$data['iteraciones'] = $i;
 		$data['operador'] = $operador;
-		echo "<b>brillo mayor despues de la iteracion: ".$brilloMayor.' resul: '.count($resul).'</b>';
+		echo "<b>brillo mayor despues de la iteracion: ".$i.', '.$brilloMayor.' resul: '.count($resul).'</b>';
+	
 		if ($brilloMayor == count($resul)) 	{
 			echo "</br> entra por brillo igual";
 	        $data["vecinicio"] = json_encode($vecInicio);
@@ -545,8 +563,10 @@ class Principal_marce extends CI_Controller
 			//$this->load->view('mostrarResultado', $data);
 			//return $brilloMayor;
 		}elseif ($brilloMayor < count($resul)) {
-			echo "</br> entra por brillo menor  y no encuentra nada porque marcelito no quiere que sea recursivo";
-				$this->main();
+
+			echo "</br> entra por brillo menor  y no encuentra nada porque marcelito no quiere que sea recursivo </b><br>";
+			 $probarDeNuevo++;
+			$this->main($probarDeNuevo);
 			$data['bandera'] = false;
 			//$this->load->view('mostrarResultado', $data);
 		}
