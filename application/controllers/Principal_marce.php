@@ -50,6 +50,10 @@ class Principal_marce extends CI_Controller
 			$cant_iteraciones = $datosIniciales['cant_iteraciones'];
 			$poblacionInicial = $datosIniciales['poblacionInicial'];
 
+			$operando1 = $datosIniciales['operando1'];
+			$operando2 = $datosIniciales['operando2'];
+			$resultado = $datosIniciales['resultado'];
+
 			//$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
 			//	$this->acomodarArray($vectorInicio);
 		    //Luciernagas es un vector de la poblacion inicial.
@@ -60,18 +64,15 @@ class Principal_marce extends CI_Controller
 		    //controlar si es suma o resta
 		    if ($operador =='-') {
 		    	// a + b = c --> a - b = c --> a = c + b
-		    	$operando1 = $datosIniciales['resultado'];
-				$operando2 = $datosIniciales['operando2'];
-				$resultado = $datosIniciales['operando1'];
-			
+		    	// $this->acomodarArray($operando2);
+		    	// $this->acomodarArray($resultado);
+		    	// $this->acomodarArray($operando1);
+			 $this->aplicarAlgoritmo($luciernagas,$operador, $operando2, $resultado, $operando1, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
+
 		    }else
 		    {
-		    	$operando1 = $datosIniciales['operando1'];
-				$operando2 = $datosIniciales['operando2'];
-				$resultado = $datosIniciales['resultado'];
+				$this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
 		    }
-
-		    $this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
 	 	
 		}
 	}//FIN FUNCION MAIN
@@ -570,6 +571,10 @@ class Principal_marce extends CI_Controller
 					$this->acomodarArray($op2_solucion );
 					echo " = ";
 					$this->acomodarArray($op1_solucion);
+					$this->acomodarArray(array_reverse($resul));
+					$this->acomodarArray(array_reverse($op2));
+					$this->acomodarArray(array_reverse($op1));
+
 
 				} else{
 					$this->acomodarArray($op1_solucion);
