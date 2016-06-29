@@ -1,3 +1,33 @@
 apple + floppy = reboot --> encontrol solucion
-profe + profe = saber --> encuenta solucion
+	1903482756, 74431, 538449, 612880
+	1903482756, 74431, 538449, 612880
+
+profe + profe = saber --> encuentra solucion
+	5029813647, 30925, 30925, 61850
+	4870162539, 28074, 28074, 56148
+
+
 comet + saturn = uranus --> si encuentra solucion
+	8427530196, 61078, 298354, 359432
+	8427530196, 61078, 298354, 359432
+
+send + more = money --> encontro solucioon
+plays + well = better --> no encuentra
+two + two = four --> encuentra solucion
+
+apple + lemon = banana -->
+	4269378105, 67794, 94832, 162626
+
+banjo + gong = organ	
+	5162804793, 48625, 1561, 50186
+
+MENTAL + HEALTH = MATTERS ( 123408 + 920849 ------- 1044257)
+
+RESTAS
+ivory - brown = pink
+organ - banjo = gong
+
+
+/////////////////////////////////
+Resolver sumas
+http://www.tkcs-collins.com/truman/alphamet/alpha_solve.shtml
