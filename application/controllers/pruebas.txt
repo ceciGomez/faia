@@ -23,9 +23,12 @@ banjo + gong = organ
 
 MENTAL + HEALTH = MATTERS ( 123408 + 920849 ------- 1044257)
 
+PINK + BROWN = IVORY
+4715392608, 6974 + 3257 = 90231 -->solucion correcta
+
 RESTAS
 ivory - brown = pink (90231 - 83257 = 6974)
-	113716 - 70825 = 42891
+	113716 - 70825 = 42891 -->solucion no corecta
 
 organ - banjo = gong
 	50186 - 48625 = 1561
