@@ -13,13 +13,53 @@
       });
      });
    </script>
-   
+  
+<script type="text/javascript">
+var ray={
+ajax:function(st)
+  {
+    this.show('loading');
+  },
+show:function(el)
+  {
+    this.getID(el).style.display='';
+  },
+getID:function(el)
+  {
+    return document.getElementById(el);
+  }
+}
+</script>
+<style type="text/css">
+#loading {
+   width: 100%;
+   height: 100%;
+   top: 0px;
+   left: 0px;
+   position: fixed;
+   display: block;
+   opacity: 0.7;
+   background-color: #fff;
+   z-index: 99;
+   text-align: center;
+}
+
+#loading-image {
+   padding-top: 200px;
+  top: 100px;
+  left: 240px;
+  z-index: 100;
+}</style>
+  
    </head>
    <body id="principal" >
+   <div id="loading" style="display:none;">
+  <img id="loading-image" src="../images/loader.gif" alt="Loading..." />
+</div>
    <p align="center"  style="padding: 00px 0px 20px 0px"><font color="WHITE"  >Cripto-aritmetica</font></p>
-	
+  
 
-<form  action="mostrarResul" method="POST" accept-charset="utf-8">
+<form  action="mostrarResul" method="POST" accept-charset="utf-8" onsubmit="return ray.ajax()">
 
     <label>Número de iteraciones</label>
     <input type="number" name="cant_iteraciones" min="1" style="width: 60px" value="200" /><br/>
@@ -47,5 +87,6 @@
 background-color:#555555; "/></span>
 </form>
 
-	</body>
-	</html>
+  </body>
+
+  </html>
