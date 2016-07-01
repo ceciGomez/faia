@@ -226,7 +226,7 @@ class Principal_marce2 extends CI_Controller
 			}
 		}
 		//echo "</BR>atractividad: ";
-		
+		var_dump($atractividad);
 		return $atractividad;
 	}//FIN ATRACTIVIDAD
 
@@ -246,6 +246,13 @@ class Principal_marce2 extends CI_Controller
 		return $luciernagas;	
 	} //FIN CREAR MATRIZ INICIAL
     
+    //aplicar restricciones a la poblacion inciial
+    public function aplicarRestricciones($luciernagas)
+    {
+    	return $luciernagas;
+    }
+
+
     public function intToArray($x)
 	{
 			$arr = array();
