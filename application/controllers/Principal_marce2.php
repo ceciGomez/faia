@@ -581,6 +581,6 @@ class Principal_marce2 extends CI_Controller
 			$data['bandera'] = false;
 			//$this->load->view('mostrarResultado', $data);
 		}
-       
+    
 	} //FIN APLICAR ALGORITMO
 }
