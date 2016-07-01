@@ -21,10 +21,17 @@ apple + lemon = banana -->
 banjo + gong = organ	
 	5162804793, 48625 + 1561  =50186
 
+earth + uranus = saturn
+	94583 + 654067 = 748650
+
 MENTAL + HEALTH = MATTERS ( 123408 + 920849 ------- 1044257)
 
 PINK + BROWN = IVORY
 4715392608, 6974 + 3257 = 90231 -->solucion correcta
+  6974    B=8 I=9 K=4 N=7 O=2 P=6 R=3 V=0 W=5 Y=1 
++83257
+------
+ 90231
 
 RESTAS
 ivory - brown = pink (90231 - 83257 = 6974)
@@ -32,6 +39,9 @@ ivory - brown = pink (90231 - 83257 = 6974)
 
 organ - banjo = gong
 	50186 - 48625 = 1561
+
+BANANA  - LEMON = APPLE
+	641192 - 548484 = 92708
 
 
 /////////////////////////////////

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal_marce extends CI_Controller 
+class Principal_marce2 extends CI_Controller 
 {
 
 	function __construct() {
@@ -42,7 +42,6 @@ class Principal_marce extends CI_Controller
 		if ($probarDeNuevo <200) {
 			//echo "prueba n°: ".$probarDeNuevo.'. ';
 	
-			//echo "algo algo algo";
 			$datosIniciales = $this->ingresarDatos();
 			$vectorInicio = $datosIniciales['vectorInicio'];
 			$vecCompleto = $datosIniciales['vecCompleto'];
@@ -61,18 +60,8 @@ class Principal_marce extends CI_Controller
 		    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
 		    //echo "entrar a ";
 		   
-		    //controlar si es suma o resta
-		    if ($operador =='-') {
-		    	// a + b = c --> a - b = c --> a = c + b
-		    	// $this->acomodarArray($operando2);
-		    	// $this->acomodarArray($resultado);
-		    	// $this->acomodarArray($operando1);
-			 $this->aplicarAlgoritmo($luciernagas,$operador, $operando2, $resultado, $operando1, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
-
-		    }else
-		    {
-				$this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
-		    }
+		 	$this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
+	
 	 	
 		}
 	}//FIN FUNCION MAIN
@@ -472,7 +461,7 @@ class Principal_marce extends CI_Controller
 	/*AplicarAlgoritmo recibe los vectores iniciales, los operadores iniciales (letras), el resultado inicial
 	(letras) y el vector de inicio arreglado con los elementos sin repetir */
 	public function aplicarAlgoritmo($luciernagas, $operador, $op1, $op2, $resul, $vecInicio, $vecCompleto, $cant_iteraciones,  $probarDeNuevo){
-		$time_start = microtime( $get_as_float = true);
+		$time_start = microtime(true);
 
 		$brilloMayor = -100;
 		$vector = "vector";
@@ -503,45 +492,23 @@ class Principal_marce extends CI_Controller
 					
 						if ($brilloA <= $brilloB)
 						 {
-							//calcula la distancia entre ambos vectores
-							//echo "<br> LLamar a distancia: iteracion".$i;
-							//var_dump('valor resul b: ',$valor_resul_B);
-							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
 							//busca la posicion a modificar
 							$pos = $this->buscarPosicion($brilloA, $vecCompleto);
-							//mueve el de menor brillo
-							//var_dump('</br>llama a movimiento: ', $luciernagas[$j]);
-							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $distancia, $pos);
-							//var_dump('vector cambiado: ', $luciernagas[$j], '<br>');
-							//actualizar intensidad	
-							$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
-							$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
-							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
-							$suma = implode('',$valor_op1) + implode('',$valor_op2);
-							//se recalcula el brillo del elemento que se movio.
-							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
 						}
 						elseif ($brilloA > $brilloB) 
 						{	
-							//calcula la distancia entre ambos vectores
-							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
 							//busca la posicion a modificar
 							$pos = rand(0,9);
 							
-							//mueve el de menor brillo
-							//var_dump('</br>llama a movimiento: ', $luciernagas[$j]);
+						}
+							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
 							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $distancia, $pos);
-							//var_dump('vector cambiado: ', $luciernagas[$j], '<br>');
-							
-							//actualizar intensidad			
 							$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
 							$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
 							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
 							$suma = implode('',$valor_op1) + implode('',$valor_op2);
-							
-							//se recalcula el brillo del elemento que se movio.
-							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);							
-						}
+							//actualizar intensidad	- se recalcula el brillo del elemento que se movio.
+							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
 
 						if ($brilloA >= $brilloMayor and $brilloA >$brilloB) 
 							{
@@ -554,69 +521,61 @@ class Principal_marce extends CI_Controller
 								$suma_solucion = $suma;
 							}
 					}	
+					if ($brilloMayor == count($resul)) 
+					{
+						$time_end = microtime(true);
+						echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
+						echo "<br> cantidad de iteraciones: ".$probarDeNuevo*$i."<br>";
+						$this->acomodarArray($vectorSolucion);
+						$this->acomodarArray($vecInicio);
+						
+						if ($operador == '-') {
+							//echo $resul;
+							echo $suma_solucion. '<br>';
+							echo " - ";
+							$this->acomodarArray($op2_solucion );
+							echo " = ";
+							$this->acomodarArray($op1_solucion);
+							$this->acomodarArray(array_reverse($resul));
+							$this->acomodarArray(array_reverse($op2));
+							$this->acomodarArray(array_reverse($op1));
+						} else{
+							$this->acomodarArray($op1_solucion);
+							$this->acomodarArray($op2_solucion);
+							echo $suma_solucion. '<br>';
+							//$this->acomodarArray($suma_solucion);
+							$this->acomodarArray(array_reverse($op1));
+							echo " + ";				
+							$this->acomodarArray(array_reverse($op2));
+							echo " = ";
+							$this->acomodarArray(array_reverse($resul));
+							
+							}
+							$time = round(($time_end - $time_start)*1000, 4);
+							echo "Displaying the render time: $time seconds\n";
+						return;
+					}
 				}//Fin for	
 			}//Fin for
 			$i = $i + 1;
-			if ($brilloMayor == count($resul)) 
-			{
-				$time_end = microtime( $get_as_float = true);
-				echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
-				echo "<br> cantidad de iteraciones: ".$probarDeNuevo*$i."<br>";
-				$this->acomodarArray($vectorSolucion);
-				$this->acomodarArray($vecInicio);
-				
-				if ($operador == '-') {
-					//echo $resul;
-					echo $suma_solucion. '<br>';
-					echo " - ";
-					$this->acomodarArray($op2_solucion );
-					echo " = ";
-					$this->acomodarArray($op1_solucion);
-					$this->acomodarArray(array_reverse($resul));
-					$this->acomodarArray(array_reverse($op2));
-					$this->acomodarArray(array_reverse($op1));
-
-
-				} else{
-					$this->acomodarArray($op1_solucion);
-					$this->acomodarArray($op2_solucion);
-					echo $suma_solucion. '<br>';
-					//$this->acomodarArray($suma_solucion);
-					$this->acomodarArray(array_reverse($op1));
-					echo " + ";				
-					$this->acomodarArray(array_reverse($op2));
-					echo " = ";
-					$this->acomodarArray(array_reverse($resul));
-					
-					}
-					$time = round(($time_end - $time_start), 4);
-					echo "Displaying the render time: $time seconds\n";
-				break;
-			}
 		}//end while iteraciones
 
 		//controlar si llego a la solucion;
-		
-
 		//para mostrar resultados
 		$data['brilloMayor'] = $brilloMayor;
 		$data['iteraciones'] = $i;
 		$data['operador'] = $operador;
-		//echo "<b>brillo mayor despues de la iteracion: ".$i*$probarDeNuevo.', '.$brilloMayor.' resul: '.count($resul).'</b>';
-	
+			
 		if ($brilloMayor == count($resul)) 	{
-		//	echo "</br> entra por brillo igual";
-	        $data["vecinicio"] = json_encode($vecInicio);
+			$data["vecinicio"] = json_encode($vecInicio);
 			$data["operando1"] = json_encode(array_reverse($op1));
 			$data["operando2"] = json_encode(array_reverse($op2));
 			$data["resultado"] = json_encode(array_reverse($resul));
 			$data['vector'] = json_encode($vectorSolucion);
 			$data['bandera'] = true;
 			//$this->load->view('mostrarResultado', $data);
-			//return $brilloMayor;
+			
 		}elseif ($brilloMayor < count($resul)) {
-
-		//	echo "</br> entra por brillo menor  y no encuentra nada. ¿empieza de nuevo?</b><br>";
 			$probarDeNuevo++;
 			$this->main($probarDeNuevo);
 			$data['bandera'] = false;
@@ -624,6 +583,4 @@ class Principal_marce extends CI_Controller
 		}
        
 	} //FIN APLICAR ALGORITMO
-
-
 }
