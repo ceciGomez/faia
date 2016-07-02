@@ -39,10 +39,9 @@ class Principal_marce2 extends CI_Controller
 	public function main($probarDeNuevo)
 	{
 		set_time_limit (60);
-		if ($probarDeNuevo >100) {
-			echo "no se encuentra solucion";
-		}else{
-			//echo "prueba n°: ".$probarDeNuevo.'. ';
+		if ($probarDeNuevo <200) {
+			
+			echo "prueba n°: ".$probarDeNuevo.'. ';
 	
 			$datosIniciales = $this->ingresarDatos();
 			$vectorInicio = $datosIniciales['vectorInicio'];
@@ -65,6 +64,8 @@ class Principal_marce2 extends CI_Controller
 		 	$this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
 	
 	 	
+		} else {
+			echo "no se encuentra solucion";
 		}
 	}//FIN FUNCION MAIN
 
@@ -331,18 +332,12 @@ class Principal_marce2 extends CI_Controller
 		$elementoActual = $X1[$pos];
 		$elementoNuevo=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
 		$elementoNuevo = fmod($elementoNuevo, 10);
-		//echo "<b>elemento actual".$elementoActual." elemento nuevo: ". $elementoNuevo .'</b>'	;
 		if ($elementoNuevo >= 0 and $elementoNuevo <10) {
-			//echo "<b> cambia el vector por elemento nuevo </b>";
 			$X1 = $this->controlarRepetidos($X1, $elementoNuevo, $elementoActual);
 			$X1[$pos] = (string)$elementoNuevo;
 		}else{
-			//echo " deja el vector como esta: ";
 			$X1[$pos] = $elementoActual;
 		}
-		//echo(" el vector despues del movimiento: ");
-		//$this->acomodarArray($X1);
-		//echo "<br><b> TERMINA MOVIMIENTO </b></br>";
 		return $X1;
 	}//FIN MOVIMIENTO
 	
@@ -366,8 +361,8 @@ class Principal_marce2 extends CI_Controller
            $vecCompleto=$vecComp;
            $pos=3;
            for ($i=0 ; $i < 2 ; $i++ ) { 
-           	  for ($j=0; $j <= $cotaFor; $j++) {
-                	  	if (isset($vecCompleto[$maxPos])) {
+           	  for ($j=$cotaSuperior-2; $j <= $cotaFor; $j++) {
+                	 if (isset($vecCompleto[$maxPos])) {
            	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
            	   	   	   	 $pos=$pos-1;
            	    	  	 break;
@@ -391,6 +386,7 @@ class Principal_marce2 extends CI_Controller
 		$udemil = $this -> calcularPosicion(11, $vecCompleto);
 		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
 		$cdemil = $this -> calcularPosicion(17, $vecCompleto);
+		$udemillon = $this -> calcularPosicion(20, $vecCompleto);
 		switch ($brillo) {
 		case  0:
 			
@@ -417,11 +413,11 @@ class Principal_marce2 extends CI_Controller
 
 		case 2:
 			
-		
+		    $var=$unidad+$decena;
 			if (($centena-1)<>0) {
-				$pos = rand($decena, $centena-1);
+				$pos = rand($var,$var- ($centena-1));
 			} else {
-				$pos = $decena;
+				$pos = $var;
 			}
 						
 			return $pos;
@@ -429,11 +425,11 @@ class Principal_marce2 extends CI_Controller
 
 		case 3:
 		 
-			
+			$var=$unidad+$decena+$centena;
 			if (($udemil-1)<>0) {
-				$pos = rand($centena, $udemil-1);
+				$pos = rand($var,$var-($udemil-1));
 			} else {
-				$pos = $centena;
+				$pos = $var;
 			}
 			
 			return $pos;
@@ -441,11 +437,11 @@ class Principal_marce2 extends CI_Controller
 
 		case 4:
 			
-	
+	         $var=$unidad+$decena+$centena+$udemil;
 			if (($ddemil-1)<>0) {
-				$pos = rand($udemil,$ddemil-1);
+				$pos = rand($var,$var-($ddemil-1));
 			} else {
-				$pos = $udemil;
+				$pos = $var;
 			}
 			
 			return $pos;
@@ -453,15 +449,27 @@ class Principal_marce2 extends CI_Controller
 
 		case 5:
 			
-	
+	        $var=$unidad+$decena+$centena+$udemil+$cdemil;
 			if (($cdemil-1)<>0) {
-				$pos = rand($ddemil,$cdemil-1);
+				$pos = rand($var,$var-($cdemil-1));
 			} else {
-				$pos = $ddemil;
+				$pos = $var;
 			}
 			
 			return $pos;
 			break;
+
+		case 6:
+		
+		    $var=$unidad+$decena+$centena+$udemil+$udemillon+$cdemil+$udemillon;
+			if (($udemillon-1)<>0) {
+				$pos = rand($var,$var-($udemillon-1));
+			} else {
+				$pos = $var;
+			}
+			
+			return $pos;
+			break;	
 
 		}
 	}//fin buscar posicion
@@ -530,11 +538,13 @@ class Principal_marce2 extends CI_Controller
 								$suma_solucion = $suma;
 							}
 					}	
-					if ($brilloMayor == count($resul)) 
+					if ($brilloMayor == count($resul) and count($resul) == count($this->intToArray($suma_solucion))) 
 					{
+						var_dump(count($resul),$this->intToArray($suma_solucion) );
 						$time_end = microtime(true);
 						echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
-						echo "<br> cantidad de iteraciones: ".$probarDeNuevo*$i."<br>";
+						$totalIteraciones = ($probarDeNuevo -1) * $cant_iteraciones + $i;
+						echo "<br> cantidad de iteraciones: ".$totalIteraciones."<br>";
 						$this->acomodarArray($vectorSolucion);
 						$this->acomodarArray($vecInicio);
 						
@@ -560,7 +570,7 @@ class Principal_marce2 extends CI_Controller
 							$this->acomodarArray(array_reverse($resul));
 							
 							}
-							$time = round(($time_end - $time_start)*1000, 4);
+							$time = round(($time_end - $time_start), 4);
 							echo "Displaying the render time: $time seconds\n";
 						return;
 					}
@@ -575,7 +585,8 @@ class Principal_marce2 extends CI_Controller
 		$data['iteraciones'] = $i;
 		$data['operador'] = $operador;
 			
-		if ($brilloMayor == count($resul)) 	{
+		if ($brilloMayor == count($resul) and count($resul) == count($this->intToArray($suma_solucion)))
+		{
 			$data["vecinicio"] = json_encode($vecInicio);
 			$data["operando1"] = json_encode(array_reverse($op1));
 			$data["operando2"] = json_encode(array_reverse($op2));
@@ -584,8 +595,10 @@ class Principal_marce2 extends CI_Controller
 			$data['bandera'] = true;
 			//$this->load->view('mostrarResultado', $data);
 			
-		}elseif ($brilloMayor < count($resul)) {
+		}else 
+		{
 			$probarDeNuevo++;
+			//echo "probar de nuevo:" .$probarDeNuevo;
 			$this->main($probarDeNuevo);
 			//echo "no encuentra nada";
 			$data['bandera'] = false;
