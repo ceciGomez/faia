@@ -39,7 +39,9 @@ class Principal_marce2 extends CI_Controller
 	public function main($probarDeNuevo)
 	{
 		set_time_limit (60);
-		if ($probarDeNuevo <200) {
+		if ($probarDeNuevo >100) {
+			echo "no se encuentra solucion";
+		}else{
 			//echo "prueba n°: ".$probarDeNuevo.'. ';
 	
 			$datosIniciales = $this->ingresarDatos();
@@ -327,7 +329,7 @@ class Principal_marce2 extends CI_Controller
 
 		//utilizando la funcion del paper otorgado.
 		$elementoActual = $X1[$pos];
-		$elementoNuevo=$X1[$pos] +(1- $beta);// + $alfa*$epsilon;
+		$elementoNuevo=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
 		$elementoNuevo = fmod($elementoNuevo, 10);
 		//echo "<b>elemento actual".$elementoActual." elemento nuevo: ". $elementoNuevo .'</b>'	;
 		if ($elementoNuevo >= 0 and $elementoNuevo <10) {
@@ -363,7 +365,7 @@ class Principal_marce2 extends CI_Controller
            $cotaFor=$maxPos-1;
            $vecCompleto=$vecComp;
            $pos=3;
-           for ($i=0 ; $i < 3 ; $i++ ) { 
+           for ($i=0 ; $i < 2 ; $i++ ) { 
            	  for ($j=0; $j <= $cotaFor; $j++) {
                 	  	if (isset($vecCompleto[$maxPos])) {
            	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
@@ -497,12 +499,12 @@ class Principal_marce2 extends CI_Controller
 						$sumaB = implode('', $valor_op1_B) + implode('', $valor_op2_B);
 						$brilloB = $this->obtenerBrillo($valor_resul_B,  $sumaB);
 					
-						if ($brilloA <= $brilloB)
+						if ($brilloA < $brilloB)
 						 {
 							//busca la posicion a modificar
 							$pos = $this->buscarPosicion($brilloA, $vecCompleto);
 						}
-						elseif ($brilloA > $brilloB) 
+						elseif ($brilloA >= $brilloB) 
 						{	
 							//busca la posicion a modificar
 							$pos = rand(0,9);
@@ -585,6 +587,7 @@ class Principal_marce2 extends CI_Controller
 		}elseif ($brilloMayor < count($resul)) {
 			$probarDeNuevo++;
 			$this->main($probarDeNuevo);
+			//echo "no encuentra nada";
 			$data['bandera'] = false;
 			//$this->load->view('mostrarResultado', $data);
 		}

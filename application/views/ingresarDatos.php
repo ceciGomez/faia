@@ -22,10 +22,10 @@
 <form  action="mostrarResul" method="POST" accept-charset="utf-8">
 
     <label>Número de iteraciones</label>
-    <input type="number" name="cant_iteraciones" min="1" style="width: 60px" value="200" /><br/>
+    <input type="number" name="cant_iteraciones" min="1" style="width: 60px" value="10" /><br/>
 
       <label>Número de luciernagas</label>
-    <input type="number" name="poblacion" min="2" style="width: 60px" value="10" /><br/>
+    <input type="number" name="poblacion" min="2" style="width: 60px" value="100" /><br/>
 
     <label >Suma</label>
       <input type="radio" name="prop" id="suma" value="+" checked/><br/>

@@ -28,20 +28,21 @@ MENTAL + HEALTH = MATTERS ( 123408 + 920849 ------- 1044257)
 
 PINK + BROWN = IVORY
 4715392608, 6974 + 3257 = 90231 -->solucion correcta
-  6974    B=8 I=9 K=4 N=7 O=2 P=6 R=3 V=0 W=5 Y=1 
-+83257
-------
- 90231
+  6974    +83257 ------ 90231
 
 RESTAS
 ivory - brown = pink (90231 - 83257 = 6974)
 	113716 - 70825 = 42891 -->solucion no corecta
+	105274 - 97261 = 8013
+	104187 - 98135 = 6052
 
 organ - banjo = gong
 	50186 - 48625 = 1561
 
 BANANA  - LEMON = APPLE
 	641192 - 548484 = 92708
+
+reboot - apple = floppy iteraciones 95
 	
 
 
