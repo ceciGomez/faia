@@ -66,6 +66,8 @@ class Principal_marce2 extends CI_Controller
 	 	
 		} else {
 			echo "no se encuentra solucion";
+			$data['bandera'] = false;
+			$this->load->view('mostrarResultado', $data);
 		}
 	}//FIN FUNCION MAIN
 
@@ -572,38 +574,29 @@ class Principal_marce2 extends CI_Controller
 							}
 							$time = round(($time_end - $time_start), 4);
 							echo "Displaying the render time: $time seconds\n";
+							//llamo a la vista mostrarResultado;
+							//para mostrar resultados
+							$data['brilloMayor'] = $brilloMayor;
+							$data['iteraciones'] = $i;
+							$data['operador'] = $operador;
+							$data["vecinicio"] = json_encode($vecInicio);
+							$data["operando1"] = json_encode(array_reverse($op1));
+							$data["operando2"] = json_encode(array_reverse($op2));
+							$data["resultado"] = json_encode(array_reverse($resul));
+							$data['vector'] = json_encode($vectorSolucion);
+							$data['bandera'] = true;
+							$this->load->view('mostrarResultado', $data);
 						return;
 					}
 				}//Fin for	
 			}//Fin for
 			$i = $i + 1;
 		}//end while iteraciones
-
-		//controlar si llego a la solucion;
-		//para mostrar resultados
-		$data['brilloMayor'] = $brilloMayor;
-		$data['iteraciones'] = $i;
-		$data['operador'] = $operador;
-			
-		if ($brilloMayor == count($resul) and count($resul) == count($this->intToArray($suma_solucion)))
-		{
-			$data["vecinicio"] = json_encode($vecInicio);
-			$data["operando1"] = json_encode(array_reverse($op1));
-			$data["operando2"] = json_encode(array_reverse($op2));
-			$data["resultado"] = json_encode(array_reverse($resul));
-			$data['vector'] = json_encode($vectorSolucion);
-			$data['bandera'] = true;
-			//$this->load->view('mostrarResultado', $data);
-			
-		}else 
-		{
+		
 			$probarDeNuevo++;
 			//echo "probar de nuevo:" .$probarDeNuevo;
 			$this->main($probarDeNuevo);
 			//echo "no encuentra nada";
-			$data['bandera'] = false;
-			//$this->load->view('mostrarResultado', $data);
-		}
-    
+		
 	} //FIN APLICAR ALGORITMO
 }
