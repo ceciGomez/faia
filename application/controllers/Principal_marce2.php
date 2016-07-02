@@ -602,7 +602,7 @@ class Principal_marce2 extends CI_Controller
 			$this->main($probarDeNuevo);
 			//echo "no encuentra nada";
 			$data['bandera'] = false;
-			$this->load->view('mostrarResultado', $data);
+			//$this->load->view('mostrarResultado', $data);
 		}
     
 	} //FIN APLICAR ALGORITMO
