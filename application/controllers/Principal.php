@@ -546,39 +546,39 @@ class Principal extends CI_Controller
 					$y = count($this->intToArray($suma_solucion));
 					if ($brilloMayor == $x and $x == $y) 
 					{
-						var_dump(count($resul),$this->intToArray($suma_solucion) );
+						//var_dump(count($resul),$this->intToArray($suma_solucion) );
 						$time_end = microtime(true);
-						echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
+						//echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
 						$totalIteraciones = ($probarDeNuevo -1) * $cant_iteraciones + $i;
-						echo "<br> cantidad de iteraciones: ".$totalIteraciones."<br>";
+						//echo "<br> cantidad de iteraciones: ".$totalIteraciones."<br>";
 						$this->acomodarArray($vectorSolucion);
 						$this->acomodarArray($vecInicio);
 						
-						if ($operador == '-') {
-							//echo $resul;
-							echo $suma_solucion. '<br>';
-							echo " - ";
-							$this->acomodarArray($op2_solucion );
-							echo " = ";
-							$this->acomodarArray($op1_solucion);
-							$this->acomodarArray(array_reverse($resul));
-							$this->acomodarArray(array_reverse($op2));
-							$this->acomodarArray(array_reverse($op1));
-						} else{
-							$this->acomodarArray($op1_solucion);
-							$this->acomodarArray($op2_solucion);
-							echo $suma_solucion. '<br>';
-							//$this->acomodarArray($suma_solucion);
-							$this->acomodarArray(array_reverse($op1));
-							echo " + ";				
-							$this->acomodarArray(array_reverse($op2));
-							echo " = ";
-							$this->acomodarArray(array_reverse($resul));
+						// if ($operador == '-') {
+						// 	//echo $resul;
+						// 	//echo $suma_solucion. '<br>';
+						// 	//echo " - ";
+						// 	//$this->acomodarArray($op2_solucion );
+						// 	//echo " = ";
+						// 	//$this->acomodarArray($op1_solucion);
+						// 	// $this->acomodarArray(array_reverse($resul));
+						// 	// $this->acomodarArray(array_reverse($op2));
+						// 	// $this->acomodarArray(array_reverse($op1));
+						// } else{
+						// 	$this->acomodarArray($op1_solucion);
+						// 	$this->acomodarArray($op2_solucion);
+						// 	echo $suma_solucion. '<br>';
+						// 	//$this->acomodarArray($suma_solucion);
+						// 	$this->acomodarArray(array_reverse($op1));
+						// 	echo " + ";				
+						// 	$this->acomodarArray(array_reverse($op2));
+						// 	echo " = ";
+						// 	$this->acomodarArray(array_reverse($resul));
 							
-						}
+						// }
 						$vart = $this->config->item('tiempo');
 						$time = round(($time_end - $vart), 4);
-						echo "Displaying the render time: $time seconds\n";
+						//echo "Displaying the render time: $time seconds\n";
 						//llamo a la vista mostrarResultado;
 						//para mostrar resultados
 						$data['brilloMayor'] = $brilloMayor;
