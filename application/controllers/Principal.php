@@ -582,14 +582,18 @@ class Principal extends CI_Controller
 						//llamo a la vista mostrarResultado;
 						//para mostrar resultados
 						$data['brilloMayor'] = $brilloMayor;
-						$data['iteraciones'] = $i;
+						$data['iteraciones'] = $totalIteraciones;
 						$data['operador'] = $operador;
 						$data["vecinicio"] = json_encode($vecInicio);
 						$data["operando1"] = json_encode(array_reverse($op1));
 						$data["operando2"] = json_encode(array_reverse($op2));
-						$data["resultado"] = json_encode(array_reverse($resul));
+						$data["resultadoletras"] = json_encode(array_reverse($resul));
+						$data['operando1resultado'] = json_encode($op1_solucion);
+						$data['operando2resultado'] = json_encode($op2_solucion);
+						$data['resultadonumero'] = json_encode($suma_solucion);
 						$data['vector'] = json_encode($vectorSolucion);
 						$data['bandera'] = true;
+						$data['luciernagas'] = $n;
 						$this->load->view('mostrarResultado', $data);
 						return;
 					}
