@@ -9,6 +9,7 @@ class Principal extends CI_Controller
 
 		// Load url helper
 		$this->load->helper('url');
+		$this->config->set_item('tiempo',microtime(true));
 	}
 
 	public function index()
@@ -480,13 +481,14 @@ class Principal extends CI_Controller
 	/*AplicarAlgoritmo recibe los vectores iniciales, los operadores iniciales (letras), el resultado inicial
 	(letras) y el vector de inicio arreglado con los elementos sin repetir */
 	public function aplicarAlgoritmo($luciernagas, $operador, $op1, $op2, $resul, $vecInicio, $vecCompleto, $cant_iteraciones,  $probarDeNuevo){
-		$time_start = microtime(true);
-
+		
 		$brilloMayor = -100;
+		$suma_solucion = 0;
 		$vector = "vector";
 		$n = sizeof($luciernagas);
 		$i = 1;
-		while (($i <= $cant_iteraciones)and($brilloMayor<count($resul))) { //while iteraciones
+		$u = count($resul);
+		while (($i <= $cant_iteraciones)and($brilloMayor<$u)) { //while iteraciones
 		
 			for ($j=1; $j <= $n; $j++) 
 			{ 
@@ -520,14 +522,14 @@ class Principal extends CI_Controller
 							$pos = rand(0,9);
 							
 						}
-							$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
-							$luciernagas[$j] = $this->movimiento($luciernagas[$j], $distancia, $pos);
-							$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
-							$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
-							$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
-							$suma = implode('',$valor_op1) + implode('',$valor_op2);
-							//actualizar intensidad	- se recalcula el brillo del elemento que se movio.
-							$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
+						$distancia = $this->distancia($valor_resul_A, $valor_resul_B);
+						$luciernagas[$j] = $this->movimiento($luciernagas[$j], $distancia, $pos);
+						$valor_op1 = $this->extraerValoresPorOperando($luciernagas[$j], $op1, $vecInicio);
+						$valor_op2 = $this->extraerValoresPorOperando($luciernagas[$j], $op2, $vecInicio);
+						$valor_resul = $this->extraerValoresPorOperando($luciernagas[$j], $resul,$vecInicio);
+						$suma = implode('',$valor_op1) + implode('',$valor_op2);
+						//actualizar intensidad	- se recalcula el brillo del elemento que se movio.
+						$brilloA = $this->obtenerBrillo($valor_resul,  $suma);
 
 						if ($brilloA >= $brilloMayor and $brilloA >$brilloB) 
 							{
@@ -539,8 +541,10 @@ class Principal extends CI_Controller
 								$op2_solucion = $valor_op2;
 								$suma_solucion = $suma;
 							}
-					}	
-					if ($brilloMayor == count($resul) and count($resul) == count($this->intToArray($suma_solucion))) 
+					}
+					$x = count($resul);
+					$y = count($this->intToArray($suma_solucion));
+					if ($brilloMayor == $x and $x == $y) 
 					{
 						var_dump(count($resul),$this->intToArray($suma_solucion) );
 						$time_end = microtime(true);
@@ -571,21 +575,22 @@ class Principal extends CI_Controller
 							echo " = ";
 							$this->acomodarArray(array_reverse($resul));
 							
-							}
-							$time = round(($time_end - $time_start), 4);
-							echo "Displaying the render time: $time seconds\n";
-							//llamo a la vista mostrarResultado;
-							//para mostrar resultados
-							$data['brilloMayor'] = $brilloMayor;
-							$data['iteraciones'] = $i;
-							$data['operador'] = $operador;
-							$data["vecinicio"] = json_encode($vecInicio);
-							$data["operando1"] = json_encode(array_reverse($op1));
-							$data["operando2"] = json_encode(array_reverse($op2));
-							$data["resultado"] = json_encode(array_reverse($resul));
-							$data['vector'] = json_encode($vectorSolucion);
-							$data['bandera'] = true;
-							$this->load->view('mostrarResultado', $data);
+						}
+						$vart = $this->config->item('tiempo');
+						$time = round(($time_end - $vart), 4);
+						echo "Displaying the render time: $time seconds\n";
+						//llamo a la vista mostrarResultado;
+						//para mostrar resultados
+						$data['brilloMayor'] = $brilloMayor;
+						$data['iteraciones'] = $i;
+						$data['operador'] = $operador;
+						$data["vecinicio"] = json_encode($vecInicio);
+						$data["operando1"] = json_encode(array_reverse($op1));
+						$data["operando2"] = json_encode(array_reverse($op2));
+						$data["resultado"] = json_encode(array_reverse($resul));
+						$data['vector'] = json_encode($vectorSolucion);
+						$data['bandera'] = true;
+						$this->load->view('mostrarResultado', $data);
 						return;
 					}
 				}//Fin for	

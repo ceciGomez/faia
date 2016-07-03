@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <title>Criptograma</title>
         <link rel="stylesheet" href="http://localhost/faia/stylesheets/style.css" type="text/css">
         <script src="<?php echo base_url('javascripts/jquery-1.8.0.min.js');?>" type="text/javascript"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+		<script src="<?php echo base_url('javascripts/modernizr.js');?>"></script>
 		
 		
 </head>
