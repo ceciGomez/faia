@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal_marce2 extends CI_Controller 
+class Principal extends CI_Controller 
 {
 
 	function __construct() {
