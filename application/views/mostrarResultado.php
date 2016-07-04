@@ -29,6 +29,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      <div class="variable"><?php echo $luciernagas; ?></div>
      <div class="titulo"><h1>Numero de iteraciones</h1></div>
      <div class="variable"><?php echo $iteraciones; ?></div>
+     <div class="titulo"><h1>Tiempo de procesamiento</h1></div>
+     <div class="variable"><?php echo $tiempo; ?></div>
      </div>
 <?php } else { ?>
 <div class="resultados">

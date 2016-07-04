@@ -26,6 +26,7 @@ class Principal extends CI_Controller
 		
 		$data['brilloMayor'] = null;
 		$data['bandera'] = "";
+		$data['tiempo'] = "";
 		$data["vecinicio"] = "";
 		$data["operando1"] = "";
 		$data["operando2"] = "";
@@ -592,6 +593,7 @@ class Principal extends CI_Controller
 						$data['operando2resultado'] = json_encode($op2_solucion);
 						$data['resultadonumero'] = json_encode($suma_solucion);
 						$data['vector'] = json_encode($vectorSolucion);
+						$data['tiempo'] = $time;
 						$data['bandera'] = true;
 						$data['luciernagas'] = $n;
 						$this->load->view('mostrarResultado', $data);
