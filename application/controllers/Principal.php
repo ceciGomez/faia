@@ -17,6 +17,11 @@ class Principal extends CI_Controller
 		
 	}
 
+	 public function do_alert() 
+    {
+        echo '<script type="text/javascript">alert("' . "Ha excedido el número de caracteres permitidos" . '"); </script>';
+    }
+
 	public function ingresar()
 	{
 		$this->load->view('ingresarDatos');
@@ -30,9 +35,7 @@ class Principal extends CI_Controller
 		$data["vecinicio"] = "";
 		$data["operando1"] = "";
 		$data["operando2"] = "";
-		$data["resultado"] = "";
-		//$this->load->view('mostrarResultado', $data);
-		
+		$data["resultado"] = "";			
 		$probarDeNuevo = 1;
 		
 		$this-> main($probarDeNuevo);
@@ -55,19 +58,12 @@ class Principal extends CI_Controller
 			$operando1 = $datosIniciales['operando1'];
 			$operando2 = $datosIniciales['operando2'];
 			$resultado = $datosIniciales['resultado'];
-
-			//$atractividad = $this->atractividad ($vectorInicio, $operando1, $operando2, $resultado);
-			//	$this->acomodarArray($vectorInicio);
-		    //Luciernagas es un vector de la poblacion inicial.
-		    //echo "crar bichitos";
-		    $luciernagas = $this->crearMatrizInicial($poblacionInicial);
-		    //echo "entrar a ";
-		   
+		    //Luciernagas es un vector de la poblacion inicial.		    
+		    $luciernagas = $this->crearMatrizInicial($poblacionInicial);		   		   
 		 	$this->aplicarAlgoritmo($luciernagas,$operador, $operando1, $operando2, $resultado, $vectorInicio, $vecCompleto, $cant_iteraciones, $probarDeNuevo);
-	
-	 	
+		 	
 		} else {
-			//echo "no se encuentra solucion";
+			
 			$data['bandera'] = false;
 			$this->load->view('mostrarResultado', $data);
 		}
@@ -180,7 +176,6 @@ class Principal extends CI_Controller
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado)
 	{
 		// Así debería quedar el vector para SEND+MORE=MONEY $atractividad= array(1,1,1,2,2,3,4,4,100,100);
-
 		//Inicializo el vector atractividad
 		for ($i=0; $i < 10 ; $i++) { 
 			$atractividad[$i]=0;
@@ -231,9 +226,7 @@ class Principal extends CI_Controller
 			if ($vector_letras[$i]=='-') {
 				$atractividad[$i] = 100;
 			}
-		}
-		//echo "</BR>atractividad: ";
-		//var_dump($atractividad);
+		}		
 		return $atractividad;
 	}//FIN ATRACTIVIDAD
 
@@ -303,35 +296,29 @@ class Principal extends CI_Controller
 			if ($X1[$j] != $X2[$j]) {
 				$d = $d + 2*$j+1;
 			}
-		}
-		//var_dump('<br> resultado 1:' ,$X1,'<br> resultado 2: ', $X2);
-		//$d = fmod($d, 10);
-		//echo "</br>DISTANCIA: ".$d;
+		}		
 		return $d;
 	}//FIN DISTANCIA
 
 	public function controlarRepetidos($vectorEntrada, $valor_a_buscar, $valor)
-	{		
-		//$this->acomodarArray($vectorEntrada);		
+	{				
 		$posicion = array_search($valor_a_buscar, $vectorEntrada);	
-		$vectorEntrada[$posicion] = $valor;
-		//$this->acomodarArray($vectorEntrada);
+		$vectorEntrada[$posicion] = $valor;		
 		return $vectorEntrada;
 	}//fin de controlar repetidos
 
 	public function movimiento($X1, $distancia, $pos)
 	{//Funcion movimiento
-		//echo "</br> <b> EMPIEZA MOVIMIENTO </b>";
+		
 		$beta_cero = 1;
 		$e = 2.718281828; 
 		$gamma = 1;
-		//Beta cero es la atractividad
+		//Beta cero es la atractividad a iguales distancias
 		$beta = $beta_cero* $e^(-1)*($distancia);
 		$epsilon = 1;
 		$alfa = rand(0,1);
 		$r2 = $distancia;
 		$er2 = $r2* $e;
-
 		//utilizando la funcion del paper otorgado.
 		$elementoActual = $X1[$pos];
 		$elementoNuevo=$X1[$pos] +(1- $beta) + $alfa*$epsilon;
@@ -384,22 +371,14 @@ class Principal extends CI_Controller
 
 	public function buscarPosicion($brillo, $vecCompleto)
 	{
-		$unidad = $this -> calcularPosicion(2, $vecCompleto);
-		//echo "unidad ".$unidad;
+		$unidad = $this -> calcularPosicion(2, $vecCompleto);		
 		$decena = $this -> calcularPosicion(5, $vecCompleto);
-		//echo "decena".$decena;
 		$centena = $this -> calcularPosicion(8, $vecCompleto);
-		//echo "centena".$centena;
 		$udemil = $this -> calcularPosicion(11, $vecCompleto);
-		//echo "udemil".$udemil;
 		$cdemil = $this -> calcularPosicion(14, $vecCompleto);
-		//echo "cdemil".$cdemil;
 		$ddemil = $this -> calcularPosicion(17, $vecCompleto);
-		//echo "ddemil".$ddemil;			
 		$udemillon = $this -> calcularPosicion(20, $vecCompleto);
-		//echo "udemillon".$udemillon;
 		$ddemillon = $this -> calcularPosicion(23, $vecCompleto);
-		//echo "ddemillon ".$ddemillon;
 		switch ($brillo) {
 		case  0:
 			
@@ -420,7 +399,7 @@ class Principal extends CI_Controller
 			} else {
 				$pos = $unidad;
 			}
-			echo "brillo 1 ".$pos;
+			
 			return $pos;
 			break;
 
@@ -434,7 +413,7 @@ class Principal extends CI_Controller
 			}else{
 				$pos = $var+1;
 			}
-			echo "brillo 2 ".$pos;			
+					
 			return $pos;
 			break;
 
@@ -448,7 +427,7 @@ class Principal extends CI_Controller
 			}else{
 				$pos = $var+1;
 			}
-			echo "brillo 3 ".$pos;
+			
 			return $pos;
 			break;
 
@@ -460,7 +439,7 @@ class Principal extends CI_Controller
 			} else if(($ddemil-1)==0){
 				$pos = $var;
 			} else {$pos = $var+1;}
-			echo "brillo 4 ".$pos;
+			
 			return $pos;
 			break;
 
@@ -573,42 +552,14 @@ class Principal extends CI_Controller
 					$x = count($resul);
 					$y = count($this->intToArray($suma_solucion));
 					if ($brilloMayor == $x and $x == $y) 
-					{
-						//var_dump(count($resul),$this->intToArray($suma_solucion) );
-						$time_end = microtime(true);
-						//echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
-						$totalIteraciones = ($probarDeNuevo -1) * $cant_iteraciones + $i;
-						//echo "<br> cantidad de iteraciones: ".$totalIteraciones."<br>";
-						// $this->acomodarArray($vectorSolucion);
-						// $this->acomodarArray($vecInicio);
-						
-						// if ($operador == '-') {
-						// 	//echo $resul;
-						// 	//echo $suma_solucion. '<br>';
-						// 	//echo " - ";
-						// 	//$this->acomodarArray($op2_solucion );
-						// 	//echo " = ";
-						// 	//$this->acomodarArray($op1_solucion);
-						// 	// $this->acomodarArray(array_reverse($resul));
-						// 	// $this->acomodarArray(array_reverse($op2));
-						// 	// $this->acomodarArray(array_reverse($op1));
-						// } else{
-						// 	$this->acomodarArray($op1_solucion);
-						// 	$this->acomodarArray($op2_solucion);
-						// 	echo $suma_solucion. '<br>';
-						// 	//$this->acomodarArray($suma_solucion);
-						// 	$this->acomodarArray(array_reverse($op1));
-						// 	echo " + ";				
-						// 	$this->acomodarArray(array_reverse($op2));
-						// 	echo " = ";
-						// 	$this->acomodarArray(array_reverse($resul));
-							
-						// }
+					{						
+						$time_end = microtime(true);						
+						$totalIteraciones = ($probarDeNuevo -1) * $cant_iteraciones + $i;						
 						$vart = $this->config->item('tiempo');
+						//Calculo el tiempo de procesamiento
 						$time = round(($time_end - $vart), 4);
-						//echo "Displaying the render time: $time seconds\n";
-						//llamo a la vista mostrarResultado;
-						//para mostrar resultados
+						//Cargo todos los parametros para enviar a la vista	
+
 						$data['brilloMayor'] = $brilloMayor;
 						$data['iteraciones'] = $totalIteraciones;
 						$data['operador'] = $operador;
@@ -623,18 +574,19 @@ class Principal extends CI_Controller
 						$data['tiempo'] = $time;
 						$data['bandera'] = true;
 						$data['luciernagas'] = $n;
+						$cero1=$op1_solucion[0];
+						$cero2=$op2_solucion[0];						
+						if($cero1<>0 or $cero2<>0){
 						$this->load->view('mostrarResultado', $data);
-						return;
+						return;}
 					}
 				}//Fin for	
 			}//Fin for
 			$i = $i + 1;
 		}//end while iteraciones
 		
-			$probarDeNuevo++;
-			//echo "probar de nuevo:" .$probarDeNuevo;
-			$this->main($probarDeNuevo);
-			//echo "no encuentra nada";
+			$probarDeNuevo++;	
+			$this->main($probarDeNuevo);		
 		
 	} //FIN APLICAR ALGORITMO
 }

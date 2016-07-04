@@ -74,10 +74,10 @@ getID:function(el)
 
     
     <label>Primer operador</label>
-    <input type="text" name="op1" id="field" pattern=".{1,10}" title="Minimo 5 caracteres"  placeholder="5 letras mínimo" required title="5 Caracteres mínimo" required="required"/><br/>
+    <input type="text" name="op1" id="field" pattern="[a-z]{5,10}" title="Minimo 5 caracteres en minusculas"  placeholder="5 letras mínimo" required title="5 Caracteres mínimo" required="required"/><br/>
 
     <label>Segundo operador</label>
-    <input type="text" name="op2" id="field" pattern=".{1,10}" title="Minimo 5 caracteres"  placeholder="5 letras mínimo" required title="5 Caracteres mínimo" required="required"/><br/>
+    <input type="text" name="op2" id="field" pattern="[a-z]{5,10}" title="Minimo 5 caracteres en minusculas"  placeholder="5 letras mínimo" required title="5 Caracteres mínimo" required="required"/><br/>
 
     <label>Resultado</label>
     <input type="text" name="res"  pattern=".{1,10}" required title="4 Caracteres mínimo" required="required"/><br/>
