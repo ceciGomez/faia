@@ -21,7 +21,7 @@ class Principal extends CI_Controller
     {
         echo '<script type="text/javascript">alert("' . "Solo puede ingresar 10 caracteres diferentes" . '"); </script>';
           $this->load->helper('url');
-          redirect('faia/principal/ingresar', 'refresh');
+          redirect(base_url().'faia/Principal/ingresar', 'refresh');
     }
 
 	public function ingresar()
@@ -158,24 +158,6 @@ class Principal extends CI_Controller
           return $vectorInicio;
 	}// fin de acomodar vector inicio
 
-	
-	//Funcion para mostrar como matriz.
-	public function acomodarArray(array $id)
-	{
-	   $output = array();
-       foreach ($id as $vectorInicio =>$a) 
-       {
-           foreach ((array)$a as $key => $value) 
-           {
-             $output[$key][] = $value; 
-           }
- 		 }
-       foreach ($output as $o) 
-       {
-           echo '<tr><td>' . implode('</td><td>', $o) . '</td></tr>'."<br/>";
-	    }
-	}//fin de acomodar array
-
 	public function atractividad ($vector_letras, $operando1, $operando2, $resultado)
 	{
 		// Así debería quedar el vector para SEND+MORE=MONEY $atractividad= array(1,1,1,2,2,3,4,4,100,100);
@@ -233,7 +215,7 @@ class Principal extends CI_Controller
 		return $atractividad;
 	}//FIN ATRACTIVIDAD
 
-	/*Se cran la poblacion inicial con la que se va a trabajar en el resto del 
+	/*Se crea la poblacion inicial con la que se va a trabajar en el resto del 
 	algoritmo */
 	public function crearMatrizInicial($poblacionInicial)
 	{ 
@@ -247,14 +229,7 @@ class Principal extends CI_Controller
 		   	shuffle($luciernagas[$i]);
 		}
 		return $luciernagas;	
-	} //FIN CREAR MATRIZ INICIAL
-    
-    //aplicar restricciones a la poblacion inciial
-    public function aplicarRestricciones($luciernagas)
-    {
-    	return $luciernagas;
-    }
-
+	} //FIN CREAR MATRIZ INICIAL       
 
     public function intToArray($x)
 	{
