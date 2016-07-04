@@ -19,7 +19,9 @@ class Principal extends CI_Controller
 
 	 public function do_alert() 
     {
-        echo '<script type="text/javascript">alert("' . "Ha excedido el número de caracteres permitidos" . '"); </script>';
+        echo '<script type="text/javascript">alert("' . "Solo puede ingresar 10 caracteres diferentes" . '"); </script>';
+          $this->load->helper('url');
+          redirect('faia/principal/ingresar', 'refresh');
     }
 
 	public function ingresar()
@@ -46,10 +48,11 @@ class Principal extends CI_Controller
 		set_time_limit (60);
 		if ($probarDeNuevo <200) {
 			
-			//echo "prueba n°: ".$probarDeNuevo.'. ';
-	
 			$datosIniciales = $this->ingresarDatos();
 			$vectorInicio = $datosIniciales['vectorInicio'];
+			if (count($vectorInicio)< 10){		 
+		    $this->do_alert();
+		     }
 			$vecCompleto = $datosIniciales['vecCompleto'];
 			$operador = $datosIniciales['operador'];
 			$cant_iteraciones = $datosIniciales['cant_iteraciones'];
