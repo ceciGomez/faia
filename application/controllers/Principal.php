@@ -43,7 +43,7 @@ class Principal extends CI_Controller
 		set_time_limit (60);
 		if ($probarDeNuevo <200) {
 			
-			echo "prueba n°: ".$probarDeNuevo.'. ';
+			//echo "prueba n°: ".$probarDeNuevo.'. ';
 	
 			$datosIniciales = $this->ingresarDatos();
 			$vectorInicio = $datosIniciales['vectorInicio'];
@@ -67,7 +67,7 @@ class Principal extends CI_Controller
 	
 	 	
 		} else {
-			echo "no se encuentra solucion";
+			//echo "no se encuentra solucion";
 			$data['bandera'] = false;
 			$this->load->view('mostrarResultado', $data);
 		}
@@ -113,7 +113,7 @@ class Principal extends CI_Controller
 		{
 			  //rellenar con guiones las demas posiciones del array hasta completar 10.
 				$posiciones = count($vectorInicio);
-				//var_dump($posiciones);
+				//var_dump(expression)ump($posiciones);
 				$posFaltantes= 10 - $posiciones;
 				//var_dump($posFaltantes);
 			  for ($i= 1; $i <= $posFaltantes; $i++) { 
@@ -233,7 +233,7 @@ class Principal extends CI_Controller
 			}
 		}
 		//echo "</BR>atractividad: ";
-		var_dump($atractividad);
+		//var_dump($atractividad);
 		return $atractividad;
 	}//FIN ATRACTIVIDAD
 
@@ -552,8 +552,8 @@ class Principal extends CI_Controller
 						//echo "</br><b> ---->>>>>>ENCONTRO SOLUCION<<<<<<------ </b><br>La solucion: ";
 						$totalIteraciones = ($probarDeNuevo -1) * $cant_iteraciones + $i;
 						//echo "<br> cantidad de iteraciones: ".$totalIteraciones."<br>";
-						$this->acomodarArray($vectorSolucion);
-						$this->acomodarArray($vecInicio);
+						// $this->acomodarArray($vectorSolucion);
+						// $this->acomodarArray($vecInicio);
 						
 						// if ($operador == '-') {
 						// 	//echo $resul;
