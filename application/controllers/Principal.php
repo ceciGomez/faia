@@ -364,8 +364,8 @@ class Principal extends CI_Controller
            $cotaFor=$maxPos-1;
            $vecCompleto=$vecComp;
            $pos=3;
-           for ($i=0 ; $i < 2 ; $i++ ) { 
-           	  for ($j=$cotaSuperior-2; $j <= $cotaFor; $j++) {
+           for ($i=0 ; $i < 3 ; $i++ ) { 
+           	  for ($j=0; $j <= $cotaFor; $j++) {
                 	 if (isset($vecCompleto[$maxPos])) {
            	  	   		 if ($vecCompleto[$j]==$vecCompleto[$maxPos]) {
            	   	   	   	 $pos=$pos-1;
@@ -385,12 +385,21 @@ class Principal extends CI_Controller
 	public function buscarPosicion($brillo, $vecCompleto)
 	{
 		$unidad = $this -> calcularPosicion(2, $vecCompleto);
+		//echo "unidad ".$unidad;
 		$decena = $this -> calcularPosicion(5, $vecCompleto);
+		//echo "decena".$decena;
 		$centena = $this -> calcularPosicion(8, $vecCompleto);
+		//echo "centena".$centena;
 		$udemil = $this -> calcularPosicion(11, $vecCompleto);
-		$ddemil = $this -> calcularPosicion(14, $vecCompleto);
-		$cdemil = $this -> calcularPosicion(17, $vecCompleto);
+		//echo "udemil".$udemil;
+		$cdemil = $this -> calcularPosicion(14, $vecCompleto);
+		//echo "cdemil".$cdemil;
+		$ddemil = $this -> calcularPosicion(17, $vecCompleto);
+		//echo "ddemil".$ddemil;			
 		$udemillon = $this -> calcularPosicion(20, $vecCompleto);
+		//echo "udemillon".$udemillon;
+		$ddemillon = $this -> calcularPosicion(23, $vecCompleto);
+		//echo "ddemillon ".$ddemillon;
 		switch ($brillo) {
 		case  0:
 			
@@ -407,11 +416,11 @@ class Principal extends CI_Controller
 			
 		
 			if (($decena-1)<>0) {
-				$pos = rand($unidad, $decena-1);
+				$pos = rand($unidad,$unidad+($decena-1));
 			} else {
 				$pos = $unidad;
 			}
-			
+			echo "brillo 1 ".$pos;
 			return $pos;
 			break;
 
@@ -419,11 +428,13 @@ class Principal extends CI_Controller
 			
 		    $var=$unidad+$decena;
 			if (($centena-1)<>0) {
-				$pos = rand($var,$var- ($centena-1));
-			} else {
+				$pos = rand($var,$var+ ($centena-1));
+			} else if(($centena-1)==0) {
 				$pos = $var;
+			}else{
+				$pos = $var+1;
 			}
-						
+			echo "brillo 2 ".$pos;			
 			return $pos;
 			break;
 
@@ -431,33 +442,37 @@ class Principal extends CI_Controller
 		 
 			$var=$unidad+$decena+$centena;
 			if (($udemil-1)<>0) {
-				$pos = rand($var,$var-($udemil-1));
-			} else {
+				$pos = rand($var,$var+($udemil-1));
+			} else if(($udemil-1)==0){
 				$pos = $var;
+			}else{
+				$pos = $var+1;
 			}
-			
+			echo "brillo 3 ".$pos;
 			return $pos;
 			break;
 
 		case 4:
 			
 	         $var=$unidad+$decena+$centena+$udemil;
-			if (($ddemil-1)<>0) {
-				$pos = rand($var,$var-($ddemil-1));
-			} else {
+			if (($ddemil-1)>0) {
+				$pos = rand($var,$var+($ddemil-1));
+			} else if(($ddemil-1)==0){
 				$pos = $var;
-			}
-			
+			} else {$pos = $var+1;}
+			echo "brillo 4 ".$pos;
 			return $pos;
 			break;
 
 		case 5:
 			
-	        $var=$unidad+$decena+$centena+$udemil+$cdemil;
+	        $var=$unidad+$decena+$centena+$udemil+$ddemil;
 			if (($cdemil-1)<>0) {
-				$pos = rand($var,$var-($cdemil-1));
-			} else {
+				$pos = rand($var,$var+($cdemil-1));
+			} else if(($cdemil-1)==0){
 				$pos = $var;
+			}else{
+				$pos = $var+1;
 			}
 			
 			return $pos;
@@ -465,12 +480,24 @@ class Principal extends CI_Controller
 
 		case 6:
 		
-		    $var=$unidad+$decena+$centena+$udemil+$udemillon+$cdemil+$udemillon;
-			if (($udemillon-1)<>0) {
+		    $var=$unidad+$decena+$centena+$udemil+$ddemil+$cdemil;
+			if (($udemillon-1)>0) {
 				$pos = rand($var,$var-($udemillon-1));
-			} else {
+			} else if(($udemillon-1)==0){
 				$pos = $var;
-			}
+			}else {$pos = $var+1;}
+			
+			return $pos;
+			break;	
+
+		case 7:
+		
+		    $var=$unidad+$decena+$centena+$udemil+$ddemil+$cdemil+$udemillon;
+			if (($ddemillon-1)>0) {
+				$pos = rand($var,$var-($ddemillon-1));
+			} else if(($ddemillon-1)==0){
+				$pos = $var;
+			}else {$pos = $var+1;}
 			
 			return $pos;
 			break;	
